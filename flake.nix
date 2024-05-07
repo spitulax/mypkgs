@@ -15,6 +15,9 @@
 
     waybar.url = "github:Alexays/Waybar";
     waybar.inputs.nixpkgs.follows = "nixpkgs";
+
+    hyprlock.url = "github:hyprwm/hyprlock";
+    hyprlock.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
