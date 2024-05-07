@@ -10,16 +10,6 @@
     ];
   };
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    waybar.url = "github:Alexays/Waybar";
-    waybar.inputs.nixpkgs.follows = "nixpkgs";
-
-    hyprlock.url = "github:hyprwm/hyprlock";
-    hyprlock.inputs.nixpkgs.follows = "nixpkgs";
-  };
-
   outputs = { self, nixpkgs, ... }@inputs:
     let
       inherit (nixpkgs) lib;
@@ -43,4 +33,14 @@
           };
         });
     };
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    waybar.url = "github:Alexays/Waybar";
+    waybar.inputs.nixpkgs.follows = "nixpkgs";
+
+    hyprlock.url = "github:hyprwm/hyprlock";
+    hyprlock.inputs.nixpkgs.follows = "nixpkgs";
+  };
 }
