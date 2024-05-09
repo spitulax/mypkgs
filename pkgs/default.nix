@@ -13,6 +13,7 @@ in
 {
   lexurgy = callPackage ./lexurgy { };
   waybar = callPackage ./waybar { inherit inputs pkgs; };
+  keymapper = callPackage ./keymapper { inherit pkgs; };
 } // redefine [
   (getByName "hyprlock")
 ]
