@@ -2,18 +2,12 @@
 , inputs
 }: with pkgs;
 let
-  # [pkgs] -> {pkg_name = pkg; ...}
-  redefine = packages: builtins.listToAttrs
-    (builtins.map
-      (p: { name = p.pname; value = p; })
-      packages);
-
+  # if the package name is the same as the input name
   getByName = name: inputs.${name}.packages.${pkgs.system}.${name};
 in
 {
+  hyprlock = getByName "hyprlock";
+  keymapper = callPackage ./keymapper { inherit pkgs; };
   lexurgy = callPackage ./lexurgy { };
   waybar = callPackage ./waybar { inherit inputs pkgs; };
-  keymapper = callPackage ./keymapper { inherit pkgs; };
-} // redefine [
-  (getByName "hyprlock")
-]
+}
