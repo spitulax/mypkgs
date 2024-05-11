@@ -27,10 +27,7 @@
           packages = import ./pkgs { inherit inputs pkgs; };
         in
         packages // {
-          all = pkgs.symlinkJoin {
-            name = "all";
-            paths = builtins.attrValues packages;
-          };
+          all = pkgs.linkFarm "all" (builtins.removeAttrs self.packages.${system} [ "all" ]);
         });
     };
 
