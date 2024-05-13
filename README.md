@@ -8,7 +8,7 @@ To utilize the binary cache, add these to your config:
 
 <h2 align="center">List of Packages</h2>
 
-- hyprlock-0.pre+date=2024-05-04_c87af3a
+- hyprlock-0.pre+date=2024-05-13_386a1e6
 - keymapper-4.2.0
 - lexurgy-1.6.0
 - waybar-0.10.3+date=2024-05-10_cb2d54a
