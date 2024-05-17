@@ -6,6 +6,7 @@ let
   getByName = name: inputs.${name}.packages.${pkgs.system}.${name};
 in
 {
+  crt = getByName "crt";
   hyprlock = getByName "hyprlock";
   keymapper = callPackage ./keymapper { inherit pkgs; };
   lexurgy = callPackage ./lexurgy { };

@@ -39,5 +39,8 @@
 
     hyprlock.url = "github:hyprwm/hyprlock";
     hyprlock.inputs.nixpkgs.follows = "nixpkgs";
+
+    crt.url = "github:spitulax/crt";
+    crt.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "crt": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1715968631,
+        "narHash": "sha256-pBfXR6U8k2j9Z+UwQGKW8bv+xThmdWuWIvxOkcAhaAQ=",
+        "owner": "spitulax",
+        "repo": "crt",
+        "rev": "414554850f3f2e96ec3c8effb292f32b94b3caaa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "spitulax",
+        "repo": "crt",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -78,6 +98,7 @@
     },
     "root": {
       "inputs": {
+        "crt": "crt",
         "hyprlock": "hyprlock",
         "nixpkgs": "nixpkgs",
         "waybar": "waybar"
