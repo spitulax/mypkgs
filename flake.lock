@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715968631,
-        "narHash": "sha256-pBfXR6U8k2j9Z+UwQGKW8bv+xThmdWuWIvxOkcAhaAQ=",
+        "lastModified": 1715994586,
+        "narHash": "sha256-5MNzldm6lolsAgsB0yIQMvlsjQR9r4Ibxm2sbR9qvbM=",
         "owner": "spitulax",
         "repo": "crt",
-        "rev": "414554850f3f2e96ec3c8effb292f32b94b3caaa",
+        "rev": "e197c98cf410a9b0c818625549d0a755d41630d6",
         "type": "github"
       },
       "original": {

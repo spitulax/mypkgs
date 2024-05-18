@@ -10,7 +10,7 @@ To utilize the binary cache, add these to your config:
 
 _(The latest version available in the cache)_
 
-- crt-0.1.0
+- crt-0.1.1
 - hyprlock-0.pre+date=2024-05-14_316c377
 - keymapper-4.2.0
 - lexurgy-1.6.0
