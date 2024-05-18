@@ -12,6 +12,6 @@ _(The latest version available in the cache)_
 
 - crt-0.1.1 [🌐](https://github.com/spitulax/crt)
 - hyprlock-0.pre+date=2024-05-14_316c377 [🌐](https://github.com/hyprwm/hyprlock)
-- keymapper-4.2.0 [🌐](https://github.com/houmain/keymapper)
+- keymapper-4.3.0 [🌐](https://github.com/houmain/keymapper)
 - lexurgy-1.6.0 [🌐](https://github.com/def-gthill/lexurgy)
 - waybar-0.10.3+date=2024-05-14_912d0e8 [🌐](https://github.com/Alexays/Waybar)
