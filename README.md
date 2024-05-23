@@ -11,7 +11,7 @@ To utilize the binary cache, add these to your config:
 _(The latest version available in the cache)_
 
 - crt-0.1.1 [🌐](https://github.com/spitulax/crt)
-- hyprlock-0.pre+date=2024-05-21_ba4b08e [🌐](https://github.com/hyprwm/hyprlock)
+- hyprlock-0.pre+date=2024-05-23_972c1c2 [🌐](https://github.com/hyprwm/hyprlock)
 - keymapper-4.3.1 [🌐](https://github.com/houmain/keymapper)
 - lexurgy-1.6.0 [🌐](https://github.com/def-gthill/lexurgy)
 - waybar-0.10.3+date=2024-05-22_35a9ca4 [🌐](https://github.com/Alexays/Waybar)
