@@ -8,7 +8,6 @@ pkgs.keymapper.overrideAttrs (newAttrs: oldAttrs: {
     hash = "sha256-SjYPkcXBEHjK7zgwL6U4ltjvhKuGMZWbp55LtndU400=";
   };
   nativeBuildInputs = oldAttrs.nativeBuildInputs ++ (with pkgs; [
-    gtk3
     libayatana-appindicator
   ]);
 })
