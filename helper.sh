@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 case "$1" in
-"input")
+"update")
   printf '\033[1mUpdating flake inputs...\n'
   nix flake update --accept-flake-config
 ;;
@@ -10,7 +10,7 @@ case "$1" in
   nix build .#all --accept-flake-config
 ;;
 
-"push-input")
+"push-inputs")
   printf '\033[1mPushing inputs to cachix...\n'
   nix flake archive --accept-flake-config --json \
     | jq -r '.path,(.inputs|to_entries[].value.path)' \
