@@ -42,5 +42,8 @@
 
     crt.url = "github:spitulax/crt";
     crt.inputs.nixpkgs.follows = "nixpkgs";
+
+    gripper.url = "github:spitulax/gripper";
+    gripper.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

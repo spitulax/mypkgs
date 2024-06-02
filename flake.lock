@@ -36,6 +36,26 @@
         "type": "github"
       }
     },
+    "gripper": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1717348983,
+        "narHash": "sha256-SoNLmszvv+rildC8ASjVHeFRONYVSWCZx3Ju1NOsjbQ=",
+        "owner": "spitulax",
+        "repo": "gripper",
+        "rev": "ed99d7249baed79aa8d15d0448930a0d1d42499f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "spitulax",
+        "repo": "gripper",
+        "type": "github"
+      }
+    },
     "hyprlang": {
       "inputs": {
         "nixpkgs": [
@@ -99,6 +119,7 @@
     "root": {
       "inputs": {
         "crt": "crt",
+        "gripper": "gripper",
         "hyprlock": "hyprlock",
         "nixpkgs": "nixpkgs",
         "waybar": "waybar"

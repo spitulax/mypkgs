@@ -11,6 +11,7 @@ To utilize the binary cache, add these to your config:
 _(The latest version available in the cache)_
 
 - crt-0.1.1 [🌐](https://github.com/spitulax/crt)
+- gripper-1.0.0 [🌐](https://github.com/spitulax/gripper)
 - hyprlock-0.pre+date=2024-05-29_e07d411 [🌐](https://github.com/hyprwm/hyprlock)
 - keymapper-4.3.1 [🌐](https://github.com/houmain/keymapper)
 - lexurgy-1.6.0 [🌐](https://github.com/def-gthill/lexurgy)

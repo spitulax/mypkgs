@@ -7,6 +7,7 @@ let
 in
 {
   crt = getByName "crt";
+  gripper = getByName "gripper";
   hyprlock = getByName "hyprlock";
   keymapper = callPackage ./keymapper { inherit pkgs; };
   lexurgy = callPackage ./lexurgy { };
