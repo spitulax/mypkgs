@@ -116,12 +116,46 @@
         "type": "github"
       }
     },
+    "odin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717363336,
+        "narHash": "sha256-ZjDMRUON9vRlTrFulqEsFmY4zp8gLTfVRgxBRNvySy4=",
+        "owner": "odin-lang",
+        "repo": "Odin",
+        "rev": "10d354aea812bfe50cc5e7822f4957d6384ab736",
+        "type": "github"
+      },
+      "original": {
+        "owner": "odin-lang",
+        "repo": "Odin",
+        "type": "github"
+      }
+    },
+    "ols": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717315818,
+        "narHash": "sha256-ryQejdtxSLksosQUln06JBXQgxcceIsx2otnkDixUbE=",
+        "owner": "DanielGavin",
+        "repo": "ols",
+        "rev": "b3ed829bd3623748a34b9031e27e8c693a226232",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DanielGavin",
+        "repo": "ols",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "crt": "crt",
         "gripper": "gripper",
         "hyprlock": "hyprlock",
         "nixpkgs": "nixpkgs",
+        "odin": "odin",
+        "ols": "ols",
         "waybar": "waybar"
       }
     },

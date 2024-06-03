@@ -15,6 +15,7 @@
       inherit (nixpkgs) lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
       eachSystem = f: lib.genAttrs systems f;
+      myLib = import ./lib { inherit lib; };
       pkgsFor = eachSystem (system:
         import nixpkgs {
           inherit system;
@@ -24,7 +25,7 @@
       packages = eachSystem (system:
         let
           pkgs = pkgsFor.${system};
-          packages = import ./pkgs { inherit inputs pkgs; };
+          packages = import ./pkgs { inherit inputs pkgs myLib; };
         in
         packages // {
           all = pkgs.linkFarm "all" (builtins.removeAttrs self.packages.${system} [ "all" ]);
@@ -45,5 +46,11 @@
 
     gripper.url = "github:spitulax/gripper";
     gripper.inputs.nixpkgs.follows = "nixpkgs";
+
+    odin.url = "github:odin-lang/Odin";
+    odin.flake = false;
+
+    ols.url = "github:DanielGavin/ols";
+    ols.flake = false;
   };
 }

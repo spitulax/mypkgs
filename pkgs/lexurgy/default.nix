@@ -2,6 +2,7 @@
 , fetchurl
 , makeWrapper
 , jre_minimal
+, jdk
 , lib
 }:
 stdenvNoCC.mkDerivation rec {
@@ -28,6 +29,7 @@ stdenvNoCC.mkDerivation rec {
   '';
 
   meta = {
+    inherit (jdk.meta) platforms;
     description = "A high-powered sound change applier";
     mainProgram = "lexurgy";
     homepage = "https://github.com/def-gthill/lexurgy";
