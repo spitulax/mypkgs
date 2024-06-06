@@ -8,7 +8,7 @@
 
 stdenv.mkDerivation {
   pname = "ols";
-  version = "master+date=" + (myLib.mkDate (src.lastModifiedDate or "19700101")) + "_" + (src.shortRev or "dirty");
+  version = myLib.mkNightlyVersion src;
 
   inherit src;
 

@@ -12,7 +12,7 @@ rec {
   hyprlock = getByName "hyprlock";
   keymapper = callPackage ./keymapper { inherit pkgs; };
   lexurgy = callPackage ./lexurgy { };
-  odin = callPackage ./odin { inherit pkgs; src = inputs.odin; };
+  odin = callPackage ./odin { inherit myLib pkgs; src = inputs.odin; };
   ols = callPackage ./ols { inherit myLib odin; src = inputs.ols; };
   waybar = callPackage ./waybar { inherit inputs pkgs; };
 }
