@@ -7,6 +7,11 @@ let
   getByName = name: inputs.${name}.packages.${pkgs.system}.${name};
 in
 rec {
+  catppuccin-cursors = callPackage ./catppuccin-cursors {
+    inherit pkgs;
+    palettes = [ "mocha" ];
+    colors = [ "blue" ];
+  };
   crt = getByName "crt";
   gripper = getByName "gripper";
   hyprlock = getByName "hyprlock";
