@@ -3,7 +3,7 @@
 , myLib
 }:
 (pkgs.odin.override {
-  llvmPackages_13 = pkgs.llvmPackages_17;
+  llvmPackages_13 = pkgs.llvmPackages;
 }).overrideAttrs (newAttrs: oldAttrs: {
   version = myLib.mkNightlyVersion src;
   inherit src;
@@ -14,5 +14,9 @@
     cd vendor/stb/src
     make
     cd ../../..
+  '';
+
+  postInstall = ''
+    cp -r shared $out/share/shared
   '';
 })
