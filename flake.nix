@@ -41,7 +41,7 @@
     hyprlock.url = "github:hyprwm/hyprlock";
     hyprlock.inputs.nixpkgs.follows = "nixpkgs";
 
-    crt.url = "github:spitulax/crt";
+    crt.url = "github:spitulax/crt/v0.1.1";
     crt.inputs.nixpkgs.follows = "nixpkgs";
 
     gripper.url = "github:spitulax/gripper";
