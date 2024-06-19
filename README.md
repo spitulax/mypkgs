@@ -10,7 +10,7 @@ To utilize the binary cache, add these to your config:
 
 _(The latest version available in the cache)_
 
-- crt-0.1.1 [🌐](https://github.com/spitulax/crt)
+- crt-0.2.0 [🌐](https://github.com/spitulax/crt)
 - catppuccin-cursors-0.3.0 [🌐](https://github.com/catppuccin/cursors)
 - gripper-1.0.0 [🌐](https://github.com/spitulax/gripper)
 - hyprutils-0.pre+date=2024-06-08_0693f93 [🌐](https://github.com/hyprwm/hyprutils)
