@@ -3,17 +3,16 @@
 Collection of pre-built packages for my needs.
 
 To utilize the binary cache, add these to your config:
+
 - `spitulax.cachix.org` in `nix.settings.substituters`.
-- `spitulax.cachix.org-1:GQRdtUgc9vwHTkfukneFHFXLPOo0G/2lj2nRw66ENmU=` in `nix.settings.trusted-public-keys`.
+- `spitulax.cachix.org-1:GQRdtUgc9vwHTkfukneFHFXLPOo0G/2lj2nRw66ENmU=` in
+  `nix.settings.trusted-public-keys`.
 
 <h2 align="center">List of Packages</h2>
 
 _(The latest version available in the cache)_
 
-- ags-1.8.2 [🌐](https://github.com/Aylur/ags)
-- ags-1.8.2-lib [🌐](https://github.com/Aylur/ags)
 - crt-0.2.0 [🌐](https://github.com/spitulax/crt)
-- catppuccin-cursors-0.3.0 [🌐](https://github.com/catppuccin/cursors)
 - gripper-1.0.0 [🌐](https://github.com/spitulax/gripper)
 - hyprutils-0.pre+date=2024-06-08_0693f93 [🌐](https://github.com/hyprwm/hyprutils)
 - hyprlock-0.pre+date=2024-06-08_c5b8ad0 [🌐](https://github.com/hyprwm/hyprlock)

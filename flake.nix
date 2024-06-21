@@ -52,8 +52,5 @@
 
     ols.url = "github:DanielGavin/ols";
     ols.flake = false;
-
-    ags.url = "github:Aylur/ags";
-    ags.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
