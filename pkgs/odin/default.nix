@@ -2,9 +2,7 @@
 , src
 , myLib
 }:
-(pkgs.odin.override {
-  llvmPackages_13 = pkgs.llvmPackages;
-}).overrideAttrs (newAttrs: oldAttrs: {
+pkgs.odin.overrideAttrs (newAttrs: oldAttrs: {
   version = myLib.mkNightlyVersion src;
   inherit src;
 
