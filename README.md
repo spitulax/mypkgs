@@ -10,6 +10,8 @@ To utilize the binary cache, add these to your config:
 
 _(The latest version available in the cache)_
 
+- ags-1.8.2 [🌐](https://github.com/Aylur/ags)
+- ags-1.8.2-lib [🌐](https://github.com/Aylur/ags)
 - crt-0.2.0 [🌐](https://github.com/spitulax/crt)
 - catppuccin-cursors-0.3.0 [🌐](https://github.com/catppuccin/cursors)
 - gripper-1.0.0 [🌐](https://github.com/spitulax/gripper)

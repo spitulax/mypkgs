@@ -7,6 +7,7 @@ let
   getByName = name: inputs.${name}.packages.${pkgs.system}.${name};
 in
 rec {
+  ags = getByName "ags";
   catppuccin-cursors = callPackage ./catppuccin-cursors {
     inherit pkgs;
     palettes = [ "mocha" ];
