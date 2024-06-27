@@ -17,7 +17,7 @@ _(The latest version available in the cache)_
 - hyprutils-0.pre+date=2024-06-08_0693f93 [🌐](https://github.com/hyprwm/hyprutils)
 - hyprlock-0.pre+date=2024-06-25_d31e600 [🌐](https://github.com/hyprwm/hyprlock)
 - hyprlang-0.pre+date=2024-06-08_ec6938c [🌐](https://github.com/hyprwm/hyprlang)
-- keymapper-4.4.0 [🌐](https://github.com/houmain/keymapper)
+- keymapper-4.4.1 [🌐](https://github.com/houmain/keymapper)
 - lexurgy-1.7.0 [🌐](https://github.com/def-gthill/lexurgy)
 - odin-2024-06-25+rev=8d18278 [🌐](https://github.com/odin-lang/Odin)
 - ols-2024-06-18+rev=6209c11 [🌐](https://github.com/DanielGavin/ols)
