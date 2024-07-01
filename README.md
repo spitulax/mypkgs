@@ -19,6 +19,6 @@ _(The latest version available in the cache)_
 - hyprlang-0.pre+date=2024-06-08_ec6938c [🌐](https://github.com/hyprwm/hyprlang)
 - keymapper-4.4.1 [🌐](https://github.com/houmain/keymapper)
 - lexurgy-1.7.0 [🌐](https://github.com/def-gthill/lexurgy)
-- odin-2024-06-30+rev=4fbd22b [🌐](https://github.com/odin-lang/Odin)
+- odin-2024-07-01+rev=a2b23de [🌐](https://github.com/odin-lang/Odin)
 - ols-2024-06-28+rev=9fc36bf [🌐](https://github.com/DanielGavin/ols)
-- waybar-0.10.3+date=2024-06-28_64f54e1 [🌐](https://github.com/Alexays/Waybar)
+- waybar-0.10.3+date=2024-07-01_9997155 [🌐](https://github.com/Alexays/Waybar)
