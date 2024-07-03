@@ -10,15 +10,4 @@ To utilize the binary cache, add these to your config:
 
 <h2 align="center">List of Packages</h2>
 
-_(The latest version available in the cache)_
-
-- crt-0.2.0 [🌐](https://github.com/spitulax/crt)
-- gripper-1.0.0 [🌐](https://github.com/spitulax/gripper)
-- hyprutils-0.pre+date=2024-06-08_0693f93 [🌐](https://github.com/hyprwm/hyprutils)
-- hyprlock-0.pre+date=2024-06-28_0f66aea [🌐](https://github.com/hyprwm/hyprlock)
-- hyprlang-0.pre+date=2024-06-08_ec6938c [🌐](https://github.com/hyprwm/hyprlang)
-- keymapper-4.4.1 [🌐](https://github.com/houmain/keymapper)
-- lexurgy-1.7.0 [🌐](https://github.com/def-gthill/lexurgy)
-- odin-2024-07-01+rev=a2b23de [🌐](https://github.com/odin-lang/Odin)
-- ols-2024-06-28+rev=9fc36bf [🌐](https://github.com/DanielGavin/ols)
-- waybar-0.10.3+date=2024-07-01_9997155 [🌐](https://github.com/Alexays/Waybar)
+See [here](./pkgs.md).
