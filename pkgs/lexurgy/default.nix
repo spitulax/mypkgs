@@ -7,11 +7,11 @@
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "lexurgy";
-  version = "1.7.0";
+  version = "1.7.1";
 
   src = fetchurl {
     url = "https://github.com/def-gthill/lexurgy/releases/download/v${version}/lexurgy-${version}.tar";
-    hash = "sha256-/UOpvtbyAnbAsbgAqNrSLFRmbQwHae3ExZYtBesA/jc=";
+    hash = "sha256-d5THrLoaERUmwpSJGpwJz+BZB1qenZFLEAx3/RG48UE=";
   };
 
   nativeBuildInputs = [ makeWrapper ];

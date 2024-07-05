@@ -8,7 +8,7 @@ _(The latest version available in the nix store)_
 - gripper-1.0.1
 - hyprlock-0.pre+date=2024-07-04_9737bf6
 - keymapper-4.4.1
-- lexurgy-1.7.0
+- lexurgy-1.7.1
 - odin-2024-07-05+rev=ecffe5a
 - ols-2024-07-01+rev=ee368d4
 - waybar-0.10.3+date=2024-07-03_6f994c8
