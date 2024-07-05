@@ -35,22 +35,34 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    waybar.url = "github:Alexays/Waybar";
-    waybar.inputs.nixpkgs.follows = "nixpkgs";
+    waybar = {
+      url = "github:Alexays/Waybar";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    hyprlock.url = "github:hyprwm/hyprlock";
-    hyprlock.inputs.nixpkgs.follows = "nixpkgs";
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    crt.url = "github:spitulax/crt";
-    crt.inputs.nixpkgs.follows = "nixpkgs";
+    crt = {
+      url = "github:spitulax/crt";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    gripper.url = "github:spitulax/gripper";
-    gripper.inputs.nixpkgs.follows = "nixpkgs";
+    gripper = {
+      url = "github:spitulax/gripper";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    odin.url = "github:odin-lang/Odin";
-    odin.flake = false;
+    odin = {
+      url = "github:odin-lang/Odin";
+      flake = false;
+    };
 
-    ols.url = "github:DanielGavin/ols";
-    ols.flake = false;
+    ols = {
+      url = "github:DanielGavin/ols";
+      flake = false;
+    };
   };
 }
