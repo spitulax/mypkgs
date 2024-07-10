@@ -68,6 +68,10 @@ case "$1" in
     ;;
 
 "uppkgs")
+    build && push && uplist
+    ;;
+
+"upall")
     upinput && build && push && uplist
     ;;
 esac
