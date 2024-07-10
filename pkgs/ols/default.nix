@@ -34,7 +34,7 @@ pkgs.stdenv.mkDerivation {
   meta = with lib; {
     inherit (odin.meta) platforms;
     description = "Language server for Odin";
-    mainProgram = [ "ols" "odinfmt" ];
+    mainProgram = "ols";
     homepage = "https://github.com/DanielGavin/ols";
     license = licenses.mit;
     maintainers = with maintainers; [ spitulax ];
