@@ -71,5 +71,10 @@
       url = "github:zigtools/zls?submodules=1";
       # inputs.zig-overlay.follows = "zig-overlay";
     };
+
+    nix-search = {
+      url = "github:diamondburned/nix-search";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

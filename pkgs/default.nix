@@ -12,9 +12,16 @@ let
       inherit (pkgs) system;
     })).callPackage;
   # if the package name is the same as the input name
-  getByName = name: inputs.${name}.packages.${pkgs.system}.${name};
+  getByName = name:
+    let
+      packages = inputs.${name}.packages.${pkgs.system};
+    in
+    if builtins.hasAttr name packages
+    then packages.${name}
+    else packages.default;
 in
 rec {
+  nix-search = getByName "nix-search";
   crt = getByName "crt";
   gripper = getByName "gripper";
   hyprlock = getByName "hyprlock";
