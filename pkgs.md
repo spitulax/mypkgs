@@ -12,3 +12,5 @@ _(The latest version available in the nix store)_
 - odin-2024-07-09+rev=d43a2da
 - ols-2024-07-07+rev=0d4ee28
 - waybar-0.10.3+date=2024-07-06_b26ab1f
+- zig-0.14.0-dev.208+854e86c56
+- zls-2024-07-07+rev=fbd8b9a

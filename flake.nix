@@ -64,5 +64,12 @@
       url = "github:DanielGavin/ols";
       flake = false;
     };
+
+    zig-overlay.url = "github:mitchellh/zig-overlay";
+
+    zls = {
+      url = "github:zigtools/zls?submodules=1";
+      # inputs.zig-overlay.follows = "zig-overlay";
+    };
   };
 }

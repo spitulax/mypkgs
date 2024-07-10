@@ -1,8 +1,16 @@
 { pkgs
 , inputs
 , myLib
-}: with pkgs;
+}:
+with pkgs;
+with lib;
 let
+  myCallPackage = (makeScope callPackageWith
+    (self: {
+      inherit myLib inputs pkgs lib;
+      inherit (self) callPackage;
+      inherit (pkgs) system;
+    })).callPackage;
   # if the package name is the same as the input name
   getByName = name: inputs.${name}.packages.${pkgs.system}.${name};
 in
@@ -10,9 +18,11 @@ rec {
   crt = getByName "crt";
   gripper = getByName "gripper";
   hyprlock = getByName "hyprlock";
-  keymapper = callPackage ./keymapper { inherit pkgs; };
+  keymapper = myCallPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
-  odin = callPackage ./odin { inherit myLib pkgs; src = inputs.odin; };
-  ols = callPackage ./ols { inherit myLib odin; src = inputs.ols; };
-  waybar = callPackage ./waybar { inherit inputs pkgs; };
+  odin = myCallPackage ./odin { src = inputs.odin; };
+  ols = myCallPackage ./ols { inherit odin; src = inputs.ols; };
+  waybar = myCallPackage ./waybar { };
+  zig = myCallPackage ./zig { };
+  zls = myCallPackage ./zls { src = inputs.zls; };
 }

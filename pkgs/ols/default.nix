@@ -1,18 +1,16 @@
-{ stdenv
-, lib
+{ lib
+, pkgs
 , src
 , odin
-, makeWrapper
 , myLib
 }:
-
-stdenv.mkDerivation {
+pkgs.stdenv.mkDerivation {
   pname = "ols";
   version = myLib.mkNightlyVersion src;
 
   inherit src;
 
-  nativeBuildInputs = [
+  nativeBuildInputs = with pkgs; [
     makeWrapper
   ];
 
