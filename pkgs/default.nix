@@ -21,12 +21,12 @@ let
     else packages.default;
 in
 rec {
-  nix-search = getByName "nix-search";
   crt = getByName "crt";
   gripper = getByName "gripper";
   hyprlock = getByName "hyprlock";
   keymapper = myCallPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
+  nix-search = getByName "nix-search";
   odin = myCallPackage ./odin { src = inputs.odin; };
   ols = myCallPackage ./ols { inherit odin; src = inputs.ols; };
   waybar = myCallPackage ./waybar { };
