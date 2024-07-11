@@ -6,12 +6,10 @@ _(The latest version available in the nix store)_
 
 - crt-0.2.0
 - gripper-1.0.1
-- hyprlock-0.pre+date=2024-07-09_d8ccc6f
+- hyprlock-0.pre+date=2024-07-11_b407128
 - keymapper-4.4.2
 - lexurgy-1.7.1
-- nix-search-737ad5f4c678b068b42faee52d140e6e7a4c2850
-- odin-2024-07-09+rev=d43a2da
+- nix-search-b57cdddb4a2a34b8e63e927914511f46ab37f241
+- odin-2024-07-11+rev=6b3453c
 - ols-2024-07-07+rev=0d4ee28
-- waybar-0.10.3+date=2024-07-06_b26ab1f
-- zig-0.14.0-dev.208+854e86c56
-- zls-2024-07-07+rev=fbd8b9a
+- waybar-0.10.3+date=2024-07-09_44f39ca

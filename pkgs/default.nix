@@ -30,6 +30,4 @@ rec {
   odin = myCallPackage ./odin { src = inputs.odin; };
   ols = myCallPackage ./ols { inherit odin; src = inputs.ols; };
   waybar = myCallPackage ./waybar { };
-  zig = myCallPackage ./zig { };
-  zls = myCallPackage ./zls { src = inputs.zls; };
 }
