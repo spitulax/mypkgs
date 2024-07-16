@@ -4,12 +4,12 @@
 
 _(The latest version available in the nix store)_
 
-- crt-0.2.0
-- gripper-1.0.1
-- hyprlock-0.pre+date=2024-07-11_b407128
-- keymapper-4.4.2
-- lexurgy-1.7.1
-- nix-search-b57cdddb4a2a34b8e63e927914511f46ab37f241
-- odin-2024-07-11+rev=6b3453c
-- ols-2024-07-07+rev=0d4ee28
-- waybar-0.10.3+date=2024-07-09_44f39ca
+- crt: 0.2.0
+- gripper: 1.0.1
+- hyprlock: 0.pre+date=2024-07-11_b407128
+- keymapper: 4.4.2
+- lexurgy: 1.7.1
+- nix-search: b57cdddb4a2a34b8e63e927914511f46ab37f241
+- odin: 2024-07-11+rev=6b3453c
+- ols: 2024-07-07+rev=0d4ee28
+- waybar: 0.10.3+date=2024-07-09_44f39ca
