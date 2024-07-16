@@ -26,7 +26,6 @@ rec {
   hyprlock = getByName "hyprlock";
   keymapper = myCallPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
-  nix-search = getByName "nix-search";
   odin = myCallPackage ./odin { src = inputs.odin; };
   ols = myCallPackage ./ols { inherit odin; src = inputs.ols; };
   waybar = myCallPackage ./waybar { };
