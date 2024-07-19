@@ -6,9 +6,9 @@ _(The latest version available in the nix store)_
 
 - crt: 0.2.0
 - gripper: 1.0.1
-- hyprlock: 0.pre+date=2024-07-14_69d37d2
-- keymapper: 4.4.4
+- hyprlock: 0.4.0+date=2024-07-18_372a4cd
+- keymapper: 4.4.5
 - lexurgy: 1.7.1
-- odin: 2024-07-16+rev=03e90bf
-- ols: 2024-07-15+rev=65e3cd5
-- waybar: 0.10.3+date=2024-07-16_f6ff649
+- odin: 2024-07-19+rev=ba3d7ba
+- ols: 2024-07-18+rev=379cf5f
+- waybar: 0.10.4+date=2024-07-17_15e1547
