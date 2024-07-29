@@ -7,7 +7,7 @@ _(The latest version available in the nix store)_
 - crt: 0.2.0
 - gripper: 1.0.1
 - hyprlock: 0.4.1+date=2024-07-24_58e1a4a
-- keymapper: 4.4.5
+- keymapper: 4.5.2
 - lexurgy: 1.7.1
 - odin: 2024-07-24+rev=2dbccbd
 - ols: 2024-07-22+rev=780e572

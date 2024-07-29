@@ -1,10 +1,10 @@
 { pkgs }:
 pkgs.keymapper.overrideAttrs (newAttrs: oldAttrs: {
-  version = "4.4.5";
+  version = "4.5.2";
   src = pkgs.fetchFromGitHub {
     owner = "houmain";
     repo = "keymapper";
     rev = newAttrs.version;
-    hash = "sha256-7GFg/QS5s8VMZTBr11jocPHsCDv123I3v4JJL9hYbeg=";
+    hash = "sha256-qBYezQdm1ZKSB+eylJYxiP891t77sA4I9IlTAsfDyC4=";
   };
 })
