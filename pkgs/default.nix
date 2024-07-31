@@ -26,7 +26,8 @@ rec {
   hyprlock = getByName "hyprlock";
   keymapper = myCallPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
-  odin = myCallPackage ./odin { src = inputs.odin; };
-  ols = myCallPackage ./ols { inherit odin; src = inputs.ols; };
+  # odin = callPackage ./odin { };
+  odin-nightly = callPackage ./odin { nightly = true; };
+  ols = myCallPackage ./ols { odin = odin-nightly; src = inputs.ols; };
   waybar = myCallPackage ./waybar { };
 }
