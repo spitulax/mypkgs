@@ -3,6 +3,8 @@
 command -v nom >/dev/null
 NOM=$?
 
+UPDATE_SCRIPTS=($(find pkgs/* -type f -executable -name update.sh))
+
 cleanse () {
     sed -e 's/\x1b\[[0-9;]*m//g'
 }
@@ -63,14 +65,15 @@ uplist () {
 }
 
 usage () {
-    echo "upinput"
     echo "build"
+    echo "listpkgs"
     echo "pushinput"
     echo "pushpkgs"
+    echo "upall"
+    echo "upinput"
     echo "uplist"
     echo "uppkgs"
-    echo "upall"
-    echo "listpkgs"
+    echo "upscript"
 }
 
 [ $# -ne 1 ] && usage && exit 1
@@ -99,12 +102,19 @@ case "$1" in
     uplist
     ;;
 
+"upscript")
+    for x in ${UPDATE_SCRIPTS[@]}; do
+        echo -e "\033[1;mRunning $x\033[0m"
+        ./$x
+    done
+    ;;
+
 "uppkgs")
-    build && push && uplist
+    upscript && build && push && uplist
     ;;
 
 "upall")
-    upinput && build && push && uplist
+    upinput && upscript && build && push && uplist
     ;;
 
 "listpkgs")
