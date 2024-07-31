@@ -55,11 +55,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    odin = {
-      url = "github:odin-lang/Odin";
-      flake = false;
-    };
-
     ols = {
       url = "github:DanielGavin/ols";
       flake = false;
