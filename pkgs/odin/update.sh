@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-META=$(curl https://odinbinaries.thisdrunkdane.io/file/odin-binaries/nightly.json | jq -r '.files | to_entries | last | .value | .[2]')
+META=$(curl -s https://odinbinaries.thisdrunkdane.io/file/odin-binaries/nightly.json | jq -r '.files | to_entries | last | .value | .[2]')
 VERSION=$(echo $META | jq -r '.name' | sed -r 's/^.*\+(.*)\.zip/\1/')
 URL=$(echo $META | jq -r '.url')
 SHA256=$(nix-prefetch-url --name source --unpack "$URL" | tail -n 1)

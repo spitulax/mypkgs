@@ -64,6 +64,13 @@ uplist () {
     done <<< "$(listpkgs)"
 }
 
+upscript () {
+    for x in ${UPDATE_SCRIPTS[@]}; do
+        echo -e "\033[1;mRunning $x\033[0m"
+        ./$x
+    done
+}
+
 usage () {
     echo "build"
     echo "listpkgs"
@@ -103,10 +110,7 @@ case "$1" in
     ;;
 
 "upscript")
-    for x in ${UPDATE_SCRIPTS[@]}; do
-        echo -e "\033[1;mRunning $x\033[0m"
-        ./$x
-    done
+    upscript
     ;;
 
 "uppkgs")

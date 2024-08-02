@@ -12,16 +12,16 @@
 }:
 let
   releaseLlvmVersion = "17";
-  nightlyLlvmVersion = "14";
+  nightlyLlvmVersion = "18";
 
   llvmVersion = if nightly then nightlyLlvmVersion else releaseLlvmVersion;
   llvmPackages = pkgs."llvmPackages_${llvmVersion}";
 
   releaseVersion = "0.dev-2024-07";
 
-  nightlyVersion = "2024-07-30";
-  nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-ubuntu-amd64-nightly%2B2024-07-30.zip";
-  nightlySha256 = "1wicifiqa7rhcm59z7gfmryg2l1ilvjas4fpq56nkfz6vxkjxy27";
+  nightlyVersion = "2024-08-01";
+  nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-ubuntu-amd64-nightly%2B2024-08-01.zip";
+  nightlySha256 = "1xk1m5p0ymj93d3rg2qbq762qb7526hjksrmpm87iydnlvz8c8dy";
 in
 stdenv.mkDerivation (newAttrs: rec {
   pname = "odin" + (lib.optionalString nightly "-nightly");
@@ -87,7 +87,7 @@ stdenv.mkDerivation (newAttrs: rec {
     mv vendor $out/share/vendor
     mv shared $out/share/shared
 
-    patchelf --replace-needed libLLVM-${llvmVersion}.so.1 libLLVM-${llvmVersion}.so $out/bin/odin
+    patchelf --replace-needed libLLVM-${llvmVersion}.so.${llvmVersion}.1 libLLVM-${llvmVersion}.so $out/bin/odin
     wrapProgram $out/bin/odin \
       --prefix PATH : ${lib.makeBinPath (with llvmPackages; [
         bintools

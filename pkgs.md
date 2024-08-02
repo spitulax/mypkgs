@@ -9,6 +9,6 @@ _(The latest version available in the nix store)_
 - hyprlock: 0.4.1+date=2024-07-30_8a89181
 - keymapper: 4.5.2
 - lexurgy: 1.7.1
-- odin-nightly: 2024-07-30
-- ols: 2024-07-29+rev=78456ea
+- odin-nightly: 2024-08-01
+- ols: 2024-08-01+rev=9b2428b
 - waybar: 0.10.4+date=2024-07-22_003dd3a
