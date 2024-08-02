@@ -11,17 +11,18 @@
 , nightly ? false
 }:
 let
-  releaseLlvmVersion = "17";
+  releaseLlvmVersion = "18";
   nightlyLlvmVersion = "18";
 
   llvmVersion = if nightly then nightlyLlvmVersion else releaseLlvmVersion;
   llvmPackages = pkgs."llvmPackages_${llvmVersion}";
 
-  releaseVersion = "0.dev-2024-07";
+  releaseVersion = "0.dev-2024-08";
+  releaseHash = "sha256-viGG/qa2+XhQvTXrKaER5SwszMELi5dHG0lWD26pYfY=";
 
   nightlyVersion = "2024-08-01";
   nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-ubuntu-amd64-nightly%2B2024-08-01.zip";
-  nightlySha256 = "1xk1m5p0ymj93d3rg2qbq762qb7526hjksrmpm87iydnlvz8c8dy";
+  nightlyHash = "sha256-viGG/qa2+XhQvTXrKaER5SwszMELi5dHG0lWD26pYfY=";
 in
 stdenv.mkDerivation (newAttrs: rec {
   pname = "odin" + (lib.optionalString nightly "-nightly");
@@ -32,13 +33,13 @@ stdenv.mkDerivation (newAttrs: rec {
       fetchzip
         {
           url = nightlyUrl;
-          sha256 = nightlySha256;
+          sha256 = nightlyHash;
         }
     else
       fetchzip
         {
           url = "https://github.com/odin-lang/Odin/releases/download/${lib.removePrefix "0." version}/odin-ubuntu-amd64-dev-2024-07.zip";
-          hash = "sha256-jUyG/8FGm6sgPRRKnram4UD/rNUHycuCDRbP99PjciY=";
+          hash = releaseHash;
         }
   ;
 
@@ -52,18 +53,6 @@ stdenv.mkDerivation (newAttrs: rec {
   buildInputs = [
     llvmPackages.libllvm
   ];
-
-  dontConfigure = nightly;
-
-  configurePhase = ''
-    runHook preConfigure
-    
-    unzip dist.zip
-    mv dist/* .
-    rmdir dist
-
-    runHook postConfigure
-  '';
 
   buildPhase = ''
     runHook preBuild
