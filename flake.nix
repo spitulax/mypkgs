@@ -26,10 +26,14 @@
         let
           pkgs = pkgsFor.${system};
           packages = import ./pkgs { inherit inputs pkgs myLib; };
+          excludedPackages = lib.filterAttrs (_: v: v ? excluded && v.excluded) packages;
+          includedPackages = lib.filterAttrs (_: v: !(v ? excluded) || !v.excluded) packages;
         in
-        packages // {
-          all = pkgs.linkFarm "all" (builtins.removeAttrs self.packages.${system} [ "all" ]);
-        });
+        includedPackages
+        // {
+          all = pkgs.linkFarm "all" includedPackages;
+        }
+        // lib.mapAttrs (_: v: v.derivation) excludedPackages);
     };
 
   inputs = {

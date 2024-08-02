@@ -11,6 +11,11 @@ let
       inherit (self) callPackage;
       inherit (pkgs) system;
     })).callPackage;
+  # exclude from `all`
+  exclude = d: {
+    excluded = true;
+    derivation = d;
+  };
   # if the package name is the same as the input name
   getByName = name:
     let
@@ -26,7 +31,7 @@ rec {
   hyprlock = getByName "hyprlock";
   keymapper = myCallPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
-  # odin = callPackage ./odin { };
+  odin = exclude (callPackage ./odin { });
   odin-nightly = callPackage ./odin { nightly = true; };
   ols = myCallPackage ./ols { odin = odin-nightly; src = inputs.ols; };
   waybar = myCallPackage ./waybar { };
