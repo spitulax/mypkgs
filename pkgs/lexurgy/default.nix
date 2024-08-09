@@ -28,12 +28,12 @@ stdenvNoCC.mkDerivation rec {
       --set JAVA_HOME ${jre_minimal.home}
   '';
 
-  meta = {
+  meta = with lib; {
     inherit (jdk.meta) platforms;
     description = "A high-powered sound change applier";
     mainProgram = "lexurgy";
     homepage = "https://github.com/def-gthill/lexurgy";
-    license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ spitulax ];
+    license = with licenses; [ gpl3Only ];
+    maintainers = with maintainers; [ spitulax ];
   };
 }
