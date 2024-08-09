@@ -1,5 +1,9 @@
 { lib }:
-with lib;
+let
+  inherit (lib)
+    concatStringsSep
+    ;
+in
 rec {
   mkDate = longDate: (concatStringsSep "-" [
     (builtins.substring 0 4 longDate)

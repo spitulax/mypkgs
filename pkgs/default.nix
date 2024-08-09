@@ -2,9 +2,17 @@
 , inputs
 , myLib
 }:
-with pkgs;
-with lib;
 let
+  inherit (pkgs)
+    lib
+    callPackage
+    ;
+
+  inherit (lib)
+    makeScope
+    callPackageWith
+    ;
+
   myCallPackage = (makeScope callPackageWith
     (self: {
       inherit myLib inputs pkgs lib;
