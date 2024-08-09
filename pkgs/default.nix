@@ -28,6 +28,7 @@ in
 rec {
   crt = getByName "crt";
   gripper = getByName "gripper";
+  hunspell-id = callPackage ./hunspell-id { };
   hyprlock = getByName "hyprlock";
   keymapper = myCallPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };

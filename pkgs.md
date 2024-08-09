@@ -6,6 +6,7 @@ _(The latest version available in the nix store)_
 
 - crt: 0.2.0
 - gripper: 1.0.1
+- hunspell-dict-id-id: 2.3.0
 - hyprlock: 0.4.1+date=2024-08-05_9393a3e
 - keymapper: 4.6.0
 - lexurgy: 1.7.1
