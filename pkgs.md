@@ -8,7 +8,7 @@ _(The latest version available in the nix store)_
 - gripper: 1.0.1
 - hunspell-dict-id-id: 2.3.0
 - hyprlock: 0.4.1+date=2024-08-05_9393a3e
-- keymapper: 4.6.0
+- keymapper: 4.7.1
 - lexurgy: 1.7.1
 - odin-nightly: 2024-08-15
 - ols: 2024-08-15+rev=31d5bb9
