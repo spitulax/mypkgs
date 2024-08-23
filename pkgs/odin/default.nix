@@ -20,9 +20,9 @@ let
   releaseVersion = "0.dev-2024-08";
   releaseHash = "sha256-viGG/qa2+XhQvTXrKaER5SwszMELi5dHG0lWD26pYfY=";
 
-  nightlyVersion = "2024-08-15";
-  nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-ubuntu-amd64-nightly%2B2024-08-15.zip";
-  nightlyHash = "sha256-Yh4XVkQDYHvWR5AQEl72zzvSn4jg3VezSnbihsCC6sY=";
+  nightlyVersion = "2024-08-22";
+  nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-ubuntu-amd64-nightly%2B2024-08-22.zip";
+  nightlyHash = "sha256-13xCdhIQxwWWni036e6hPmyQ3e9E+0RZ+M5DtOf90UA=";
 in
 stdenv.mkDerivation (newAttrs: rec {
   pname = "odin" + (lib.optionalString nightly "-nightly");
