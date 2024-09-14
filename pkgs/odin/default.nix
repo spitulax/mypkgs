@@ -2,27 +2,20 @@
 , lib
 , fetchzip
 , makeWrapper
-, autoPatchelfHook
-, patchelf
 , pkgs
 , odin
-, unzip
 
 , nightly ? false
 }:
 let
-  releaseLlvmVersion = "18";
-  nightlyLlvmVersion = "18";
-
-  llvmVersion = if nightly then nightlyLlvmVersion else releaseLlvmVersion;
-  llvmPackages = pkgs."llvmPackages_${llvmVersion}";
+  llvmPackages = pkgs.llvmPackages_latest;
 
   releaseVersion = "0.dev-2024-08";
   releaseHash = "sha256-viGG/qa2+XhQvTXrKaER5SwszMELi5dHG0lWD26pYfY=";
 
-  nightlyVersion = "2024-09-06";
-  nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-ubuntu-amd64-nightly%2B2024-09-06.zip";
-  nightlyHash = "sha256-j39+8m6MXxbFG6KrzRP4RnnkozQopYmvzt7eOTdLQa8=";
+  nightlyVersion = "2024-09-13";
+  nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-linux-amd64-nightly%2B2024-09-13.tar.gz";
+  nightlyHash = "sha256-Zul+tl37QI9rJvuLjYmysTBLHcPkugLleLlZMxmmGqM=";
 in
 stdenv.mkDerivation (newAttrs: rec {
   pname = "odin" + (lib.optionalString nightly "-nightly");
@@ -45,13 +38,6 @@ stdenv.mkDerivation (newAttrs: rec {
 
   nativeBuildInputs = [
     makeWrapper
-    autoPatchelfHook
-    patchelf
-    unzip
-  ];
-
-  buildInputs = [
-    llvmPackages.libllvm
   ];
 
   buildPhase = ''
@@ -76,7 +62,6 @@ stdenv.mkDerivation (newAttrs: rec {
     mv vendor $out/share/vendor
     mv shared $out/share/shared
 
-    patchelf --replace-needed libLLVM-${llvmVersion}.so.${llvmVersion}.1 libLLVM-${llvmVersion}.so $out/bin/odin
     wrapProgram $out/bin/odin \
       --prefix PATH : ${lib.makeBinPath (with llvmPackages; [
         bintools
