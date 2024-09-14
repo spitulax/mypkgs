@@ -40,7 +40,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     waybar = {
-      url = "github:Alexays/Waybar";
+      # FAILED: https://github.com/Alexays/Waybar/issues/3597
+      url = "github:Alexays/Waybar/5d184f74d8f99b834ea19ce353a68786c8602a15";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

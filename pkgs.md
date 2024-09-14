@@ -12,4 +12,4 @@ _(The latest version available in the nix store)_
 - lexurgy: 1.7.1
 - odin-nightly: 2024-09-13
 - ols: 2024-09-05+rev=4102eff
-- waybar: 0.11.0+date=2024-09-13_d177969
+- waybar: 0.10.4+date=2024-08-26_5d184f7
