@@ -7,9 +7,9 @@ _(The latest version available in the nix store)_
 - crt: 0.2.0
 - gripper: 1.0.1
 - hunspell-dict-id-id: 2.3.0
-- hyprlock: 0.4.1+date=2024-10-11_7362ce3
+- hyprlock: 0.4.1+date=2024-10-17_b808086
 - keymapper: 4.8.2
 - lexurgy: 1.7.1
-- odin-nightly: 2024-10-11
+- odin-nightly: 2024-10-17
 - ols: 2024-10-08+rev=77dfb5b
 - waybar: 0.11.0+date=2024-09-13_d56dd6e
