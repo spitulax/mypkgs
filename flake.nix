@@ -63,5 +63,10 @@
       url = "github:DanielGavin/ols";
       flake = false;
     };
+
+    pasteme = {
+      url = "github:spitulax/pasteme";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

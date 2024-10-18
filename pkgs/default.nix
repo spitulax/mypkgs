@@ -34,6 +34,7 @@ let
     else packages.default;
 in
 rec {
+  # KEEP THE LIST ALPHABETICALLY SORTED!
   crt = getByName "crt";
   gripper = getByName "gripper";
   hunspell-id = callPackage ./hunspell-id { };
@@ -43,5 +44,6 @@ rec {
   odin = exclude (callPackage ./odin { });
   odin-nightly = callPackage ./odin { nightly = true; };
   ols = myCallPackage ./ols { odin = odin-nightly; src = inputs.ols; };
+  pasteme = getByName "pasteme";
   waybar = myCallPackage ./waybar { };
 }
