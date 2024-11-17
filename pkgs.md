@@ -11,7 +11,7 @@ _(The latest version available in the nix store)_
 - hyprpaper: 0.7.1+date=2024-10-25_3f8cc92
 - hyprpicker: 0.4.1+date=2024-11-09_4e8837d
 - hyprpolkitagent: 0.1.0+date=2024-11-01_615efd4
-- keymapper: 4.8.2
+- keymapper: 4.9.0
 - lexurgy: 1.7.1
 - odin-nightly: 2024-11-16
 - ols: 2024-11-16+rev=cfe49c8
