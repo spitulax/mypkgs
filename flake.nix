@@ -39,16 +39,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    waybar = {
-      url = "github:Alexays/Waybar/0.11.0"; # TEMP: https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/wa/waybar/package.nix
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    hyprlock = {
-      url = "github:hyprwm/hyprlock";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     crt = {
       url = "github:spitulax/crt";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -59,6 +49,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprsunset = {
+      url = "github:hyprwm/hyprsunset";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprpolkitagent = {
+      url = "github:hyprwm/hyprpolkitagent";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ols = {
       url = "github:DanielGavin/ols";
       flake = false;
@@ -66,6 +71,11 @@
 
     pasteme = {
       url = "github:spitulax/pasteme";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    waybar = {
+      url = "github:Alexays/Waybar";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
