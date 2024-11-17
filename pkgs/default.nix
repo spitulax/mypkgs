@@ -42,7 +42,6 @@ rec {
   hyprpaper = getByName "hyprpaper";
   hyprpicker = getByName "hyprpicker";
   hyprpolkitagent = getByName "hyprpolkitagent";
-  hyprsunset = getByName "hyprsunset";
   keymapper = myCallPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
   odin = exclude (callPackage ./odin { });

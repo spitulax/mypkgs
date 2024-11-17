@@ -58,12 +58,6 @@
       inputs.systems.follows = "systems";
     };
 
-    hyprland-protocols = {
-      url = "github:hyprwm/hyprland-protocols";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
-    };
-
     systems.url = "github:nix-systems/default-linux";
 
     ####################
@@ -107,15 +101,6 @@
       url = "github:hyprwm/hyprpolkitagent";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.hyprutils.follows = "hyprutils";
-      inputs.systems.follows = "systems";
-    };
-
-    hyprsunset = {
-      url = "github:hyprwm/hyprsunset";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprutils.follows = "hyprutils";
-      inputs.hyprwayland-scanner.follows = "hyprwayland-scanner";
-      inputs.hyprland-protocols.follows = "hyprland-protocols";
       inputs.systems.follows = "systems";
     };
 

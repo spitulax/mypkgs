@@ -116,29 +116,6 @@
         "type": "github"
       }
     },
-    "hyprland-protocols": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1728345020,
-        "narHash": "sha256-xGbkc7U/Roe0/Cv3iKlzijIaFBNguasI31ynL2IlEoM=",
-        "owner": "hyprwm",
-        "repo": "hyprland-protocols",
-        "rev": "a7c183800e74f337753de186522b9017a07a8cee",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hyprwm",
-        "repo": "hyprland-protocols",
-        "type": "github"
-      }
-    },
     "hyprlang": {
       "inputs": {
         "hyprutils": [
@@ -341,38 +318,6 @@
         "type": "github"
       }
     },
-    "hyprsunset": {
-      "inputs": {
-        "hyprland-protocols": [
-          "hyprland-protocols"
-        ],
-        "hyprutils": [
-          "hyprutils"
-        ],
-        "hyprwayland-scanner": [
-          "hyprwayland-scanner"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1731163989,
-        "narHash": "sha256-+M6/ZLT2g6l2JCBBQSNMp8oqXPMMUckWTNhHSXzvlXE=",
-        "owner": "hyprwm",
-        "repo": "hyprsunset",
-        "rev": "adaae9d2adac611151224b054f59db8cb0976779",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hyprwm",
-        "repo": "hyprsunset",
-        "type": "github"
-      }
-    },
     "hyprutils": {
       "inputs": {
         "nixpkgs": [
@@ -560,13 +505,11 @@
       "inputs": {
         "crt": "crt",
         "gripper": "gripper",
-        "hyprland-protocols": "hyprland-protocols",
         "hyprlang": "hyprlang",
         "hyprlock": "hyprlock",
         "hyprpaper": "hyprpaper",
         "hyprpicker": "hyprpicker",
         "hyprpolkitagent": "hyprpolkitagent",
-        "hyprsunset": "hyprsunset",
         "hyprutils": "hyprutils",
         "hyprwayland-scanner": "hyprwayland-scanner",
         "nixpkgs": "nixpkgs",
