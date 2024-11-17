@@ -39,6 +39,8 @@ rec {
   gripper = getByName "gripper";
   hunspell-id = callPackage ./hunspell-id { };
   hyprlock = getByName "hyprlock";
+  hyprpaper = getByName "hyprpaper";
+  hyprpicker = getByName "hyprpicker";
   hyprpolkitagent = getByName "hyprpolkitagent";
   hyprsunset = getByName "hyprsunset";
   keymapper = myCallPackage ./keymapper { };
