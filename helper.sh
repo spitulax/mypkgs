@@ -71,8 +71,31 @@ upscript () {
     done
 }
 
+commitup () {
+    IFS=$'\n'
+    DIFF=($(git diff -U0 --cached HEAD pkgs.md | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)'))
+    for x in ${DIFF[@]}; do
+        if [ "${x:0:1}" = "-" ]; then
+            NAME=$(echo "${x:3}" | sed -r 's/^(.*):.*$/\1/')
+            OLDVER=$(echo "${x:3}" | sed -r 's/^.*: (.*)$/\1/')
+            NEWDIFF=$(echo "${DIFF[*]}" | grep -F "$NAME" | tail -n1)
+            NEWVER=$(echo "${NEWDIFF:3}" | sed -r 's/^.*: (.*)$/\1/')
+            PKGS+=($(echo -e "${NAME}\t${OLDVER}\t${NEWVER}"))
+        fi
+    done
+
+    MSG="update packages"
+    MSG+=$'\n'
+    for x in ${PKGS[@]}; do
+        MSG+=$'\n'
+        MSG+=$(echo "$x" | sed -r 's/^(.*)\t(.*)\t(.*)$/\1: \2 -> \3/')
+    done
+    git commit -m "$MSG"
+}
+
 usage () {
     echo "build"
+    echo "commitup"
     echo "listpkgs"
     echo "pushinput"
     echo "pushpkgs"
@@ -123,6 +146,10 @@ case "$1" in
 
 "listpkgs")
     listpkgs
+    ;;
+
+"commitup")
+    commitup
     ;;
 
 *)
