@@ -13,9 +13,9 @@ let
   releaseVersion = "0.dev-2024-08";
   releaseHash = "sha256-viGG/qa2+XhQvTXrKaER5SwszMELi5dHG0lWD26pYfY=";
 
-  nightlyVersion = "2024-11-22";
-  nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-linux-amd64-nightly%2B2024-11-22.tar.gz";
-  nightlyHash = "sha256-zLYWNkXHXBustCYB57qJ9ABnnV5YtUwGp/iA7r0j+T8=";
+  nightlyVersion = "2024-11-29";
+  nightlyUrl = "https://f001.backblazeb2.com/file/odin-binaries/nightly/odin-linux-amd64-nightly%2B2024-11-29.tar.gz";
+  nightlyHash = "sha256-wuytbo9L9jONsljnyDgBxS2XaE7O63jB7Y9k96Rkl0E=";
 in
 stdenv.mkDerivation (newAttrs: rec {
   pname = "odin" + (lib.optionalString nightly "-nightly");
