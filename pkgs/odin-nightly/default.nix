@@ -8,6 +8,7 @@
 , gnused
 , nix
 , mkPkg
+, exitIfNoNewVer
 }:
 let
   inherit (lib)
@@ -38,13 +39,14 @@ let
   };
 
   updateScript = writeShellScript dirname ''
-    set -eufo pipefail
+    set -euo pipefail
 
     ${toShellVar "CURL" (getExe curl)}
     ${toShellVar "SED" (getExe gnused)}
 
     META=${importJSON "$($CURL -s 'https://odinbinaries.thisdrunkdane.io/file/odin-binaries/nightly.json')" ".files | to_entries | last | .value | .[0]"}
     VERSION=$(${echo (importJSON "$META" ".name")} | $SED -r 's/^.*\+(.*)\.tar\.gz$/\1/')
+    ${exitIfNoNewVer}
     URL=${importJSON "$META" ".url"}
     HASH=${getFileHash "$URL"}
 

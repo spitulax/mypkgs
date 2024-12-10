@@ -14,9 +14,6 @@
 let
   inherit (builtins)
     toString
-    flakeRefToString
-    getFlake
-    hasAttr
     ;
 
   inherit (lib)
@@ -26,7 +23,6 @@ let
     toShellVar
     mapAttrs'
     nameValuePair
-    toLower
     ;
 
   inherit (myLib)
@@ -58,6 +54,15 @@ rec {
         done
       '';
 
+  # NOTE: *VersionScript should accept the previous version as an argument ($1) and add this.
+  # NOTE: Any custom update script that doesn't call *VersionScript must also add this.
+  # VERSION must be defined before
+  exitIfNoNewVer = ''
+    if [ "$FORCE" -ne 1 ]; then
+      [ "$VERSION" = "$1" ] && exit 1
+    fi
+  '';
+
   # NOTE: *Pkg and *Script are only expected to be used from somewhere within `/pkgs`
   # MAYBE: preUpdateScripts or postUpdateScripts
 
@@ -69,8 +74,12 @@ rec {
     , ...
     }:
     let
+      # FIXME: Pre-releases are always included
+      # FIXME: `target_commitish` is not always a commit hash.
+      # It's more reliable to get the commit hash from the tag's name
+      # https://stackoverflow.com/questions/67040794/how-can-i-get-the-commit-hash-of-the-latest-release-from-github-api
       updateScript = writeShellScript "mypkgs-update-version-${dirname}" ''
-        set -eufo pipefail
+        set -euo pipefail
 
         ${toShellVar "CURL" (getExe curl)}
         ${toShellVar "SED" (getExe gnused)}
@@ -78,19 +87,19 @@ rec {
         ${toShellVar "HEAD" "${coreutils}/bin/head"}
 
         if [ -z "${ref}" ]; then
-          # FIXME: Pre-releases are always included
-          RELEASE_URL=${importJSON "$($CURL -s 'https://api.github.com/repos/${owner}/${repo}/releases')" ".[0].url"}
-          RELEASE=$($CURL -s "$RELEASE_URL")
-          REV=${importJSON "$RELEASE" ".target_commitish"}
-          RELEASE_NAME=${importJSON "$RELEASE" ".name"}
+          RELEASE_INFO=$($CURL -s 'https://api.github.com/repos/${owner}/${repo}/releases/latest')
+          REV=${importJSON "$RELEASE_INFO" ".target_commitish"}
+          RELEASE_NAME=${importJSON "$RELEASE_INFO" ".name"}
           VERSION=$(echo "$RELEASE_NAME" | $SED 's/[^1-9]*//')
         else
           COMMIT=$($CURL -s 'https://api.github.com/repos/${owner}/${repo}/commits/${ref}')
           REV=${importJSON "$COMMIT" ".sha"}
-          COMMIT_DATE=${importJSON "$COMMIT" ".commit.committer.date"} 
+          COMMIT_DATE=${importJSON "$COMMIT" ".commit.committer.date"}
           DATE=$($DATE -d "$COMMIT_DATE" --utc '+%Y.%m.%d')
           VERSION=$(printf '%s+%s_%s' "$DATE" "${ref}" "$(echo "$REV" | "$HEAD" -c7)")
         fi
+
+        ${exitIfNoNewVer}
 
         ${serialiseJSON {
           rev = "$REV";
@@ -107,7 +116,7 @@ rec {
     }:
     let
       updateScript = writeShellScript "mypkgs-update-archive-${dirname}" ''
-        set -eufo pipefail
+        set -euo pipefail
 
         URL="${url}"
         HASH=${getFileHash "$URL"}
@@ -139,6 +148,10 @@ rec {
       inherit version src;
     } // mkPassthru { inherit updateScript dirname; };
 
+  # NOTE: *Pkg should accept the previous version as an argument ($1).
+  # When calling *VersionScript, it should pass the argument.
+  # NOTE: For *Pkg, storing version in pkg.json is necessary.
+
   gitHubPkg =
     { owner
     , repo
@@ -155,9 +168,9 @@ rec {
       };
 
       updateScript = writeShellScript "mypkgs-update-github-${dirname}" ''
-        set -eufo pipefail
+        set -euo pipefail
 
-        VERSIONDATA=$(${versionScript})
+        VERSIONDATA=$(${versionScript} "$1")
         REV=${importJSON "$VERSIONDATA" ".rev"}
         VERSION=${importJSON "$VERSIONDATA" ".version"}
         HASH=${getFileHash "https://github.com/${owner}/${repo}/archive/\${REV}.tar.gz"}
@@ -200,19 +213,20 @@ rec {
       };
 
       updateScript = writeShellScript "mypkgs-update-githubrelease-${dirname}" ''
-        set -eufo pipefail
+        set -euo pipefail
 
-        VERSIONDATA=$(${versionScript})
+        VERSIONDATA=$(${versionScript} "$1")
+        [ $? -eq 1 ] && exit 1
         VERSION=${importJSON "$VERSIONDATA" ".version"}
         RELEASE_NAME=${importJSON "$VERSIONDATA" ".release_name"}
         ARCHIVEDATA=$(${hashScript} "$RELEASE_NAME" "$VERSION")
         HASH=${importJSON "$ARCHIVEDATA" ".hash"}
         URL=${importJSON "$ARCHIVEDATA" ".url"}
 
-        if [ -n '${toString useReleaseName}' ]; then
+        if [ '${toString useReleaseName}' = 1 ]; then
           VERSION="$RELEASE_NAME"
         fi
-        if [ -n '${toString prefixVersion}' ]; then
+        if [ '${toString prefixVersion}' = 1 ]; then
           VERSION="0.$VERSION"
         fi
 

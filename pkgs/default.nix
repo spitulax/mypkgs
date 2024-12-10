@@ -22,10 +22,10 @@ let
     } // pkgs // utils)) callPackage;
 
   # Exclude from `all`
-  exclude = d: {
-    excluded = true;
-    derivation = d;
-  };
+  exclude = d:
+    d.overrideAttrs {
+      passthru.excluded = true;
+    };
 
   # If the package name is the same as the input name
   getByName = name:
@@ -47,7 +47,7 @@ let
     hyprpolkitagent = getByName "hyprpolkitagent";
     keymapper = callPackage ./keymapper { };
     lexurgy = callPackage ./lexurgy { };
-    odin = callPackage ./odin { };
+    odin = exclude (callPackage ./odin { });
     odin-nightly = callPackage ./odin-nightly { };
     ols = callPackage ./ols { odin = odin-nightly; };
     pasteme = getByName "pasteme";
@@ -55,5 +55,6 @@ let
   };
 in
 packages // {
+  # Only non-excluded packages are auto-updated
   update-scripts = utils.updateScripts (myLib.includedPackages packages);
 }

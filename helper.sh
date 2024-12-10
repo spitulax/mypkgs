@@ -72,48 +72,82 @@ uplist () {
     done <<< "$(listpkgs)"
 }
 
+# Arguments:
+# - DIRNAME: one or more directories to update (relative to /pkgs)
+# - SKIP_EXIST: if 1, skip directories where pkg.json already exists
+# - FORCE: if 1, update even if the found version is the same as the old version
 upscript () {
-    DRV=$(_nix build .#update-scripts --accept-flake-config --json | jq -r '.[].outputs.out')
-    for x in $(find -L "$DRV/" -type f -executable); do
-        DIRNAME=$(basename "$x")
-        echo -e "\033[1mUpdating pkgs/${DIRNAME}...\033[0m"
-        $x > "$(dirname "$0")/pkgs/${DIRNAME}/pkg.json"
+    local drv=$(_nix build .#update-scripts --accept-flake-config --json | jq -r '.[].outputs.out')
+    for x in $(find -L "$drv/" -type f -executable); do
+        local dirname=$(basename "$x")
+        local pkgjson_path="$(dirname "$0")/pkgs/${dirname}/pkg.json"
+        local update=0
+        if [ -v DIRNAME ]; then
+            for y in "${DIRNAME[@]}"; do
+                [ "$y" == "$dirname" ] && update=1 && break
+            done
+        else
+            update=1
+        fi
+        if [ "${SKIP_EXIST:-0}" -eq 1 ]; then
+            [ -f "$pkgjson_path" ] && update=0 || update=1
+        fi
+        if [ "$update" -eq 1 ]; then
+            echo -e "\033[1mUpdating pkgs/${dirname}...\033[0m"
+            local oldver
+            if [ -r "$pkgjson_path" ]; then
+                oldver=$(cat "$pkgjson_path" | jq -r '.version')
+            fi
+            local json
+            set +e
+            export FORCE="${FORCE:-0}"
+            if json=$($x "${oldver:-}"); then
+                echo "$json" > "$pkgjson_path"
+            else
+                echo "Skipped"
+            fi
+            set -e
+        fi
     done
 }
 
 commitup () {
     IFS=$'\n'
-    DIFF=($(git diff -U0 --cached HEAD pkgs.md | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)'))
-    for x in ${DIFF[@]}; do
+    local diff=($(git diff -U0 --cached HEAD pkgs.md | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)'))
+    local pkgs=()
+    for x in ${diff[@]}; do
         if [ "${x:0:1}" = "-" ]; then
-            NAME=$(echo "${x:3}" | sed -r 's/^(.*):.*$/\1/')
-            OLDVER=$(echo "${x:3}" | sed -r 's/^.*: (.*)$/\1/')
-            NEWDIFF=$(echo "${DIFF[*]}" | grep -F "$NAME" | tail -n1)
-            NEWVER=$(echo "${NEWDIFF:3}" | sed -r 's/^.*: (.*)$/\1/')
-            PKGS+=($(echo -e "${NAME}\t${OLDVER}\t${NEWVER}"))
+            name=$(echo "${x:3}" | sed -r 's/^(.*):.*$/\1/')
+            oldver=$(echo "${x:3}" | sed -r 's/^.*: (.*)$/\1/')
+            newdiff=$(echo "${diff[*]}" | grep -F "$name" | tail -n1)
+            newver=$(echo "${newdiff:3}" | sed -r 's/^.*: (.*)$/\1/')
+            pkgs+=($(echo -e "${name}\t${oldver}\t${newver}"))
         fi
     done
 
-    MSG="update packages"
-    MSG+=$'\n'
-    for x in ${PKGS[@]}; do
-        MSG+=$'\n'
-        MSG+=$(echo "$x" | sed -r 's/^(.*)\t(.*)\t(.*)$/\1: \2 -> \3/')
+    local msg="update packages"
+    msg+=$'\n'
+    for x in ${pkgs[@]}; do
+        msg+=$'\n'
+        msg+=$(echo "$x" | sed -r 's/^(.*)\t(.*)\t(.*)$/\1: \2 -> \3/')
     done
-    git commit -m "$MSG"
+    git commit -m "$msg"
+    IFS=' '
 }
 
 usage () {
-    echo "build"
-    echo "commitup"
-    echo "listpkgs"
-    echo "pushinput"
-    echo "pushpkgs"
-    echo "upall"
-    echo "upinput"
-    echo "uplist"
-    echo "uppkgs"
-    echo "upscript"
+    echo "Arguments are passed via environment variables."
+    echo "Subcommands:"
+    echo "- build"
+    echo "- commitup"
+    echo "- listpkgs"
+    echo "- pushinput"
+    echo "- pushpkgs"
+    echo "- upall"
+    echo "- upinput"
+    echo "- uplist"
+    echo "- uppkgs"
+    echo "- upscript"
 }
 
 [ $# -ne 1 ] && usage && exit 1

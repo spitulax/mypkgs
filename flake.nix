@@ -32,10 +32,9 @@
           excludedPackages = myLib.excludedPackages packages;
         in
         includedPackages
-        // {
-          all = pkgs.linkFarm "mypkgs-all" includedPackages;
-        }
-        // lib.mapAttrs (_: v: v.derivation) excludedPackages);
+        // excludedPackages
+        # Only non-excluded packages are regularly cached
+        // { all = pkgs.linkFarm "mypkgs-all" includedPackages; });
     };
 
   inputs = {
