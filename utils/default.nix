@@ -1,5 +1,6 @@
 { lib
 , myLib
+, outputs
 , pkgs
 , curl
 , jq
@@ -19,15 +20,13 @@ let
   inherit (lib)
     getExe
     replaceStrings
-    filterAttrs
     toShellVar
-    mapAttrs'
-    nameValuePair
     ;
 
   inherit (myLib)
     shell
     getPkgData
+    getFlakeData
     ;
 
   serialiseJSON = shell.serialiseJSON jq;
@@ -35,36 +34,25 @@ let
   getFileHash = shell.getFileHash nix jq;
 in
 rec {
-  updateScripts = packages:
-    let
-      scripts = mapAttrs'
-        (_: v: nameValuePair v.passthru.dirname v.passthru.mypkgsUpdateScript)
-        (filterAttrs
-          (_: v: v.passthru ? mypkgsUpdateScript)
-          packages);
-    in
-    runCommand
-      "mypkgs-update-scripts"
-      { }
-      ''
-        mkdir -p $out
-        ${toShellVar "SCRIPTS" scripts}
-        for name in "''${!SCRIPTS[@]}"; do
-          ${coreutils}/bin/ln -s ''${SCRIPTS[$name]} $out/$name
-        done
-      '';
+  getFlake = name:
+    outputs.flakes.${pkgs.system}.${name}.flake;
+  getFlakePackage = flake: name:
+    flake.packages.${pkgs.system}.${name};
+  getFlakePackage' = flakeName: pkgName:
+    (getFlake flakeName).packages.${pkgs.system}.${pkgName};
+  getFlakePackages = flake:
+    flake.packages.${pkgs.system};
+  getFlakePackages' = flakeName:
+    (getFlake flakeName).packages.${pkgs.system};
 
-  # NOTE: *VersionScript should accept the previous version as an argument ($1) and add this.
+  # NOTE: *VersionScript should accept the previous version (for *Pkg) or rev (for *Flake) as an argument ($1) and add this.
   # NOTE: Any custom update script that doesn't call *VersionScript must also add this.
-  # VERSION must be defined before
-  exitIfNoNewVer = ''
+
+  exitIfNoNewVer = ver: ''
     if [ "$FORCE" -ne 1 ]; then
-      [ "$VERSION" = "$1" ] && exit 1
+      [ "${ver}" = "$1" ] && exit 1
     fi
   '';
-
-  # NOTE: *Pkg and *Script are only expected to be used from somewhere within `/pkgs`
-  # MAYBE: preUpdateScripts or postUpdateScripts
 
   gitHubVersionScript =
     { owner
@@ -99,7 +87,7 @@ rec {
           VERSION=$(printf '%s+%s_%s' "$DATE" "${ref}" "$(echo "$REV" | "$HEAD" -c7)")
         fi
 
-        ${exitIfNoNewVer}
+        ${exitIfNoNewVer "$VERSION"}
 
         ${serialiseJSON {
           rev = "$REV";
@@ -129,15 +117,9 @@ rec {
     in
     updateScript;
 
-  mkPassthru =
-    { updateScript
-    , dirname
-    }: {
-      passthru = {
-        inherit dirname;
-        mypkgsUpdateScript = updateScript;
-      };
-    };
+  # NOTE: *Pkg are only expected to be used from somewhere within `/pkgs`
+  # NOTE: *Pkg generate `pkg.json`
+  # MAYBE: preUpdateScripts or postUpdateScripts
 
   mkPkg =
     { version
@@ -146,7 +128,11 @@ rec {
     , dirname
     }: {
       inherit version src;
-    } // mkPassthru { inherit updateScript dirname; };
+      passthru = {
+        inherit dirname;
+        mypkgsUpdateScript = updateScript;
+      };
+    };
 
   # NOTE: *Pkg should accept the previous version as an argument ($1).
   # When calling *VersionScript, it should pass the argument.
@@ -239,6 +225,46 @@ rec {
     in
     mkPkg {
       inherit updateScript dirname src version;
+    };
+
+  # NOTE: *Flake are only expected to be used from somewhere within `/flakes`
+  # NOTE: *Flake generate `flake.json`
+
+  mkFlake =
+    { updateScript
+    , flake
+    , dirname
+    }: {
+      inherit updateScript dirname flake;
+    };
+
+  # NOTE: For *Flake, storing rev in pkg.json is necessary.
+  gitHubFlake =
+    { owner
+    , repo
+    , ref ? "" # empty means fetch latest release
+    , dirname ? repo
+    }@inputs:
+    let
+      versionScript = gitHubVersionScript inputs;
+
+      # TODO: https://github.com/NixOS/nix/pull/11952 overridable inputs
+      flake = builtins.getFlake "github:${owner}/${repo}/${(getFlakeData dirname).rev}";
+
+      updateScript = writeShellScript "mypkgs-update-githubflake-${dirname}" ''
+        set -euo pipefail
+
+        VERSIONDATA=$(${versionScript} "$1")
+        REV=${importJSON "$VERSIONDATA" ".rev"}
+        ${exitIfNoNewVer "$REV"}
+
+        ${serialiseJSON {
+          rev = "$REV";
+        }}
+      '';
+    in
+    mkFlake {
+      inherit updateScript dirname flake;
     };
 }
 

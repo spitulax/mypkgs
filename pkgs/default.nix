@@ -1,60 +1,74 @@
 { pkgs
 , inputs
+, utils
 , myLib
 }:
 let
   inherit (pkgs)
     lib
+    runCommand
+    coreutils
     ;
 
   inherit (lib)
     makeScope
     callPackageWith
+    mapAttrs'
+    filterAttrs
+    nameValuePair
+    toShellVar
     ;
 
-  utils = pkgs.callPackage ../utils { inherit myLib; };
-
-  inherit (makeScope callPackageWith
-    (self: {
-      inherit myLib inputs pkgs lib utils;
-      inherit (self) callPackage;
-      inherit (pkgs) system;
-    } // pkgs // utils)) callPackage;
+  inherit (utils)
+    getFlakePackages'
+    ;
 
   # Exclude from `all`
   exclude = d:
     d.overrideAttrs {
-      passthru.excluded = true;
+      _excluded = true;
     };
 
   # If the package name is the same as the input name
   getByName = name:
     let
-      packages = inputs.${name}.packages.${pkgs.system};
+      packages = getFlakePackages' name;
     in
     if builtins.hasAttr name packages
     then packages.${name}
     else packages.default;
 
-  packages = rec {
-    # KEEP THE LIST ALPHABETICALLY SORTED!
-    crt = getByName "crt";
-    gripper = getByName "gripper";
-    hunspell-id = callPackage ./hunspell-id { };
-    hyprlock = getByName "hyprlock";
-    hyprpaper = getByName "hyprpaper";
-    hyprpicker = getByName "hyprpicker";
-    hyprpolkitagent = getByName "hyprpolkitagent";
-    keymapper = callPackage ./keymapper { };
-    lexurgy = callPackage ./lexurgy { };
-    odin = exclude (callPackage ./odin { });
-    odin-nightly = callPackage ./odin-nightly { };
-    ols = callPackage ./ols { odin = odin-nightly; };
-    pasteme = getByName "pasteme";
-    waybar = callPackage ./waybar { };
-  };
+  scope = makeScope callPackageWith
+    (self: {
+      inherit myLib inputs pkgs lib utils getByName;
+      inherit (self) callPackage;
+      inherit (pkgs) system;
+    } // pkgs // utils);
+
+  updateScripts = packages:
+    let
+      scripts = mapAttrs'
+        (_: v: nameValuePair v.passthru.dirname v.passthru.mypkgsUpdateScript)
+        (filterAttrs
+          (_: v: v.passthru ? mypkgsUpdateScript)
+          packages);
+    in
+    runCommand
+      "mypkgs-pkgs-update-scripts"
+      { }
+      ''
+        mkdir -p $out
+        ${toShellVar "SCRIPTS" scripts}
+        for name in "''${!SCRIPTS[@]}"; do
+          ${coreutils}/bin/ln -s ''${SCRIPTS[$name]} $out/$name
+        done
+      '';
 in
-packages // {
-  # Only non-excluded packages are auto-updated
-  update-scripts = utils.updateScripts (myLib.includedPackages packages);
+rec {
+  # NOTE: Before adding packages from a flake, make sure the flake.json file for the flake is already exist.
+  packages = import ./list.nix (scope // { inherit exclude; });
+
+  # Only non-excluded packages are regularly auto-updated
+  update-scripts = updateScripts (myLib.includedPackages packages);
+  update-scripts-all = updateScripts packages;
 }

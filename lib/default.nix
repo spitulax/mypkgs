@@ -23,11 +23,13 @@ rec {
 
   mkNightlyVersion = src: mkDate (src.lastModifiedDate or "19700101") + "+rev=" + (src.shortRev or "dirty");
 
-  excludedPackages = packages: filterAttrs (_: v: v.passthru ? excluded && v.passthru.excluded) packages;
-  includedPackages = packages: filterAttrs (_: v: !(v.passthru ? excluded) || !v.passthru.excluded) packages;
+  excludedPackages = packages: filterAttrs (_: v: v ? _excluded && v._excluded) packages;
+  includedPackages = packages: filterAttrs (_: v: !(v ? _excluded) || !v._excluded) packages;
 
   getPkgDataPath = dirname: append ./../pkgs (dirname + "/pkg.json");
   getPkgData = dirname: lib.trivial.importJSON (getPkgDataPath dirname);
+  getFlakeDataPath = dirname: append ./../flakes (dirname + "/flake.json");
+  getFlakeData = dirname: lib.trivial.importJSON (getFlakeDataPath dirname);
 
   helpers = {
     odinDerivation =

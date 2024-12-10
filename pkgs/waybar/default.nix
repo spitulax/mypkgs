@@ -1,6 +1,6 @@
-{ inputs
+{ getFlakePackage'
 , pkgs
-}: inputs.waybar.packages.${pkgs.system}.waybar.override {
+}: (getFlakePackage' "waybar" "waybar").override {
   pkgs = pkgs // {
     overlays = [
       (final: prev: {

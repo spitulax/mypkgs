@@ -73,18 +73,66 @@ uplist () {
 }
 
 # Arguments:
-# - DIRNAME: one or more directories to update (relative to /pkgs)
+# - DIRNAME: one or more directories to update (pkgs/* or flakes/*)
 # - SKIP_EXIST: if 1, skip directories where pkg.json already exists
 # - FORCE: if 1, update even if the found version is the same as the old version
+# - FLAKE_ONLY: if 1, only update the flakes
+# - ALL: if 1, run pkgs-update-scripts-all (will update all packages including excluded packages)
 upscript () {
-    local drv=$(_nix build .#update-scripts --accept-flake-config --json | jq -r '.[].outputs.out')
-    for x in $(find -L "$drv/" -type f -executable); do
+    local pkgs_drv
+    local flakes_drv=$(_nix build .#flakes-update-scripts --accept-flake-config --json | jq -r '.[].outputs.out')
+
+    if [ "${FLAKE_ONLY:-0}" -ne 1 ]; then
+        local pkg
+        if [ "${ALL:-0}" -eq 1 ]; then
+            pkg="pkgs-update-scripts-all"
+        else
+            pkg="pkgs-update-scripts"
+        fi
+        pkgs_drv=$(_nix build .#${pkg} --accept-flake-config --json | jq -r '.[].outputs.out')
+    fi
+
+    for x in $(find -L "$flakes_drv/" -type f -executable); do
+        local dirname=$(basename "$x")
+        local flakejson_path="$(dirname "$0")/flakes/${dirname}/flake.json"
+        local update=0
+        if [ -v DIRNAME ]; then
+            for y in "${DIRNAME[@]}"; do
+                [ "$y" == "flakes/$dirname" ] && update=1 && break
+            done
+        else
+            update=1
+        fi
+        if [ "${SKIP_EXIST:-0}" -eq 1 ]; then
+            [ -f "$flakejson_path" ] && update=0 || update=1
+        fi
+        if [ "$update" -eq 1 ]; then
+            echo -e "\033[1mUpdating flakes/${dirname}...\033[0m"
+            local oldrev
+            if [ -r "$flakejson_path" ]; then
+                oldrev=$(cat "$flakejson_path" | jq -r '.rev')
+            fi
+            local json
+            set +e
+            export FORCE="${FORCE:-0}"
+            if json=$($x "${oldrev:-}"); then
+                echo "$json" > "$flakejson_path"
+            else
+                echo "Skipped"
+            fi
+            set -e
+        fi
+    done
+
+    [ "${FLAKE_ONLY:-0}" -eq 1 ] && exit 0
+
+    for x in $(find -L "$pkgs_drv/" -type f -executable); do
         local dirname=$(basename "$x")
         local pkgjson_path="$(dirname "$0")/pkgs/${dirname}/pkg.json"
         local update=0
         if [ -v DIRNAME ]; then
             for y in "${DIRNAME[@]}"; do
-                [ "$y" == "$dirname" ] && update=1 && break
+                [ "$y" == "pkgs/$dirname" ] && update=1 && break
             done
         else
             update=1

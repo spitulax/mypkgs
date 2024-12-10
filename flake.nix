@@ -12,29 +12,62 @@
 
   outputs = { self, nixpkgs, ... }@inputs:
     let
+      inherit (self) outputs;
       inherit (nixpkgs) lib;
-      systems = [ "x86_64-linux" "aarch64-linux" ];
-      eachSystem = f: lib.genAttrs systems (system:
-        f
-          system
-          (import nixpkgs {
-            inherit system;
-          })
-      );
       myLib = import ./lib { inherit lib; };
 
+      systems = [ "x86_64-linux" "aarch64-linux" ];
+      eachSystem = f: lib.genAttrs systems f;
+      foreachSystem = f: lib.genAttrs systems f;
+
+      pkgsFor = foreachSystem (system:
+        import nixpkgs {
+          inherit system;
+        });
+      utilsFor = foreachSystem
+        (system:
+          pkgsFor.${system}.callPackage ./utils { inherit myLib outputs; }
+        );
+
+      packagesFor = foreachSystem
+        (system:
+          import ./pkgs {
+            # TODO: remove inputs
+            inherit inputs myLib;
+            pkgs = pkgsFor.${system};
+            utils = utilsFor.${system};
+          }
+        );
+      flakesFor = foreachSystem
+        (system:
+          import ./flakes {
+            inherit myLib;
+            pkgs = pkgsFor.${system};
+            utils = utilsFor.${system};
+          }
+        );
     in
     {
-      packages = eachSystem (system: pkgs:
+      flakes = lib.mapAttrs (_: v: v.flakes) flakesFor;
+
+      packages = eachSystem (system:
         let
-          packages = import ./pkgs { inherit inputs pkgs myLib; };
-          includedPackages = myLib.includedPackages packages;
-          excludedPackages = myLib.excludedPackages packages;
+          pkgs = pkgsFor.${system};
+          packages = packagesFor.${system};
+          flakes = flakesFor.${system};
+          includedPackages = myLib.includedPackages packages.packages;
+          excludedPackages = myLib.excludedPackages packages.packages;
         in
         includedPackages
         // excludedPackages
         # Only non-excluded packages are regularly cached
-        // { all = pkgs.linkFarm "mypkgs-all" includedPackages; });
+        // {
+          # TODO: rename `all` to `cached` or something
+          all = pkgs.linkFarm "mypkgs-all" includedPackages;
+          pkgs-update-scripts = packages.update-scripts;
+          pkgs-update-scripts-all = packages.update-scripts-all;
+          flakes-update-scripts = flakes.update-scripts;
+        });
     };
 
   inputs = {
@@ -65,11 +98,6 @@
 
     crt = {
       url = "github:spitulax/crt";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    gripper = {
-      url = "github:spitulax/gripper";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -107,11 +135,6 @@
 
     pasteme = {
       url = "github:spitulax/pasteme";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    waybar = {
-      url = "github:Alexays/Waybar";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

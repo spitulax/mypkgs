@@ -46,7 +46,7 @@ let
 
     META=${importJSON "$($CURL -s 'https://odinbinaries.thisdrunkdane.io/file/odin-binaries/nightly.json')" ".files | to_entries | last | .value | .[0]"}
     VERSION=$(${echo (importJSON "$META" ".name")} | $SED -r 's/^.*\+(.*)\.tar\.gz$/\1/')
-    ${exitIfNoNewVer}
+    ${exitIfNoNewVer "$VERSION"}
     URL=${importJSON "$META" ".url"}
     HASH=${getFileHash "$URL"}
 
