@@ -14,24 +14,26 @@
     let
       inherit (nixpkgs) lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
-      eachSystem = f: lib.genAttrs systems f;
+      eachSystem = f: lib.genAttrs systems (system:
+        f
+          system
+          (import nixpkgs {
+            inherit system;
+          })
+      );
       myLib = import ./lib { inherit lib; };
-      pkgsFor = eachSystem (system:
-        import nixpkgs {
-          inherit system;
-        });
+
     in
     {
-      packages = eachSystem (system:
+      packages = eachSystem (system: pkgs:
         let
-          pkgs = pkgsFor.${system};
           packages = import ./pkgs { inherit inputs pkgs myLib; };
-          excludedPackages = lib.filterAttrs (_: v: v ? excluded && v.excluded) packages;
-          includedPackages = lib.filterAttrs (_: v: !(v ? excluded) || !v.excluded) packages;
+          includedPackages = myLib.includedPackages packages;
+          excludedPackages = myLib.excludedPackages packages;
         in
         includedPackages
         // {
-          all = pkgs.linkFarm "all" includedPackages;
+          all = pkgs.linkFarm "mypkgs-all" includedPackages;
         }
         // lib.mapAttrs (_: v: v.derivation) excludedPackages);
     };
@@ -102,11 +104,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.hyprutils.follows = "hyprutils";
       inputs.systems.follows = "systems";
-    };
-
-    ols = {
-      url = "github:DanielGavin/ols";
-      flake = false;
     };
 
     pasteme = {

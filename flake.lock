@@ -459,7 +459,7 @@
         "gripper": "gripper_2",
         "hyprlock": "hyprlock_2",
         "nixpkgs": "nixpkgs_2",
-        "ols": "ols_2",
+        "ols": "ols",
         "waybar": "waybar"
       },
       "locked": {
@@ -511,22 +511,6 @@
     "ols": {
       "flake": false,
       "locked": {
-        "lastModified": 1732972510,
-        "narHash": "sha256-F6fcDSWZUs3vpNvcKab2dwdT1+5ASlABcQBwPEAE53g=",
-        "owner": "DanielGavin",
-        "repo": "ols",
-        "rev": "be1f51929763e3910bb89e09d035dae9fbc01862",
-        "type": "github"
-      },
-      "original": {
-        "owner": "DanielGavin",
-        "repo": "ols",
-        "type": "github"
-      }
-    },
-    "ols_2": {
-      "flake": false,
-      "locked": {
         "lastModified": 1728400625,
         "narHash": "sha256-TK/vx7YM5iNq/Xq0vKA/HaekXu7yO5+Ys9zVW86X0kU=",
         "owner": "DanielGavin",
@@ -573,7 +557,6 @@
         "hyprutils": "hyprutils",
         "hyprwayland-scanner": "hyprwayland-scanner",
         "nixpkgs": "nixpkgs",
-        "ols": "ols",
         "pasteme": "pasteme",
         "systems": "systems_2",
         "waybar": "waybar_2"
@@ -641,11 +624,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1733051039,
-        "narHash": "sha256-8Yd1TokY0ZwJp4PZYU8KoxhFHUL1FddihPXWPQCwjiw=",
+        "lastModified": 1733561910,
+        "narHash": "sha256-TkyWMLnLd5QhAlfAGtuU3n8Gtl2Gp4+8Ye/rE4hs46A=",
         "owner": "Alexays",
         "repo": "Waybar",
-        "rev": "3abac0abfd316a54772ae1146a28563bc4f47838",
+        "rev": "e959f1d2300c5f7fcc818630c9eae59d834024ce",
         "type": "github"
       },
       "original": {

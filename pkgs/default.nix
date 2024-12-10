@@ -5,7 +5,6 @@
 let
   inherit (pkgs)
     lib
-    callPackage
     ;
 
   inherit (lib)
@@ -13,18 +12,22 @@ let
     callPackageWith
     ;
 
-  myCallPackage = (makeScope callPackageWith
+  utils = pkgs.callPackage ../utils { inherit myLib; };
+
+  inherit (makeScope callPackageWith
     (self: {
-      inherit myLib inputs pkgs lib;
+      inherit myLib inputs pkgs lib utils;
       inherit (self) callPackage;
       inherit (pkgs) system;
-    })).callPackage;
-  # exclude from `all`
+    } // pkgs // utils)) callPackage;
+
+  # Exclude from `all`
   exclude = d: {
     excluded = true;
     derivation = d;
   };
-  # if the package name is the same as the input name
+
+  # If the package name is the same as the input name
   getByName = name:
     let
       packages = inputs.${name}.packages.${pkgs.system};
@@ -32,21 +35,25 @@ let
     if builtins.hasAttr name packages
     then packages.${name}
     else packages.default;
+
+  packages = rec {
+    # KEEP THE LIST ALPHABETICALLY SORTED!
+    crt = getByName "crt";
+    gripper = getByName "gripper";
+    hunspell-id = callPackage ./hunspell-id { };
+    hyprlock = getByName "hyprlock";
+    hyprpaper = getByName "hyprpaper";
+    hyprpicker = getByName "hyprpicker";
+    hyprpolkitagent = getByName "hyprpolkitagent";
+    keymapper = callPackage ./keymapper { };
+    lexurgy = callPackage ./lexurgy { };
+    odin = callPackage ./odin { };
+    odin-nightly = callPackage ./odin-nightly { };
+    ols = callPackage ./ols { odin = odin-nightly; };
+    pasteme = getByName "pasteme";
+    waybar = callPackage ./waybar { };
+  };
 in
-rec {
-  # KEEP THE LIST ALPHABETICALLY SORTED!
-  crt = getByName "crt";
-  gripper = getByName "gripper";
-  hunspell-id = callPackage ./hunspell-id { };
-  hyprlock = getByName "hyprlock";
-  hyprpaper = getByName "hyprpaper";
-  hyprpicker = getByName "hyprpicker";
-  hyprpolkitagent = getByName "hyprpolkitagent";
-  keymapper = myCallPackage ./keymapper { };
-  lexurgy = callPackage ./lexurgy { };
-  odin = exclude (callPackage ./odin { });
-  odin-nightly = callPackage ./odin { nightly = true; };
-  ols = myCallPackage ./ols { odin = odin-nightly; src = inputs.ols; };
-  pasteme = getByName "pasteme";
-  waybar = myCallPackage ./waybar { };
+packages // {
+  update-scripts = utils.updateScripts (myLib.includedPackages packages);
 }

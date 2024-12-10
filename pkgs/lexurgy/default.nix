@@ -1,18 +1,19 @@
 { stdenvNoCC
-, fetchurl
 , makeWrapper
 , jre_minimal
 , jdk
 , lib
+, gitHubReleasePkg
 }:
-stdenvNoCC.mkDerivation rec {
-  pname = "lexurgy";
-  version = "1.7.1";
-
-  src = fetchurl {
-    url = "https://github.com/def-gthill/lexurgy/releases/download/v${version}/lexurgy-${version}.tar";
-    hash = "sha256-d5THrLoaERUmwpSJGpwJz+BZB1qenZFLEAx3/RG48UE=";
+let
+  pkg = gitHubReleasePkg {
+    owner = "def-gthill";
+    repo = "lexurgy";
+    assetName = "lexurgy-%v.tar";
   };
+in
+stdenvNoCC.mkDerivation (pkg // {
+  pname = "lexurgy";
 
   nativeBuildInputs = [ makeWrapper ];
   buildInputs = [ jre_minimal ];
@@ -36,4 +37,4 @@ stdenvNoCC.mkDerivation rec {
     license = with licenses; [ gpl3Only ];
     maintainers = with maintainers; [ spitulax ];
   };
-}
+})
