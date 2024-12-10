@@ -65,8 +65,7 @@
         // excludedPackages
         # Only non-excluded packages are regularly cached
         // {
-          # TODO: rename `all` to `cached` or something
-          all = pkgs.linkFarm "mypkgs-all" includedPackages;
+          cached = pkgs.linkFarm "mypkgs-cached" includedPackages;
           pkgs-update-scripts = packages.update-scripts;
           pkgs-update-scripts-all = packages.update-scripts-all;
           flakes-update-scripts = flakes.update-scripts;

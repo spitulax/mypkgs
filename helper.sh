@@ -22,12 +22,13 @@ paths () {
 build () {
     echo -e '\033[1mBuilding packages...'
     if [ $NOM -eq 0 ]; then
-        _nix build .#all --log-format internal-json -v --accept-flake-config |& nom --json
+        _nix build .#cached --log-format internal-json -v --accept-flake-config |& nom --json
     else
-        _nix build .#all --accept-flake-config
+        _nix build .#cached --accept-flake-config
     fi
 }
 
+# TODO: create a package that basically lists all packages and flakes with more details and build that package here
 listpkgs () {
     local list=()
     for path in $(paths); do
@@ -240,6 +241,7 @@ case "$1" in
     ;;
 
 "listpkgs")
+    echo -e "\033[1mIf there's a problem, try running \`build\` first...\033[0m"
     listpkgs
     ;;
 
