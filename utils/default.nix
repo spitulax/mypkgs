@@ -83,7 +83,7 @@ rec {
           COMMIT=$($CURL -s 'https://api.github.com/repos/${owner}/${repo}/commits/${ref}')
           REV=${importJSON "$COMMIT" ".sha"}
           COMMIT_DATE=${importJSON "$COMMIT" ".commit.committer.date"}
-          DATE=$($DATE -d "$COMMIT_DATE" --utc '+%Y.%m.%d')
+          DATE=$($DATE -d "$COMMIT_DATE" --utc '+%Y-%m-%d')
           VERSION=$(printf '%s+%s_%s' "$DATE" "${ref}" "$(echo "$REV" | "$HEAD" -c7)")
         fi
 

@@ -10,6 +10,10 @@
     ];
   };
 
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  };
+
   outputs = { self, nixpkgs, ... }@inputs:
     let
       inherit (self) outputs;
@@ -32,8 +36,7 @@
       packagesFor = foreachSystem
         (system:
           import ./pkgs {
-            # TODO: remove inputs
-            inherit inputs myLib;
+            inherit myLib;
             pkgs = pkgsFor.${system};
             utils = utilsFor.${system};
           }
@@ -69,73 +72,4 @@
           flakes-update-scripts = flakes.update-scripts;
         });
     };
-
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    hyprlang = {
-      url = "github:hyprwm/hyprlang";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprutils.follows = "hyprutils";
-      inputs.systems.follows = "systems";
-    };
-
-    hyprutils = {
-      url = "github:hyprwm/hyprutils";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
-    };
-
-    hyprwayland-scanner = {
-      url = "github:hyprwm/hyprwayland-scanner";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
-    };
-
-    systems.url = "github:nix-systems/default-linux";
-
-    ####################
-
-    crt = {
-      url = "github:spitulax/crt";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    hyprlock = {
-      url = "github:hyprwm/hyprlock";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprlang.follows = "hyprlang";
-      inputs.hyprutils.follows = "hyprutils";
-      inputs.systems.follows = "systems";
-    };
-
-    hyprpaper = {
-      url = "github:hyprwm/hyprpaper";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprlang.follows = "hyprlang";
-      inputs.hyprutils.follows = "hyprutils";
-      inputs.hyprwayland-scanner.follows = "hyprwayland-scanner";
-      inputs.systems.follows = "systems";
-    };
-
-    hyprpicker = {
-      url = "github:hyprwm/hyprpicker";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprutils.follows = "hyprutils";
-      inputs.hyprwayland-scanner.follows = "hyprwayland-scanner";
-      inputs.systems.follows = "systems";
-    };
-
-    hyprpolkitagent = {
-      url = "github:hyprwm/hyprpolkitagent";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprutils.follows = "hyprutils";
-      inputs.systems.follows = "systems";
-    };
-
-    pasteme = {
-      url = "github:spitulax/pasteme";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
 }

@@ -6,14 +6,14 @@ _(The latest version available in the nix store)_
 
 - crt: 0.2.0
 - gripper: 1.0.1
-- hunspell-dict-id-id: 2.3.0
-- hyprlock: 0.5.0+date=2024-12-01_cc7ffe7
+- hunspell-dict-id-id: 2024-11-26+dev_a44e8c3
+- hyprlock: 0.5.0+date=2024-12-08_8010b81
 - hyprpaper: 0.7.1+date=2024-11-28_a3ceb20
 - hyprpicker: 0.4.1+date=2024-11-28_d26cb2f
 - hyprpolkitagent: 0.1.0+date=2024-11-28_b2cdeba
 - keymapper: 4.9.1
 - lexurgy: 1.7.1
-- odin-nightly: 2024-12-06
-- ols: 2024-11-30+rev=be1f519
+- odin-nightly: 2024-12-09
+- ols: 2024-11-30+master_be1f519
 - pasteme: 0.1.0
-- waybar: 0.11.0+date=2024-12-01_3abac0a
+- waybar: 0.11.0+date=2024-12-07_e959f1d

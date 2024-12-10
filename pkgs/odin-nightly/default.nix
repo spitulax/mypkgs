@@ -60,7 +60,6 @@ in
 (callPackage myLib.helpers.odinDerivation { }).override {
   pname = "odin-nightly";
   pkg = mkPkg {
-    version = replaceStrings [ "-" ] [ "." ] version;
-    inherit src updateScript dirname;
+    inherit src updateScript dirname version;
   };
 }

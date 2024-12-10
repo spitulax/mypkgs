@@ -50,7 +50,7 @@ listpkgsName () {
 
 push () {
     echo -e '\033[1mPushing packages...'
-    cachix push spitulax `paths`
+    cachix push spitulax $(paths)
 }
 
 upinput () {

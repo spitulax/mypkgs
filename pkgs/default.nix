@@ -1,5 +1,4 @@
 { pkgs
-, inputs
 , utils
 , myLib
 }:
@@ -40,7 +39,7 @@ let
 
   scope = makeScope callPackageWith
     (self: {
-      inherit myLib inputs pkgs lib utils getByName;
+      inherit myLib pkgs lib utils getByName;
       inherit (self) callPackage;
       inherit (pkgs) system;
     } // pkgs // utils);
