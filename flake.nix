@@ -61,10 +61,10 @@
         (system:
           let
             pkgs = pkgsFor.${system};
-            inherit (packagesFor.${system}) packages;
-            inherit (flakesFor.${system}) flakes;
-            cachedPackages = myLib.drv.cached packages;
-            uncachedPackages = myLib.drv.uncached packages;
+            packages = packagesFor.${system};
+            flakes = flakesFor.${system};
+            cachedPackages = myLib.drv.cached packages.packages;
+            uncachedPackages = myLib.drv.uncached flakes.flakes;
           in
           cachedPackages
           // uncachedPackages
@@ -72,7 +72,6 @@
           // {
             cached = pkgs.linkFarm "mypkgs-cached" cachedPackages;
             pkgs-update-scripts = packages.update-scripts;
-            pkgs-update-scripts-all = packages.update-scripts-all;
             flakes-update-scripts = flakes.update-scripts;
           } // (
             let
@@ -97,7 +96,7 @@
                       "| ${yesNo (myLib.drv.isCached v)} " +
                       "| ${yesNo (myLib.drv.isMaintained v)} |"
                     )
-                    packages);
+                    packages.packages);
 
               flakesList =
                 ''
@@ -112,7 +111,7 @@
                       "| ${v.rev} " +
                       "| ${yesNo (myLib.drv.isMaintained v)} |"
                     )
-                    flakes);
+                    flakes.flakes);
             in
             {
               mypkgs-list = pkgs.writeText "mypkgs-list" ''
@@ -129,7 +128,9 @@
                 ${flakesList}
               '';
             }
-          )
+          ) // {
+            helper = pkgs.writeShellScriptBin "mypkgs-helper" (builtins.readFile ./helper.sh);
+          }
         );
     };
 }

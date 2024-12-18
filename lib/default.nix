@@ -55,10 +55,10 @@ rec {
   drv = rec {
     isCached = d: !(d ? _notCached && d._notCached);
     uncached = ds: filterAttrs (_: v: !isCached v) ds;
-    cached = ds: filterAttrs (_: v: isCached v) ds;
+    cached = ds: filterAttrs (_: isCached) ds;
     isMaintained = d: !(d ? _notMaintained && d._notMaintained);
     unmaintained = ds: filterAttrs (_: v: !isMaintained v) ds;
-    maintained = ds: filterAttrs (_: v: isMaintained v) ds;
+    maintained = ds: filterAttrs (_: isMaintained) ds;
     uncache = d: d // { _notCached = true; };
     unmaintain = d: d // { _notMaintained = true; };
     ignore = d: d // { _notCached = true; _notMaintained = true; };
@@ -138,12 +138,18 @@ rec {
       nix:
       jq:
       { url
-      , archive ? false
+      , archive ? null
       , executable ? false
       }:
+      let
+        archive' =
+          if archive == null
+          then isArchive url
+          else archive;
+      in
       "${importJSON jq (
-        "$(${nixCmd nix} store prefetch-file --json "
-        + (optionalString archive "--unpack ")
+        "$(${nixCmd nix} store prefetch-file --json --name source "
+        + (optionalString archive' "--unpack ")
         + (optionalString executable "--executable ")
         + "\"${url}\")"
       )

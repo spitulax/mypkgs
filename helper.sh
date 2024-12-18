@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-# TODO: invoke helper script via `nix run`
+# RUN THIS SCRIPT WITH `nix run .#helper -- <args...>`
 
 set -euo pipefail
 
@@ -9,6 +7,12 @@ NOM=$?
 
 _nix () {
     nix --experimental-features 'nix-command flakes' $@
+}
+
+echoErr () {
+    echo -en "\033[31m" 1>&2
+    echo $@ 1>&2
+    echo -en "\033[0m" 1>&2
 }
 
 decolor () {
@@ -20,7 +24,7 @@ paths () {
 }
 
 build () {
-    echo -e '\033[1mBuilding packages...'
+    echo -e '\033[1mBuilding packages...\033[0m'
     if [ $NOM -eq 0 ]; then
         _nix build .#cached --log-format internal-json -v --accept-flake-config |& nom --json
     else
@@ -29,17 +33,17 @@ build () {
 }
 
 push () {
-    echo -e '\033[1mPushing packages...'
+    echo -e '\033[1mPushing packages...\033[0m'
     cachix push spitulax $(paths)
 }
 
 upinput () {
-    echo -e '\033[1mUpdating flake inputs...'
+    echo -e '\033[1mUpdating flake inputs...\033[0m'
     _nix flake update --accept-flake-config
 }
 
 uplist () {
-    echo -e '\033[1mUpdating package list...'
+    echo -e '\033[1mUpdating package list...\033[0m'
     local path=$(_nix build .#mypkgs-list --accept-flake-config --json | jq -r '.[].outputs.out')
     install -m644 "$path" list.md
 }
@@ -49,86 +53,92 @@ uplist () {
 # - SKIP_EXIST: if 1, skip directories where pkg.json already exists
 # - FORCE: if 1, update even if the found version is the same as the old version
 # - FLAKE_ONLY: if 1, only update the flakes
-# - ALL: if 1, run pkgs-update-scripts-all (will update all packages including excluded packages)
 upscript () {
-    echo -e '\033[1mRunning update scripts...'
+    up () {
+        local type="$1"
+        local dirname="$2"
+        local script="$3"
+        if ! [ -d "${dirname}" ]; then
+            echoErr "${dirname} did not exist"
+            return
+        fi
+
+        local json_path
+        case "$type" in
+            "flake")
+                json_path="${dirname}/flake.json"
+                ;;
+            "pkg")
+                json_path="${dirname}/pkg.json"
+                ;;
+            *)
+                echoErr "Unknown type: ${type}"
+                return
+        esac
+
+        if [ "${SKIP_EXIST:-0}" -eq 1 ] && [ -f "$json_path" ]; then
+            return
+        fi
+        echo -e "\033[1mUpdating ${dirname}...\033[0m"
+        local oldver
+        if [ -r "$json_path" ]; then
+            if [ "$type" == "flake" ]; then
+                oldver=$(cat "$json_path" | jq -r '.rev')
+            elif [ "$type" == "pkg" ]; then
+                oldver=$(cat "$json_path" | jq -r '.version')
+            fi
+        fi
+
+        local json
+        set +e
+        export FORCE="${FORCE:-0}"
+        if json=$($script "${oldver:-}"); then
+            echo "$json" > "$json_path"
+        else
+            echo "Skipped"
+        fi
+        set -e
+    }
+
+    echo -e '\033[1mRunning update scripts...\033[0m'
 
     local pkgs_drv
     local flakes_drv=$(_nix build .#flakes-update-scripts --accept-flake-config --json | jq -r '.[].outputs.out')
-
     if [ "${FLAKE_ONLY:-0}" -ne 1 ]; then
-        local pkg
-        if [ "${ALL:-0}" -eq 1 ]; then
-            pkg="pkgs-update-scripts-all"
-        else
-            pkg="pkgs-update-scripts"
-        fi
-        pkgs_drv=$(_nix build .#${pkg} --accept-flake-config --json | jq -r '.[].outputs.out')
+        pkgs_drv=$(_nix build .#pkgs-update-scripts --accept-flake-config --json | jq -r '.[].outputs.out')
     fi
 
-    for x in $(find -L "$flakes_drv/" -type f -executable); do
-        local dirname=$(basename "$x")
-        local flakejson_path="$(dirname "$0")/flakes/${dirname}/flake.json"
-        local update=0
+    for x in $(find -L "$flakes_drv" -type f -executable); do
         if [ -v DIRNAME ]; then
-            for y in "${DIRNAME[@]}"; do
-                [ "$y" == "flakes/$dirname" ] && update=1 && break
+            for dirname in $DIRNAME; do
+                if [[ "$dirname" != flakes/* ]]; then
+                    continue
+                fi
+                if [ "$dirname" == "flakes/$(basename "$x")" ]; then
+                    up "flake" "$dirname" "$x"
+                    break
+                fi
             done
         else
-            update=1
-        fi
-        if [ "${SKIP_EXIST:-0}" -eq 1 ]; then
-            [ -f "$flakejson_path" ] && update=0 || update=1
-        fi
-        if [ "$update" -eq 1 ]; then
-            echo -e "\033[1mUpdating flakes/${dirname}...\033[0m"
-            local oldrev
-            if [ -r "$flakejson_path" ]; then
-                oldrev=$(cat "$flakejson_path" | jq -r '.rev')
-            fi
-            local json
-            set +e
-            export FORCE="${FORCE:-0}"
-            if json=$($x "${oldrev:-}"); then
-                echo "$json" > "$flakejson_path"
-            else
-                echo "Skipped"
-            fi
-            set -e
+            up "flake" "flakes/$(basename "$x")" "$x"
         fi
     done
 
-    [ "${FLAKE_ONLY:-0}" -eq 1 ] && exit 0
+    [ "${FLAKE_ONLY:-0}" -eq 1 ] && return
 
-    for x in $(find -L "$pkgs_drv/" -type f -executable); do
-        local dirname=$(basename "$x")
-        local pkgjson_path="$(dirname "$0")/pkgs/${dirname}/pkg.json"
-        local update=0
+    for x in $(find -L "$pkgs_drv" -type f -executable); do
         if [ -v DIRNAME ]; then
-            for y in "${DIRNAME[@]}"; do
-                [ "$y" == "pkgs/$dirname" ] && update=1 && break
+            for dirname in $DIRNAME; do
+                if [[ "$dirname" != pkgs/* ]]; then
+                    continue
+                fi
+                if [ "$dirname" == "pkgs/$(basename "$x")" ]; then
+                    up "pkg" "$dirname" "$x"
+                    break
+                fi
             done
         else
-            update=1
-        fi
-        if [ "${SKIP_EXIST:-0}" -eq 1 ]; then
-            [ -f "$pkgjson_path" ] && update=0 || update=1
-        fi
-        if [ "$update" -eq 1 ]; then
-            echo -e "\033[1mUpdating pkgs/${dirname}...\033[0m"
-            local oldver
-            if [ -r "$pkgjson_path" ]; then
-                oldver=$(cat "$pkgjson_path" | jq -r '.version')
-            fi
-            local json
-            set +e
-            export FORCE="${FORCE:-0}"
-            if json=$($x "${oldver:-}"); then
-                echo "$json" > "$pkgjson_path"
-            else
-                echo "Skipped"
-            fi
-            set -e
+            up "pkg" "pkgs/$(basename "$x")" "$x"
         fi
     done
 }
@@ -183,7 +193,7 @@ case "$1" in
     ;;
 
 "pushinput")
-    echo -e '\033[1mPushing inputs to cachix...'
+    echo -e '\033[1mPushing inputs to cachix...\033[0m'
     _nix flake archive --accept-flake-config --json \
         | jq -r '.path,(.inputs|to_entries[].value.path)' \
         | cachix push spitulax

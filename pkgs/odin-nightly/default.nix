@@ -47,7 +47,7 @@ let
     VERSION=$(${echo (importJSON "$META" ".name")} | $SED -r 's/^.*\+(.*)\.tar\.gz$/\1/')
     ${exitIfNoNewVer "$VERSION"}
     URL=${importJSON "$META" ".url"}
-    HASH=${getFileHash {url = "$URL";}}
+    HASH=${getFileHash {url = "$URL"; archive = true;}}
 
     ${serialiseJSON {
       version = "$VERSION";

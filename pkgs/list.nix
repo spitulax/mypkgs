@@ -10,7 +10,7 @@ let
 in
 rec {
   # KEEP THE LIST ALPHABETICALLY SORTED!
-  crt = getByName "crt";
+  # crt = getByName "crt";
   gripper = getByName "gripper";
   hunspell-id = callPackage ./hunspell-id { };
   hyprlock = getByName "hyprlock";

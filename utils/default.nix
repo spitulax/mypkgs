@@ -102,20 +102,15 @@ rec {
   urlScript =
     { url
     , dirname
-    , archive ? null
+    , archive ? false
     , executable ? false
     }:
     let
-      archive' =
-        if archive == null
-        then myLib.isArchive url
-        else archive;
-
       updateScript = writeShellScript "mypkgs-update-archive-${dirname}" ''
         set -euo pipefail
 
         URL="${url}"
-        HASH=${getFileHash {url = "$URL"; archive = archive'; inherit executable;}}
+        HASH=${getFileHash {url = "$URL"; inherit executable archive;}}
 
         ${serialiseJSON {
           url = "$URL";
