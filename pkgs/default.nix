@@ -22,12 +22,6 @@ let
     getFlakePackages'
     ;
 
-  # Exclude from `all`
-  exclude = d:
-    d.overrideAttrs {
-      _excluded = true;
-    };
-
   # If the package name is the same as the input name
   getByName = name:
     let
@@ -65,9 +59,8 @@ let
 in
 rec {
   # NOTE: Before adding packages from a flake, make sure the flake.json file for the flake is already exist.
-  packages = import ./list.nix (scope // { inherit exclude; });
+  packages = import ./list.nix scope;
 
-  # Only non-excluded packages are regularly auto-updated
-  update-scripts = updateScripts (myLib.includedPackages packages);
+  update-scripts = updateScripts (myLib.drv.maintained packages);
   update-scripts-all = updateScripts packages;
 }

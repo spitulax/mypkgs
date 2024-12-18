@@ -249,9 +249,10 @@ rec {
   mkFlake =
     { updateScript
     , flake
+    , rev
     , dirname
     }: {
-      inherit updateScript dirname flake;
+      inherit rev updateScript dirname flake;
     };
 
   # NOTE: For *Flake, storing rev in pkg.json is necessary.
@@ -264,8 +265,9 @@ rec {
     let
       versionScript = gitHubVersionScript inputs;
 
+      inherit (getFlakeData dirname) rev;
       # TODO: https://github.com/NixOS/nix/pull/11952 overridable inputs
-      flake = builtins.getFlake "github:${owner}/${repo}/${(getFlakeData dirname).rev}";
+      flake = builtins.getFlake "github:${owner}/${repo}/${rev}";
 
       updateScript = writeShellScript "mypkgs-update-githubflake-${dirname}" ''
         set -euo pipefail
@@ -280,7 +282,7 @@ rec {
       '';
     in
     mkFlake {
-      inherit updateScript dirname flake;
+      inherit updateScript dirname flake rev;
     };
 }
 

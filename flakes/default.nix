@@ -47,5 +47,5 @@ let
 in
 rec {
   flakes = import ./list.nix scope;
-  update-scripts = updateScripts flakes;
+  update-scripts = updateScripts (myLib.drv.maintained flakes);
 }

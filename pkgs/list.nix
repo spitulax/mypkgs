@@ -1,8 +1,14 @@
 { callPackage
 , getByName
-, exclude
+, myLib
 , ...
-}: rec {
+}:
+let
+  inherit (myLib.drv)
+    uncache
+    ;
+in
+rec {
   # KEEP THE LIST ALPHABETICALLY SORTED!
   crt = getByName "crt";
   gripper = getByName "gripper";
@@ -13,10 +19,10 @@
   hyprpolkitagent = getByName "hyprpolkitagent";
   keymapper = callPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
-  odin = exclude (callPackage ./odin { });
+  odin = uncache (callPackage ./odin { });
   odin-nightly = callPackage ./odin-nightly { };
   ols = callPackage ./ols { odin = odin-nightly; };
-  osu-lazer = callPackage ./osu-lazer { };
+  osu-lazer = uncache (callPackage ./osu-lazer { });
   pasteme = getByName "pasteme";
   waybar = callPackage ./waybar { };
 }

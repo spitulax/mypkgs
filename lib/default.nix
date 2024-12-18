@@ -26,9 +26,6 @@ rec {
 
   mkNightlyVersion = src: mkDate (src.lastModifiedDate or "19700101") + "+rev=" + (src.shortRev or "dirty");
 
-  excludedPackages = packages: filterAttrs (_: v: v ? _excluded && v._excluded) packages;
-  includedPackages = packages: filterAttrs (_: v: !(v ? _excluded) || !v._excluded) packages;
-
   getPkgDataPath = dirname: append ./../pkgs (dirname + "/pkg.json");
   getPkgData = dirname: lib.trivial.importJSON (getPkgDataPath dirname);
   getFlakeDataPath = dirname: append ./../flakes (dirname + "/flake.json");
@@ -54,6 +51,18 @@ rec {
       ".tar.lzo"
       ".tar.zst"
     ];
+
+  drv = rec {
+    isCached = d: !(d ? _notCached && d._notCached);
+    uncached = ds: filterAttrs (_: v: !isCached v) ds;
+    cached = ds: filterAttrs (_: v: isCached v) ds;
+    isMaintained = d: !(d ? _notMaintained && d._notMaintained);
+    unmaintained = ds: filterAttrs (_: v: !isMaintained v) ds;
+    maintained = ds: filterAttrs (_: v: isMaintained v) ds;
+    uncache = d: d // { _notCached = true; };
+    unmaintain = d: d // { _notMaintained = true; };
+    ignore = d: d // { _notCached = true; _notMaintained = true; };
+  };
 
   helpers = {
     odinDerivation =

@@ -33,6 +33,7 @@ let
     assetName = "osu.AppImage";
     dirname = pname;
   };
+  inherit (pkg) version;
 
   extracted = appimageTools.extract {
     inherit (pkg) version src;
@@ -40,8 +41,7 @@ let
   };
 
   derivation = stdenvNoCC.mkDerivation rec {
-    inherit (pkg) version;
-    inherit pname;
+    inherit pname version;
     src = extracted;
     buildInputs = [
       SDL2
@@ -159,7 +159,7 @@ let
     };
 in
 symlinkJoin {
-  name = "${pname}-${pkg.version}";
+  inherit pname version;
   paths = [
     derivation
     desktopItem
