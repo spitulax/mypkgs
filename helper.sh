@@ -144,27 +144,8 @@ upscript () {
 }
 
 commitup () {
-    IFS=$'\n'
-    local diff=($(git diff -U0 --cached HEAD pkgs.md | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)'))
-    local pkgs=()
-    for x in ${diff[@]}; do
-        if [ "${x:0:1}" = "-" ]; then
-            name=$(echo "${x:3}" | sed -r 's/^(.*):.*$/\1/')
-            oldver=$(echo "${x:3}" | sed -r 's/^.*: (.*)$/\1/')
-            newdiff=$(echo "${diff[*]}" | grep -F "$name" | tail -n1)
-            newver=$(echo "${newdiff:3}" | sed -r 's/^.*: (.*)$/\1/')
-            pkgs+=($(echo -e "${name}\t${oldver}\t${newver}"))
-        fi
-    done
-
-    local msg="update packages"
-    msg+=$'\n'
-    for x in ${pkgs[@]}; do
-        msg+=$'\n'
-        msg+=$(echo "$x" | sed -r 's/^(.*)\t(.*)\t(.*)$/\1: \2 -> \3/')
-    done
-    git commit -m "$msg"
-    IFS=' '
+    echoErr "Unimplemented"
+    exit 1
 }
 
 usage () {

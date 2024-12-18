@@ -9,14 +9,14 @@
 | **crt** | 0.2.0 | Yes | Yes |
 | **gripper** | 1.0.1 | Yes | Yes |
 | **hunspell-id** | 2024-11-26+dev_a44e8c3 | Yes | Yes |
-| **hyprlock** | 0.5.0+date=2024-12-08_8010b81 | Yes | Yes |
-| **hyprpaper** | 0.7.1+date=2024-11-28_a3ceb20 | Yes | Yes |
-| **hyprpicker** | 0.4.1+date=2024-11-28_d26cb2f | Yes | Yes |
-| **hyprpolkitagent** | 0.1.0+date=2024-11-28_b2cdeba | Yes | Yes |
+| **hyprlock** | 0.6.0+date=2024-12-18_0588306 | Yes | Yes |
+| **hyprpaper** | 0.7.3+date=2024-12-15_eb9db3b | Yes | Yes |
+| **hyprpicker** | 0.4.1+date=2024-12-16_46d2f5a | Yes | Yes |
+| **hyprpolkitagent** | 0.1.0+date=2024-12-13_ae7c5be | Yes | Yes |
 | **keymapper** | 4.9.1 | Yes | Yes |
 | **lexurgy** | 1.7.1 | Yes | Yes |
 | **odin** | 0.dev-2024-12 | No | Yes |
-| **odin-nightly** | 2024-12-09 | Yes | Yes |
+| **odin-nightly** | 2024-12-17 | Yes | Yes |
 | **ols** | 2024-11-30+master_be1f519 | Yes | Yes |
 | **osu-lazer** | 2024.1208.0 | No | Yes |
 | **pasteme** | 0.1.0 | Yes | Yes |
@@ -28,9 +28,9 @@
 | :-: | :-: | :-: |
 | **crt** | 55452ec480d50edce933e22233a6bb631e45502e | Yes |
 | **gripper** | 7b9e5a4813e96d071dbe3d98e43beaf00fe1642a | Yes |
-| **hyprlock** | 8010b81e7b4100a1f2ef937be5268a13c27987e9 | Yes |
-| **hyprpaper** | a3ceb20095c1fae9acb10c37713caf2df28f3ec9 | Yes |
-| **hyprpicker** | d26cb2f4396e4fd3477f5f12131c87c2f5002ab7 | Yes |
-| **hyprpolkitagent** | b2cdeba9a49dc20a78eba256c1ffb4ea17d679f4 | Yes |
+| **hyprlock** | 058830668e92e92b3179319090b5d523ba4d59a4 | Yes |
+| **hyprpaper** | eb9db3b815b09e8dcc5ae92b1bd03f9c8e63eeea | Yes |
+| **hyprpicker** | 46d2f5a817a89405cef941d8beb4551425acf3da | Yes |
+| **hyprpolkitagent** | ae7c5be24c63b8a53d0d5f5344d821b5f48d3623 | Yes |
 | **pasteme** | 66b918e976cce705bdd29d8284bdd90f8ef78a40 | Yes |
 | **waybar** | e959f1d2300c5f7fcc818630c9eae59d834024ce | Yes |
