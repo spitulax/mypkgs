@@ -14,7 +14,6 @@ let
   inherit (lib)
     toShellVar
     getExe
-    replaceStrings
     ;
 
   inherit (myLib)
@@ -48,7 +47,7 @@ let
     VERSION=$(${echo (importJSON "$META" ".name")} | $SED -r 's/^.*\+(.*)\.tar\.gz$/\1/')
     ${exitIfNoNewVer "$VERSION"}
     URL=${importJSON "$META" ".url"}
-    HASH=${getFileHash "$URL"}
+    HASH=${getFileHash {url = "$URL";}}
 
     ${serialiseJSON {
       version = "$VERSION";

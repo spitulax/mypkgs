@@ -16,6 +16,7 @@
   odin = exclude (callPackage ./odin { });
   odin-nightly = callPackage ./odin-nightly { };
   ols = callPackage ./ols { odin = odin-nightly; };
+  osu-lazer = callPackage ./osu-lazer { };
   pasteme = getByName "pasteme";
   waybar = callPackage ./waybar { };
 }

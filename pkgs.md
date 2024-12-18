@@ -15,5 +15,6 @@ _(The latest version available in the nix store)_
 - lexurgy: 1.7.1
 - odin-nightly: 2024-12-09
 - ols: 2024-11-30+master_be1f519
+- osu-lazer-2024.1208.0: null
 - pasteme: 0.1.0
 - waybar: 0.11.0+date=2024-12-07_e959f1d

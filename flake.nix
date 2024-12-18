@@ -27,6 +27,10 @@
       pkgsFor = foreachSystem (system:
         import nixpkgs {
           inherit system;
+          config.allowUnfreePredicate = p:
+            builtins.elem (lib.getName p) [
+              "osu-lazer"
+            ];
         });
       utilsFor = foreachSystem
         (system:

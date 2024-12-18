@@ -11,6 +11,7 @@
 , fetchzip
 , runCommand
 , gnused
+, fetchurl
 }:
 let
   inherit (builtins)
@@ -98,16 +99,23 @@ rec {
     in
     updateScript;
 
-  archiveScript =
+  urlScript =
     { url
     , dirname
+    , archive ? null
+    , executable ? false
     }:
     let
+      archive' =
+        if archive == null
+        then myLib.isArchive url
+        else archive;
+
       updateScript = writeShellScript "mypkgs-update-archive-${dirname}" ''
         set -euo pipefail
 
         URL="${url}"
-        HASH=${getFileHash "$URL"}
+        HASH=${getFileHash {url = "$URL"; archive = archive'; inherit executable;}}
 
         ${serialiseJSON {
           url = "$URL";
@@ -159,7 +167,7 @@ rec {
         VERSIONDATA=$(${versionScript} "$1")
         REV=${importJSON "$VERSIONDATA" ".rev"}
         VERSION=${importJSON "$VERSIONDATA" ".version"}
-        HASH=${getFileHash "https://github.com/${owner}/${repo}/archive/\${REV}.tar.gz"}
+        HASH=${getFileHash {url = "https://github.com/${owner}/${repo}/archive/\${REV}.tar.gz"; archive = true;}}
 
         ${serialiseJSON {
           hash = "$HASH";
@@ -189,14 +197,22 @@ rec {
       inherit (pkgData) version;
 
       shAssetName = replaceStrings [ "%V" "%v" ] [ "\${1}" "\${2}" ] assetName;
-      hashScript = archiveScript {
-        inherit dirname;
+      archive = myLib.isArchive assetName;
+      hashScript = urlScript {
+        inherit dirname archive;
         url = "https://github.com/${owner}/${repo}/releases/download/\${1}/${shAssetName}";
       };
 
-      src = fetchzip {
-        inherit (pkgData) hash url;
-      };
+      src =
+        if archive
+        then
+          (fetchzip {
+            inherit (pkgData) hash url;
+          })
+        else
+          (fetchurl {
+            inherit (pkgData) hash url;
+          });
 
       updateScript = writeShellScript "mypkgs-update-githubrelease-${dirname}" ''
         set -euo pipefail
@@ -209,10 +225,10 @@ rec {
         HASH=${importJSON "$ARCHIVEDATA" ".hash"}
         URL=${importJSON "$ARCHIVEDATA" ".url"}
 
-        if [ '${toString useReleaseName}' = 1 ]; then
+        if [ '${toString useReleaseName}' == "1" ]; then
           VERSION="$RELEASE_NAME"
         fi
-        if [ '${toString prefixVersion}' = 1 ]; then
+        if [ '${toString prefixVersion}' == "1" ]; then
           VERSION="0.$VERSION"
         fi
 
