@@ -21,16 +21,28 @@ stdenv.mkDerivation (
     ];
 
     patchPhase = ''
+      runHook prePatch
+
       patchShebangs ./build.sh ./odinfmt.sh
+
+      runHook postPatch
     '';
 
     buildPhase = ''
+      runHook preBuild
+
       ./build.sh && ./odinfmt.sh
+
+      runHook postBuild
     '';
 
     installPhase = ''
+      runHook preInstall
+
       install -Dm755 ols odinfmt -t $out/bin
       wrapProgram $out/bin/ols --set-default ODIN_ROOT ${odin}/share
+
+      runHook postInstall
     '';
 
     meta = with lib; {

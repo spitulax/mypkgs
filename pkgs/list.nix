@@ -20,6 +20,7 @@ rec {
   keymapper = callPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
   odin = uncache (callPackage ./odin { });
+  odin-doc = callPackage ./odin-doc { odin = odin-nightly; };
   odin-nightly = callPackage ./odin-nightly { };
   ols = callPackage ./ols { odin = odin-nightly; };
   osu-lazer = uncache (callPackage ./osu-lazer { });
