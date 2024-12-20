@@ -64,10 +64,8 @@
             packages = packagesFor.${system};
             flakes = flakesFor.${system};
             cachedPackages = myLib.drv.cached packages.packages;
-            uncachedPackages = myLib.drv.uncached flakes.flakes;
           in
-          cachedPackages
-          // uncachedPackages
+          packages.packages
           # Only non-excluded packages are regularly cached
           // {
             cached = pkgs.linkFarm "mypkgs-cached" cachedPackages;
