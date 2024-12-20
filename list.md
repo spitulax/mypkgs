@@ -19,7 +19,7 @@
 | **odin-doc** | 2024-11-01+master_80980df | Yes | Yes |
 | **odin-nightly** | 2024-12-19 | Yes | Yes |
 | **ols** | 2024-11-30+master_be1f519 | Yes | Yes |
-| **osu-lazer** | 2024.1208.0 | No | Yes |
+| **osu-lazer** | 2024.1219.2 | No | Yes |
 | **pasteme** | 0.1.0 | Yes | Yes |
 | **waybar** | 0.11.0+date=2024-12-07_e959f1d | Yes | Yes |
 
