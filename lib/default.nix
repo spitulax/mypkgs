@@ -16,24 +16,34 @@ let
   inherit (lib.path)
     append
     ;
+
+  # Type: String -> Path
+  getPkgDataPath = dirname: append ./../pkgs (dirname + "/pkg.json");
+  getFlakeDataPath = dirname: append ./../flakes (dirname + "/flake.json");
 in
 rec {
-  mkDate = longDate: (concatStringsSep "-" [
-    (builtins.substring 0 4 longDate)
-    (builtins.substring 4 2 longDate)
-    (builtins.substring 6 2 longDate)
-  ]);
+  /*
+    Returns the content of `pkg.json` from a directory `dirname` in `/pkgs`.
 
-  mkNightlyVersion = src: mkDate (src.lastModifiedDate or "19700101") + "+rev=" + (src.shortRev or "dirty");
+    Inputs:
+      - `dirname`: The directory's name
 
-  getPkgDataPath = dirname: append ./../pkgs (dirname + "/pkg.json");
+    Type: String -> AttrSet
+  */
   getPkgData = dirname: lib.trivial.importJSON (getPkgDataPath dirname);
-  getFlakeDataPath = dirname: append ./../flakes (dirname + "/flake.json");
   getFlakeData = dirname: lib.trivial.importJSON (getFlakeDataPath dirname);
 
-  # Prefetch-url `--unpack` flag can unpack zip and tar along with all supported filters from libarchive
-  # https://github.com/NixOS/nix/blob/3f3feae33e3381a2ea5928febe03329f0a578b20/src/libutil/tarfile.cc#L109
-  # https://github.com/libarchive/libarchive/blob/819a50a0436531276e388fc97eb0b1b61d2134a3/libarchive/archive_read_support_filter_all.c#L41
+  /*
+    Determines if a file is an archive file based on its extension.
+    Prefetch-url `--unpack` flag can unpack zip and tar along with all supported filters from libarchive.
+    <https://github.com/NixOS/nix/blob/3f3feae33e3381a2ea5928febe03329f0a578b20/src/libutil/tarfile.cc#L109>
+    <https://github.com/libarchive/libarchive/blob/819a50a0436531276e388fc97eb0b1b61d2134a3/libarchive/archive_read_support_filter_all.c#L41>
+
+    Inputs:
+      - `name`: The file's name
+
+    Type: String -> Bool
+  */
   isArchive = name:
     foldr (a: b: hasSuffix a name || b) false [
       ".zip"
@@ -53,18 +63,158 @@ rec {
     ];
 
   drv = rec {
+    /*
+      Determines if a package is considered to be cached.
+      Cached packages will be pushed to cachix.
+
+      Inputs:
+        - `d`: The package
+
+      Type: AttrSet -> Bool
+    */
     isCached = d: !(d ? _notCached && d._notCached);
+
+    /*
+      Gets packages that are cached or not from a set of packages.
+      See `isCached`.
+
+      Inputs:
+        - `ds`: Attribute set of packages
+
+      Type: AttrSet -> AttrSet
+    */
     uncached = ds: filterAttrs (_: v: !isCached v) ds;
     cached = ds: filterAttrs (_: isCached) ds;
+
+    /*
+      Determines if a package or flake is considered to be maintained.
+      Maintained packages or flakes will be automatically updated by the helper script.
+
+      Inputs:
+        - `d`: The package or flake
+
+      Type: AttrSet -> Bool
+    */
     isMaintained = d: !(d ? _notMaintained && d._notMaintained);
+
+    /*
+      Gets packages or flakes that are maintained or not from a set of packages or flakes.
+      See `isMaintained`.
+
+      Inputs:
+        - `ds`: Attribute set of packages or flakes
+
+      Type: AttrSet -> AttrSet
+    */
     unmaintained = ds: filterAttrs (_: v: !isMaintained v) ds;
     maintained = ds: filterAttrs (_: isMaintained) ds;
+
+    /*
+      Mark a package as not cached.
+      See `isCached`.
+
+      Inputs:
+        - `d`: The package
+
+      Type: AttrSet -> AttrSet
+    */
     uncache = d: d // { _notCached = true; };
+
+    /*
+      Mark a package or flake as not maintained.
+      See `isMaintained`.
+
+      Inputs:
+        - `d`: The package or flake
+
+      Type: AttrSet -> AttrSet
+    */
     unmaintain = d: d // { _notMaintained = true; };
+
+    /*
+      Mark a package as both not maintained and not cached.
+      See `isCached` and `isMaintained`.
+
+      Inputs:
+        - `d`: The package
+
+      Type: AttrSet -> AttrSet
+    */
     ignore = d: d // { _notCached = true; _notMaintained = true; };
   };
 
   helpers = {
+    /*
+      Generates a derivation that writes a markdown file listing the packages and flakes
+      for documentation purpose of this flake.
+
+      Type: AttrSet -> Derivation
+    */
+    pkgsListTable =
+      { lib
+      , writeText
+      , packages ? { }
+      , flakes ? { }
+      }:
+      let
+        inherit (lib)
+          mapAttrsToList
+          concatStringsSep
+          ;
+
+        yesNo = bool: if bool then "Yes" else "No";
+
+        pkgsList =
+          ''
+            | **Name** | **Version** | **Cached** | **Maintained** |
+            | :-: | :-: | :-: | :-: |
+          ''
+          + concatStringsSep
+            "\n"
+            (mapAttrsToList
+              (k: v:
+                "| **${k}** " +
+                "| ${v.version} " +
+                "| ${yesNo (drv.isCached v)} " +
+                "| ${yesNo (drv.isMaintained v)} |"
+              )
+              packages);
+
+        flakesList =
+          ''
+            | **Name** | **Rev** | **Maintained** |
+            | :-: | :-: | :-: |
+          ''
+          + concatStringsSep
+            "\n"
+            (mapAttrsToList
+              (k: v:
+                "| **${k}** " +
+                "| ${v.rev} " +
+                "| ${yesNo (drv.isMaintained v)} |"
+              )
+              flakes);
+      in
+      writeText "mypkgs-list" ''
+        <!--- This list was auto-generated. DO NOT edit this file manually. -->
+
+        <h2 align="center">List of Packages and Flakes</h2>
+
+        ## Packages
+
+        ${pkgsList}
+
+        ## Flakes
+
+        ${flakesList}
+      '';
+
+    /*
+      Generates a derivation to build the Odin compiler.
+      Needed for packages `odin` and `odin-nightly`.
+
+      Type: AttrSet -> Derivation
+    */
     odinDerivation =
       { stdenv
       , makeWrapper
@@ -123,20 +273,26 @@ rec {
       });
   };
 
+  /*
+    These are used inside inline bash scripts.
+    Some of them need to be accessed with `callPackage`.
+  */
   shell = rec {
     nixCmd = nix: "${getExe nix} --experimental-features 'nix-command flakes'";
 
-    serialiseJSON = jq: val: "echo \"" + escape [ "\"" ] (toJSON val) + "\" | ${getExe jq} .";
+    serialiseJSON = { jq }: val: "echo \"" + escape [ "\"" ] (toJSON val) + "\" | ${getExe jq} .";
 
     runScripts = scripts:
       concatStringsSep "\n" (map (x: "${x}") scripts);
 
-    importJSON = jq: json: filt:
+    importJSON = { jq }: json: filt:
       "$(echo \"${json}\" | ${getExe jq} -r \"${filt}\")";
 
     getFileHash =
-      nix:
-      jq:
+      { nix
+      , jq
+      , callPackage
+      }:
       { url
       , archive ? null
       , executable ? false
@@ -146,8 +302,10 @@ rec {
           if archive == null
           then isArchive url
           else archive;
+
+        importJSON' = callPackage importJSON { };
       in
-      "${importJSON jq (
+      "${importJSON' (
         "$(${nixCmd nix} store prefetch-file --json --name source "
         + (optionalString archive' "--unpack ")
         + (optionalString executable "--executable ")

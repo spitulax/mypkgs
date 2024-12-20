@@ -4,9 +4,7 @@
 , callPackage
 , fetchzip
 , writeShellScript
-, jq
 , gnused
-, nix
 , mkPkg
 , exitIfNoNewVer
 }:
@@ -25,9 +23,9 @@ let
     echo
     ;
 
-  importJSON = shell.importJSON jq;
-  serialiseJSON = shell.serialiseJSON jq;
-  getFileHash = shell.getFileHash nix jq;
+  importJSON = callPackage shell.importJSON { };
+  serialiseJSON = callPackage shell.serialiseJSON { };
+  getFileHash = callPackage shell.getFileHash { };
 
   dirname = "odin-nightly";
   pkgData = getPkgData dirname;

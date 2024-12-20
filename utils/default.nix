@@ -12,6 +12,7 @@
 , runCommand
 , gnused
 , fetchurl
+, callPackage
 }:
 let
   inherit (builtins)
@@ -30,36 +31,110 @@ let
     getFlakeData
     ;
 
-  serialiseJSON = shell.serialiseJSON jq;
-  importJSON = shell.importJSON jq;
-  getFileHash = shell.getFileHash nix jq;
+  serialiseJSON = callPackage shell.serialiseJSON { };
+  importJSON = callPackage shell.importJSON { };
+  getFileHash = callPackage shell.getFileHash { };
 in
 rec {
+  /*
+    Returns a flake from `/flakes`.
+
+    Inputs:
+      - `name`: The flake name as defined in `/flakes/list.nix`
+
+    Type: String -> Flake
+  */
   getFlake = name:
     outputs.flakes.${pkgs.system}.${name}.flake;
+
+  /*
+    Returns a package provided by a flake.
+
+    Inputs:
+      - `flake`: The flake
+      - `name`: The package name
+
+    Type: Flake -> String -> Derivation
+  */
   getFlakePackage = flake: name:
     flake.packages.${pkgs.system}.${name};
+
+  /*
+    Returns a package provided by a flake.
+
+    Inputs:
+      - `flake`: The flake name name as defined in `/flakes/list.nix`
+      - `name`: The package name
+
+    Type: String -> String -> Derivation
+  */
   getFlakePackage' = flakeName: pkgName:
     (getFlake flakeName).packages.${pkgs.system}.${pkgName};
+
+  /*
+    Returns packages provided by a flake.
+
+    Inputs:
+      - `flake`: The flake
+
+    Type: Flake -> AttrSet
+  */
   getFlakePackages = flake:
     flake.packages.${pkgs.system};
+
+  /*
+    Returns packages provided by a flake.
+
+    Inputs:
+      - `flake`: The flake name name as defined in `/flakes/list.nix`
+      - `name`: The package name
+
+    Type: String -> AttrSet
+  */
   getFlakePackages' = flakeName:
     (getFlake flakeName).packages.${pkgs.system};
 
-  # NOTE: *VersionScript should accept the previous version (for *Pkg) or rev (for *Flake) as an argument ($1) and add this.
-  # NOTE: Any custom update script that doesn't call *VersionScript must also add this.
+  /*
+    Notes about *VersionScript functions:
+    - Return a shell script.
+    - Should only be called from `/flakes` or `/pkgs` but not enforced.
+    - Should accept the previous version (for *Pkg) or rev (for *Flake) as an
+      argument ($1) from the helper script and add the check with
+      `exitIfNoNewVer` to the script.
+    - Any custom update script that doesn't call *VersionScript must also add `exitIfNoNewVer` themselves.
+  */
 
+  /*
+    See Notes about *VersionScript functions.
+
+    Type: String -> String
+  */
   exitIfNoNewVer = ver: ''
     if [ "$FORCE" -ne 1 ]; then
       [ "${ver}" = "$1" ] && exit 1
     fi
   '';
 
+  /*
+    A script that fetches the latest commit in a branch/tag or release from a GitHub repository.
+    See Notes about *VersionScript functions.
+
+    JSON output:
+      {
+        rev: The Git commit hash
+        version:
+          The version will be generated based on the branch name and commit hash if `ref` is not empty
+          Otherwise it will be taken from the release name with the initial non-number characters removed
+        release_name: The release name unaltered. Empty if `ref` is not empty
+      }
+
+    Type: AttrSet -> Derivation
+  */
   gitHubVersionScript =
     { owner
     , repo
-    , ref ? "" # empty means fetch latest release
-    , dirname ? repo
+    , ref ? ""        # The branch or tag name. Empty means fetch latest release
+    , dirname ? repo  # For identification only
     , ...
     }:
     let
@@ -99,11 +174,23 @@ rec {
     in
     updateScript;
 
+  /*
+    A script that fetches the hash of a file from a url.
+    See Notes about *VersionScript functions.
+
+    JSON output:
+      {
+        url: The url to the file
+        hash: The hash of the file
+      }
+
+    Type: AttrSet -> Derivation
+  */
   urlScript =
     { url
-    , dirname
-    , archive ? false
-    , executable ? false
+    , dirname # For identification only
+    , archive ? false # Is the file an archive (set it accordingly or you will get mismatched hashes)
+    , executable ? false # Is the file an executable
     }:
     let
       updateScript = writeShellScript "mypkgs-update-archive-${dirname}" ''
@@ -120,10 +207,34 @@ rec {
     in
     updateScript;
 
-  # NOTE: *Pkg are only expected to be used from somewhere within `/pkgs`
-  # NOTE: *Pkg generate `pkg.json`
-  # MAYBE: preUpdateScripts or postUpdateScripts
+  /*
+    Notes about *Pkg functions (except mkPkg):
+    - Return a `MypkgsPkg` by calling `mkPkg`. See `mkPkg`.
+    - Only expected to be used from somewhere within `/pkgs` or it will not work.
+    - Generate `pkg.json` in the given `dirname` through the helper script.
+    - `updateScript` should accept the previous version as an argument ($1) from
+      the helper script.
+      When calling *VersionScript, it should also pass the argument.
+    - Storing version in `pkg.json` is necessary.
 
+    MypkgsPkg :: AttrSet {
+      version :: String: The package version
+      src :: Derivation: The fetched source
+      passthru :: AttrSet {
+        dirname :: String: The directory of the package declaration relative to `/pkgs`
+        mypkgsUpdateScript :: Derivation: The update script (run from the helper script)
+      }
+    }
+  */
+  # MAYBE: Add preUpdateScripts or postUpdateScripts
+
+  /*
+    Returns an attribute set that could be used to override a derivation to
+    give it necessary attribute for this repo.
+    See Notes about *Pkg functions (except mkPkg).
+
+    Type: AttrSet -> MypkgsPkg
+  */
   mkPkg =
     { version
     , src
@@ -137,14 +248,27 @@ rec {
       };
     };
 
-  # NOTE: *Pkg should accept the previous version as an argument ($1).
-  # When calling *VersionScript, it should pass the argument.
-  # NOTE: For *Pkg, storing version in pkg.json is necessary.
+  /*
+    Returns a `MypkgsPkg` fetched from a GitHub source from the latest release
+    or commit in a branch/tag.
+    See Notes about *Pkg functions.
+    See also `gitHubVersionScript`.
 
+    JSON output:
+      {
+        hash: The source's hash
+        rev: The commit hash
+        version: The generated version
+          The version will be generated based on the branch name and commit hash if `ref` is not empty
+          Otherwise it will be taken from the release name with the initial non-number characters removed
+      }
+
+    Type: AttrSet -> MypkgsPkg
+  */
   gitHubPkg =
     { owner
     , repo
-    , ref ? "" # empty means fetch latest release
+    , ref ? ""        # The branch or tag name. Empty means fetch latest release
     , dirname ? repo
     }@inputs:
     let
@@ -176,6 +300,20 @@ rec {
       inherit src updateScript dirname;
     };
 
+  /*
+    Returns a `MypkgsPkg` fetched from an asset of the latest GitHub release.
+    See Notes about *Pkg functions.
+
+    JSON output:
+      {
+        url: The url to the asset
+        version: The version taken from the release name
+          (adjust with `prefixVersion` and `useReleaseName`)
+        hash: The asset's hash
+      }
+
+    Type: AttrSet -> MypkgsPkg
+  */
   gitHubReleasePkg =
     { owner
     , repo
@@ -183,8 +321,8 @@ rec {
       # "%V" will be replaced by the release name
     , assetName
     , dirname ? repo
-    , prefixVersion ? false # Prefix the version with "0."
-    , useReleaseName ? false # Use the full release name for the version
+    , prefixVersion ? false   # Prefix the version with "0."
+    , useReleaseName ? false  # Use the full release name for the version
     }@inputs:
     let
       pkgData = getPkgData dirname;
@@ -238,9 +376,31 @@ rec {
       inherit updateScript dirname src version;
     };
 
-  # NOTE: *Flake are only expected to be used from somewhere within `/flakes`
-  # NOTE: *Flake generate `flake.json`
+  /*
+    Notes about *Flake functions (except mkFlake):
+    - Return a `MypkgsFlake` by calling `mkFlake`. See `mkFlake`.
+    - Only expected to be used from somewhere within `/flakes` or it will not work.
+    - Generate `flake.json` in the given `dirname` through the helper script.
+    - `updateScript` should accept the previous commit hash as an argument ($1) from
+      the helper script.
+      When calling *VersionScript, it should also pass the argument.
+    - Storing version in `flake.json` is necessary.
 
+    MypkgsFlake :: AttrSet {
+      rev :: String: The flake's commit hash
+      flake :: Flake: The actual Nix flake object
+        (nested to avoid evaluating it before the `flake.json` is generated)
+      dirname :: String: The directory of the package declaration relative to `/flakes`
+      mypkgsUpdateScript :: Derivation: The update script (run from the helper script)
+    }
+  */
+
+  /*
+    Returns an attribute set that could be used to fetch and access a flake.
+    See Notes about *Flake functions (except mkFlake).
+
+    Type: AttrSet -> MypkgsFlake
+  */
   mkFlake =
     { updateScript
     , flake
@@ -250,7 +410,19 @@ rec {
       inherit rev updateScript dirname flake;
     };
 
-  # NOTE: For *Flake, storing rev in pkg.json is necessary.
+  /*
+    Returns a `MypkgsFlake` fetched from a GitHub source from the latest
+    release or commit in a branch/tag.
+    See Notes about *Flake functions.
+    See also `gitHubVersionScript`.
+
+    JSON output:
+      {
+        rev: The commit hash
+      }
+
+    Type: AttrSet -> MypkgsPkg
+  */
   gitHubFlake =
     { owner
     , repo

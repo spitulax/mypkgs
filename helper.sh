@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+# You can change this to your own cache.
+CACHIX_NAME="spitulax"
+
 command -v nom >/dev/null
 NOM=$?
 
@@ -34,7 +37,7 @@ build () {
 
 push () {
     echo -e '\033[1mPushing packages...\033[0m'
-    cachix push spitulax $(paths)
+    cachix push "$CACHIX_NAME" $(paths)
 }
 
 upinput () {
@@ -144,6 +147,7 @@ upscript () {
 }
 
 commitup () {
+    # TODO: Implement the new `commitup`
     echoErr "Unimplemented"
     exit 1
 }
@@ -155,51 +159,55 @@ usage () {
     echo "- commitup"
     echo "- pushinput"
     echo "- pushpkgs"
-    echo "- upall"
+    echo "- up"
     echo "- upinput"
     echo "- uplist"
-    echo "- uppkgs"
     echo "- upscript"
 }
 
 [ $# -ne 1 ] && usage && exit 1
 
 case "$1" in
+# Update this flake's inputs.
 "upinput")
     upinput
     ;;
 
+# Build cached packages.
 "build")
     build
     ;;
 
+# Push this flake's inputs to cachix.
 "pushinput")
     echo -e '\033[1mPushing inputs to cachix...\033[0m'
     _nix flake archive --accept-flake-config --json \
         | jq -r '.path,(.inputs|to_entries[].value.path)' \
-        | cachix push spitulax
+        | cachix push "$CACHIX_NAME"
     ;;
 
+# Push recently built packages to cachix.
+# Typically used right after calling `build`.
 "pushpkgs")
     push
     ;;
 
+# Update `list.md`.
 "uplist")
     uplist
     ;;
 
+# Run the update scipt of maintained packages and flakes.
 "upscript")
     upscript
     ;;
 
-"uppkgs")
-    upscript && build && push && uplist
-    ;;
-
-"upall")
+# Full update routine.
+"up")
     upinput && upscript && build && push && uplist
     ;;
 
+# Commit current changes as an update.
 "commitup")
     commitup
     ;;
