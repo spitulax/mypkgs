@@ -58,7 +58,7 @@ let
       '';
 in
 rec {
-  # NOTE: Before adding packages from a flake, make sure the flake.json file for the flake is already exist.
+  # NOTE: Before adding packages from a flake, make sure the flake.json file for the flake already exists.
   packages = import ./list.nix scope;
 
   update-scripts = updateScripts (myLib.drv.maintained packages);

@@ -72,14 +72,13 @@
             # `*-update-scripts` is run by the helper script and will modify the repo tree.
             pkgs-update-scripts = packages.update-scripts;
             flakes-update-scripts = flakes.update-scripts;
-          } //
-          {
+
             # Lists packages in a form of a Markdown table for documentation.
             mypkgs-list = pkgs.callPackage myLib.helpers.pkgsListTable {
               inherit (packages) packages;
               inherit (flakes) flakes;
             };
-            # The helper script. Where everything needed is here.
+            # The helper script. Where everything needed is there.
             helper = pkgs.writeShellScriptBin "mypkgs-helper" (builtins.readFile ./helper.sh);
           }
         );
