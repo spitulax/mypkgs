@@ -17,6 +17,7 @@
 | **lexurgy** | 1.7.1 | Yes | Yes |
 | **odin** | 0.dev-2024-12 | No | Yes |
 | **odin-doc** | 2024-11-01+master_80980df | Yes | Yes |
+| **odin-git** | 2024-12-23+master_ad99d20 | No | Yes |
 | **odin-nightly** | 2024-12-19 | Yes | Yes |
 | **ols** | 2024-11-30+master_be1f519 | Yes | Yes |
 | **osu-lazer** | 2024.1219.2 | No | Yes |

@@ -211,7 +211,7 @@ rec {
     */
     odinDerivation =
       { stdenv
-      , makeWrapper
+      , makeBinaryWrapper
       , llvmPackages_latest
       , odin
 
@@ -224,15 +224,16 @@ rec {
         inherit pname;
 
         nativeBuildInputs = [
-          makeWrapper
+          makeBinaryWrapper
         ];
 
         buildPhase = ''
           runHook preBuild
 
-          cd vendor/stb/src
-          make
-          cd ../../..
+          make -C vendor/stb/src
+          make -C vendor/cgltf/src
+          make -C vendor/stb/src
+          make -C vendor/miniaudio/src
 
           runHook postBuild
         '';
