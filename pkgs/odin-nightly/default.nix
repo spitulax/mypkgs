@@ -35,7 +35,7 @@ let
     inherit (pkgData) url hash;
   };
 
-  updateScript = writeShellScript dirname ''
+  updateScript = writeShellScript "mypkgs-update-${dirname}" ''
     set -euo pipefail
 
     ${toShellVar "CURL" (getExe curl)}

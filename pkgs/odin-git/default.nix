@@ -15,16 +15,15 @@ let
   inherit (darwin.apple_sdk_11_0) MacOSX-SDK;
   inherit (darwin.apple_sdk_11_0.frameworks) Security;
 
-  pname = "odin-git";
   pkg = gitHubPkg {
     owner = "odin-lang";
     repo = "Odin";
     ref = "master";
-    dirname = pname;
+    dirname = "odin-git";
   };
 in
 stdenv.mkDerivation (pkg // {
-  inherit pname;
+  pname = "odin-git";
 
   postPatch =
     lib.optionalString stdenv.hostPlatform.isDarwin ''

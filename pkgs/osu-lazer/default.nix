@@ -24,14 +24,13 @@
 , pipewireLatency ? "64/48000"
 }:
 let
-  pname = "osu-lazer";
   command_prefix = "${gamemode}/bin/gamemoderun";
 
   pkg = gitHubReleasePkg {
     owner = "ppy";
     repo = "osu";
     assetName = "osu.AppImage";
-    dirname = pname;
+    dirname = "osu-lazer";
   };
   inherit (pkg) version;
 
@@ -40,8 +39,9 @@ let
     pname = "osu.AppImage";
   };
 
-  derivation = stdenvNoCC.mkDerivation rec {
-    inherit pname version;
+  derivation = stdenvNoCC.mkDerivation (finalAttrs: {
+    pname = "osu-lazer";
+    inherit version;
     src = extracted;
     buildInputs = [
       SDL2
@@ -69,7 +69,7 @@ let
         --set PIPEWIRE_LATENCY "${pipewireLatency}" \
         --set OSU_EXTERNAL_UPDATE_PROVIDER "1" \
         --set vblank_mode "0" \
-        --suffix LD_LIBRARY_PATH : "${lib.makeLibraryPath buildInputs}"
+        --suffix LD_LIBRARY_PATH : "${lib.makeLibraryPath finalAttrs.buildInputs}"
       ${
         lib.optionalString (builtins.isString command_prefix) ''
           sed -i '$s:exec :exec ${command_prefix} :' $out/bin/osu-lazer
@@ -82,10 +82,10 @@ let
       ln -sft $out/lib/osu ${SDL2}/lib/libSDL2${stdenvNoCC.hostPlatform.extensions.sharedLibrary}
       runHook postFixup
     '';
-  };
+  });
 
   desktopItem = makeDesktopItem {
-    name = pname;
+    name = "osu-lazer";
     exec = "${derivation.outPath}/bin/osu-lazer %U";
     icon = "${derivation.outPath}/osu.png";
     comment = "A free-to-win rhythm game. Rhythm is just a *click* away!";
@@ -159,7 +159,8 @@ let
     };
 in
 symlinkJoin {
-  inherit pname version;
+  pname = "osu-lazer";
+  inherit version;
   paths = [
     derivation
     desktopItem
