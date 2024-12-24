@@ -204,7 +204,7 @@ rec {
       '';
 
     /*
-      Generates a derivation to build the Odin compiler.
+      Generates a derivation to wrap the Odin compiler from a pre-built binary.
       Needed for packages `odin` and `odin-nightly`.
 
       Type: AttrSet -> Derivation
@@ -230,7 +230,6 @@ rec {
         buildPhase = ''
           runHook preBuild
 
-          make -C vendor/stb/src
           make -C vendor/cgltf/src
           make -C vendor/stb/src
           make -C vendor/miniaudio/src
