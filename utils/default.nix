@@ -428,13 +428,18 @@ rec {
     , repo
     , ref ? "" # empty means fetch latest release
     , dirname ? repo
+    , submodules ? false
     }@inputs:
     let
       versionScript = gitHubVersionScript inputs;
 
       inherit (getFlakeData dirname) rev;
       # TODO: https://github.com/NixOS/nix/pull/11952 overridable inputs
-      flake = builtins.getFlake "github:${owner}/${repo}/${rev}";
+      url =
+        if submodules
+        then "git+https://github.com/${owner}/${repo}?rev=${rev}&submodules=1"
+        else "github:${owner}/${repo}?rev=${rev}";
+      flake = builtins.getFlake url;
 
       updateScript = writeShellScript "mypkgs-update-githubflake-${dirname}" ''
         set -euo pipefail
