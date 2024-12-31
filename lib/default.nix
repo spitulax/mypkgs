@@ -164,28 +164,30 @@ rec {
         # Cannot handle packages/flakes nested inside an attrset
         pkgsList =
           ''
-            | **Name** | **Version** | **Cached** | **Maintained** |
-            | :-: | :-: | :-: | :-: |
+            | **Name** | **Version** | **Cached** | **Maintained** | **Homepage** |
+            | :-: | :-: | :-: | :-: | :-: |
           ''
           + concatMapAttrsStringSep "\n"
             (k: v:
               "| **${k}** " +
               "| ${v.version} " +
               "| ${yesNo (drv.isCached v)} " +
-              "| ${yesNo (drv.isMaintained v)} |"
+              "| ${yesNo (drv.isMaintained v)} " +
+              "| [🌐](${v.meta.homepage}) |"
             )
             packages;
 
         flakesList =
           ''
-            | **Name** | **Rev** | **Maintained** |
-            | :-: | :-: | :-: |
+            | **Name** | **Rev** | **Maintained** | **Homepage** |
+            | :-: | :-: | :-: | :-: |
           ''
           + concatMapAttrsStringSep "\n"
             (k: v:
               "| **${k}** " +
               "| ${v.rev} " +
-              "| ${yesNo (drv.isMaintained v)} |"
+              "| ${yesNo (drv.isMaintained v)} " +
+              "| [🌐](${v.homepage}) |"
             )
             flakes;
       in

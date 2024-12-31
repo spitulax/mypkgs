@@ -392,6 +392,7 @@ rec {
         (nested to avoid evaluating it before the `flake.json` is generated)
       dirname :: String: The directory of the package declaration relative to `/flakes`
       mypkgsUpdateScript :: Derivation: The update script (run from the helper script)
+      homepage :: String: Equivalent to `meta.homepage`
     }
   */
 
@@ -406,8 +407,9 @@ rec {
     , flake
     , rev
     , dirname
+    , homepage
     }: {
-      inherit rev updateScript dirname flake;
+      inherit rev updateScript dirname flake homepage;
     };
 
   /*
@@ -441,6 +443,8 @@ rec {
         else "github:${owner}/${repo}?rev=${rev}";
       flake = builtins.getFlake url;
 
+      homepage = "https://github.com/${owner}/${repo}";
+
       updateScript = writeShellScript "mypkgs-update-githubflake-${dirname}" ''
         set -euo pipefail
 
@@ -454,7 +458,7 @@ rec {
       '';
     in
     mkFlake {
-      inherit updateScript dirname flake rev;
+      inherit updateScript dirname flake rev homepage;
     };
 }
 
