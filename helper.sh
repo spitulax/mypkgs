@@ -157,6 +157,7 @@ usage () {
     echo "Subcommands:"
     echo "- build"
     echo "- commitup"
+    echo "- partup"
     echo "- pushinput"
     echo "- pushpkgs"
     echo "- up"
@@ -205,6 +206,11 @@ case "$1" in
 # Full update routine.
 "up")
     upinput && upscript && build && push && uplist
+    ;;
+
+# Partial update (useful for adding new packages without updating other packages).
+"partup")
+    build && push && uplist
     ;;
 
 # Commit current changes as an update.
