@@ -8,6 +8,7 @@
   hyprpaper = callPackage ./hyprpaper { };
   hyprpicker = callPackage ./hyprpicker { };
   hyprpolkitagent = callPackage ./hyprpolkitagent { };
+  musializer = callPackage ./musializer { };
   pasteme = callPackage ./pasteme { };
   waybar = callPackage ./waybar { };
 }

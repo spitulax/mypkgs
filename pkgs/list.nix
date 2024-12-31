@@ -19,6 +19,7 @@ rec {
   hyprpolkitagent = getByName "hyprpolkitagent";
   keymapper = callPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
+  musializer = getByName "musializer";
   odin = uncache (callPackage ./odin { });
   odin-doc = callPackage ./odin-doc { odin = odin-nightly; };
   odin-git = uncache (callPackage ./odin-git { });

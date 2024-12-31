@@ -15,6 +15,7 @@
 | **hyprpolkitagent** | 0.1.0+date=2024-12-13_ae7c5be | Yes | Yes |
 | **keymapper** | 4.9.1 | Yes | Yes |
 | **lexurgy** | 1.7.1 | Yes | Yes |
+| **musializer** | 0.alpha-3 | Yes | Yes |
 | **odin** | 0.dev-2024-12 | No | Yes |
 | **odin-doc** | 2024-11-01+master_80980df | Yes | Yes |
 | **odin-git** | 2024-12-23+master_ad99d20 | No | Yes |
@@ -34,5 +35,6 @@
 | **hyprpaper** | 2f305d5f480c12882578e74498301129705a1bb5 | Yes |
 | **hyprpicker** | 46d2f5a817a89405cef941d8beb4551425acf3da | Yes |
 | **hyprpolkitagent** | ae7c5be24c63b8a53d0d5f5344d821b5f48d3623 | Yes |
+| **musializer** | 0219a7b39f2781667bb1c9c1dd3d46f7cdb7cd64 | Yes |
 | **pasteme** | f1b974cc4fc4506229b662457a3af23f8ac6e579 | Yes |
 | **waybar** | 5346649fc68f18eb323bbfe705b3f4194fcfd743 | Yes |
