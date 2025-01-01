@@ -7,7 +7,7 @@
 | **Name** | **Version** | **Cached** | **Maintained** | **Homepage** |
 | :-: | :-: | :-: | :-: | :-: |
 | **crt** | 0.2.0 | Yes | Yes | [🌐](https://github.com/spitulax/crt) |
-| **gripper** | 1.0.1 | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
+| **gripper** | 1.0.2 | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hunspell-id** | 2024-11-26+dev_a44e8c3 | Yes | Yes | [🌐](https://github.com/shuLhan/hunspell-id) |
 | **hyprlock** | 0.6.0+date=2024-12-27_d212f4c | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 0.7.3+date=2024-12-22_2f305d5 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
@@ -30,7 +30,7 @@
 | **Name** | **Rev** | **Maintained** | **Homepage** |
 | :-: | :-: | :-: | :-: |
 | **crt** | 3d4837a7f8d51f6972cdf3626867544e774f1965 | Yes | [🌐](https://github.com/spitulax/crt) |
-| **gripper** | 7b9e5a4813e96d071dbe3d98e43beaf00fe1642a | Yes | [🌐](https://github.com/spitulax/gripper) |
+| **gripper** | 9ef8c4d1e9fc6c84e4c979841e47d3fe1842abd5 | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hyprlock** | d212f4cc1013f12b6691b0ea851b27c088dd8eb8 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 2f305d5f480c12882578e74498301129705a1bb5 | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 46d2f5a817a89405cef941d8beb4551425acf3da | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
