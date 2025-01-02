@@ -17,6 +17,7 @@ rec {
   hyprpaper = getByName "hyprpaper";
   hyprpicker = getByName "hyprpicker";
   hyprpolkitagent = getByName "hyprpolkitagent";
+  hyprswitch = getByName "hyprswitch";
   keymapper = callPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
   musializer = getByName "musializer";
