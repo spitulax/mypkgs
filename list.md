@@ -36,7 +36,7 @@
 | **hyprpaper** | 2f305d5f480c12882578e74498301129705a1bb5 | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 46d2f5a817a89405cef941d8beb4551425acf3da | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 467198d5c9e103d2b281d646741e9f0f04fe0e8c | Yes | [🌐](https://github.com/spitulax/hyprpolkitagent) |
-| **hyprswitch** | 860c2c8f47598a6df80b9e59e5f14144b08d2150 | Yes | [🌐](https://github.com/spitulax/hyprswitch) |
+| **hyprswitch** | 88310a85ac288d693ca989bcf862931d3fcee2a0 | Yes | [🌐](https://github.com/spitulax/hyprswitch) |
 | **musializer** | 664f1feefc1a9fc52d50a9582746058471d12e28 | Yes | [🌐](https://github.com/spitulax/musializer) |
 | **pasteme** | 72ebdde1acf144c5d9b604ecf7c88b30c4c18f84 | Yes | [🌐](https://github.com/spitulax/pasteme) |
 | **waybar** | 5346649fc68f18eb323bbfe705b3f4194fcfd743 | Yes | [🌐](https://github.com/alexays/waybar) |

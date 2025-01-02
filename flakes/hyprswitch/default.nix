@@ -2,5 +2,5 @@
 }: gitHubFlake {
   owner = "spitulax";
   repo = "hyprswitch";
-  ref = "rust-overlay";
+  ref = "nix";
 }
