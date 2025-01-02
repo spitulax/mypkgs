@@ -1,6 +1,7 @@
+# TEMP: Unfortunately still no overriding with `getFlake`
 { gitHubFlake
 }: gitHubFlake {
-  owner = "hyprwm";
+  owner = "spitulax";
   repo = "hyprpolkitagent";
-  ref = "main";
+  ref = "update-flake-lock";
 }

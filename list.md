@@ -12,7 +12,7 @@
 | **hyprlock** | 0.6.0+date=2024-12-27_d212f4c | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 0.7.3+date=2024-12-22_2f305d5 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 0.4.1+date=2024-12-16_46d2f5a | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
-| **hyprpolkitagent** | 0.1.0+date=2024-12-13_ae7c5be | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
+| **hyprpolkitagent** | 0.1.0+date=2025-01-02_467198d | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
 | **keymapper** | 4.9.1 | Yes | Yes | [🌐](https://github.com/houmain/keymapper) |
 | **lexurgy** | 1.7.1 | Yes | Yes | [🌐](https://github.com/def-gthill/lexurgy) |
 | **musializer** | 0.alpha-3 | Yes | Yes | [🌐](https://github.com/tsoding/musializer) |
@@ -34,7 +34,7 @@
 | **hyprlock** | d212f4cc1013f12b6691b0ea851b27c088dd8eb8 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 2f305d5f480c12882578e74498301129705a1bb5 | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 46d2f5a817a89405cef941d8beb4551425acf3da | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
-| **hyprpolkitagent** | ae7c5be24c63b8a53d0d5f5344d821b5f48d3623 | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
+| **hyprpolkitagent** | 467198d5c9e103d2b281d646741e9f0f04fe0e8c | Yes | [🌐](https://github.com/spitulax/hyprpolkitagent) |
 | **musializer** | 664f1feefc1a9fc52d50a9582746058471d12e28 | Yes | [🌐](https://github.com/spitulax/musializer) |
 | **pasteme** | 72ebdde1acf144c5d9b604ecf7c88b30c4c18f84 | Yes | [🌐](https://github.com/spitulax/pasteme) |
 | **waybar** | 5346649fc68f18eb323bbfe705b3f4194fcfd743 | Yes | [🌐](https://github.com/alexays/waybar) |
