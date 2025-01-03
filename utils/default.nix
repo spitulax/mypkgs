@@ -31,6 +31,7 @@ let
     getFlakeData
     ;
 
+  ghApi = callPackage shell.ghApi { };
   serialiseJSON = callPackage shell.serialiseJSON { };
   importJSON = callPackage shell.importJSON { };
   getFileHash = callPackage shell.getFileHash { };
@@ -111,7 +112,7 @@ rec {
   */
   exitIfNoNewVer = ver: ''
     if [ "$FORCE" -ne 1 ]; then
-      [ "${ver}" = "$1" ] && exit 1
+      [ "${ver}" == "$1" ] && exit 200
     fi
   '';
 
@@ -138,10 +139,6 @@ rec {
     , ...
     }:
     let
-      # FIXME: Pre-releases are always included
-      # FIXME: `target_commitish` is not always a commit hash.
-      # It's more reliable to get the commit hash from the tag's name
-      # https://stackoverflow.com/questions/67040794/how-can-i-get-the-commit-hash-of-the-latest-release-from-github-api
       updateScript = writeShellScript "mypkgs-update-version-${dirname}" ''
         set -euo pipefail
 
@@ -151,12 +148,20 @@ rec {
         ${toShellVar "HEAD" "${coreutils}/bin/head"}
 
         if [ -z "${ref}" ]; then
-          RELEASE_INFO=$($CURL -s 'https://api.github.com/repos/${owner}/${repo}/releases/latest')
-          REV=${importJSON "$RELEASE_INFO" ".target_commitish"}
+          RELEASE_INFO=${ghApi "/repos/${owner}/${repo}/releases/latest"}
+          TAG=${importJSON "$RELEASE_INFO" ".tag_name"}
+          TAG_INFO=${ghApi "/repos/${owner}/${repo}/git/ref/tags/$TAG"}
+          TYPE=${importJSON "$TAG_INFO" ".object.type"}
+          TAG_SHA=${importJSON "$TAG_INFO" ".object.sha"}
+          if [ "$TYPE" == "commit" ]; then
+            REV="$TAG_SHA"
+          else
+            REV=${importJSON (ghApi "/repos/${owner}/${repo}/git/tags/$TAG_SHA") ".object.sha"}
+          fi
           RELEASE_NAME=${importJSON "$RELEASE_INFO" ".name"}
           VERSION=$(echo "$RELEASE_NAME" | $SED 's/[^1-9]*//')
         else
-          COMMIT=$($CURL -s 'https://api.github.com/repos/${owner}/${repo}/commits/${ref}')
+          COMMIT=${ghApi "/repos/${owner}/${repo}/commits/${ref}"}
           REV=${importJSON "$COMMIT" ".sha"}
           COMMIT_DATE=${importJSON "$COMMIT" ".commit.committer.date"}
           DATE=$($DATE -d "$COMMIT_DATE" --utc '+%Y-%m-%d')

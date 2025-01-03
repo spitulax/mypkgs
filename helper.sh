@@ -95,10 +95,15 @@ upscript () {
         local json
         set +e
         export FORCE="${FORCE:-0}"
-        if json=$($script "${oldver:-}"); then
+        json=$($script "${oldver:-}")
+        local status=$?
+        if [ $status -eq 0 ]; then
             echo "$json" > "$json_path"
-        else
+        elif [ $status -eq 200 ]; then
             echo "Skipped"
+        else
+            echoErr "Failed to update ${dirname}"
+            exit 1
         fi
         set -e
     }

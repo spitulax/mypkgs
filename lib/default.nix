@@ -284,6 +284,9 @@ rec {
     importJSON = { jq }: json: filt:
       "$(echo \"${json}\" | ${getExe jq} -r \"${filt}\")";
 
+    ghApi = { gh }: endpoint:
+      "$(${getExe gh} api --method GET \"${endpoint}\" --header 'Accept: application/vnd.github+json')";
+
     getFileHash =
       { nix
       , jq
