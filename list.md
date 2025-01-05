@@ -7,14 +7,14 @@
 | **Name** | **Version** | **Cached** | **Maintained** | **Homepage** |
 | :-: | :-: | :-: | :-: | :-: |
 | **crt** | 0.2.0 | Yes | Yes | [🌐](https://github.com/spitulax/crt) |
-| **gripper** | 1.0.2 | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
+| **gripper** | 1.1.0 | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hunspell-id** | 2024-11-26+dev_a44e8c3 | Yes | Yes | [🌐](https://github.com/shuLhan/hunspell-id) |
 | **hyprlock** | 0.6.0+date=2025-01-01_e01afaf | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 0.7.3+date=2024-12-29_505e447 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 0.4.1+date=2024-12-30_444c40e | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 0.1.0+date=2025-01-02_467198d | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
 | **hyprswitch** | 3.1.3 | Yes | Yes | [🌐](https://github.com/h3rmt/hyprswitch) |
-| **keymapper** | 4.9.1 | Yes | Yes | [🌐](https://github.com/houmain/keymapper) |
+| **keymapper** | 4.9.2 | Yes | Yes | [🌐](https://github.com/houmain/keymapper) |
 | **lexurgy** | 1.7.3 | Yes | Yes | [🌐](https://github.com/def-gthill/lexurgy) |
 | **musializer** | 0.alpha-3 | Yes | Yes | [🌐](https://github.com/tsoding/musializer) |
 | **odin** | 0.dev-2024-12 | No | Yes | [🌐](https://odin-lang.org/) |
@@ -31,7 +31,7 @@
 | **Name** | **Rev** | **Maintained** | **Homepage** |
 | :-: | :-: | :-: | :-: |
 | **crt** | 3d4837a7f8d51f6972cdf3626867544e774f1965 | Yes | [🌐](https://github.com/spitulax/crt) |
-| **gripper** | 9ef8c4d1e9fc6c84e4c979841e47d3fe1842abd5 | Yes | [🌐](https://github.com/spitulax/gripper) |
+| **gripper** | 28589e8a410b6ce2f4d706d7ab13facebc2e0bc3 | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hyprlock** | e01afaf107650eb7f84ffe6444d1cfcfbb4a0ff5 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 505e447b6c48e6b49f3aecf5da276f3cc5780054 | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 444c40e5e3dc4058a6a762ba5e73ada6d6469055 | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
