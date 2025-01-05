@@ -1,6 +1,6 @@
 { gitHubFlake
 }: gitHubFlake {
-  owner = "spitulax";
+  owner = "H3rmt";
   repo = "hyprswitch";
-  ref = "nix";
+  ref = "main";
 }
