@@ -13,6 +13,7 @@
 , gnused
 , fetchurl
 , callPackage
+, gnutar
 }:
 let
   inherit (builtins)
@@ -37,6 +38,33 @@ let
   getFileHash = callPackage shell.getFileHash { };
 in
 rec {
+  /*
+    Functions that create a derivation extracted from an archive file.
+
+    Inputs:
+      - `src`: The archive
+
+    Type: AttrSet -> Derivation
+  */
+  archiveTools = {
+    # NOTE: `flatten` can only be used if the archive only contains one folder at top-level
+    extractTarGz = args@{ src, flatten ? false, ... }:
+      runCommand
+        "source"
+        ({
+          nativeBuildInputs = [ gnutar ];
+          outputs = [ "out" ];
+        } // args)
+        (''
+          mkdir -p $out
+          tar xf $src --directory=$out
+        '' + lib.optionalString flatten ''
+          DIR="$out/$(ls $out)"
+          mv "$DIR"/* $out
+          rmdir "$DIR"
+        '');
+  };
+
   /*
     Returns a flake from `/flakes`.
 
