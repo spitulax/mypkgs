@@ -17,7 +17,7 @@
 | **keymapper** | 4.9.2 | Yes | Yes | [🌐](https://github.com/houmain/keymapper) |
 | **lexurgy** | 1.7.3 | Yes | Yes | [🌐](https://github.com/def-gthill/lexurgy) |
 | **musializer** | 0.alpha-3 | Yes | Yes | [🌐](https://github.com/tsoding/musializer) |
-| **odin** | 0.dev-2024-12 | No | Yes | [🌐](https://odin-lang.org/) |
+| **odin** | 0.dev-2025-01 | Yes | Yes | [🌐](https://odin-lang.org/) |
 | **odin-doc** | 2024-11-01+master_80980df | Yes | Yes | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
 | **odin-git** | 2024-12-23+master_ad99d20 | No | No | [🌐](https://odin-lang.org/) |
 | **odin-nightly** | 2025-01-02 | Yes | Yes | [🌐](https://odin-lang.org/) |
