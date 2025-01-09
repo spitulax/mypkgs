@@ -22,7 +22,7 @@ rec {
   keymapper = callPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
   musializer = getByName "musializer";
-  odin = uncache (callPackage ./odin { });
+  odin = callPackage ./odin { };
   odin-doc = callPackage ./odin-doc { odin = odin-nightly; };
   odin-git = unmaintain (uncache (callPackage ./odin-git { }));
   odin-nightly = callPackage ./odin-nightly { };
