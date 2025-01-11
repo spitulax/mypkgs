@@ -1,5 +1,5 @@
-# - Change available size from 32, 40, 48, 64 to 24, 30, 36, 48
 # - Remove command avalibility checks because `which` could not detect `nativeBuildInputs`
+# - Silence `inkscape`
 --- a/build.sh
 +++ b/build.sh
 @@ -1,48 +1,13 @@
@@ -48,10 +48,10 @@
 -	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x1_25/${0%.svg}.png" -w 40 -w 40 $0' {} \;
 -	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x1_5/${0%.svg}.png" -w 48 -w 48 $0' {} \;
 -	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x2/${0%.svg}.png" -w 64 -w 64 $0' {} \;
-+	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x1/${0%.svg}.png" -w 24 -h 24 $0 &>/dev/null' {} \;
-+	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x1_25/${0%.svg}.png" -w 30 -w 30 $0 &>/dev/null' {} \;
-+	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x1_5/${0%.svg}.png" -w 36 -w 36 $0 &>/dev/null' {} \;
-+	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x2/${0%.svg}.png" -w 48 -w 48 $0 &>/dev/null' {} \;
++	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x1/${0%.svg}.png" -w 32 -h 32 $0 &>/dev/null' {} \;
++	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x1_25/${0%.svg}.png" -w 40 -w 40 $0 &>/dev/null' {} \;
++	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x1_5/${0%.svg}.png" -w 48 -w 48 $0 &>/dev/null' {} \;
++	find . -name "*.svg" -type f -exec sh -c 'inkscape -o "../x2/${0%.svg}.png" -w 64 -w 64 $0 &>/dev/null' {} \;
  
  	cd $SRC
  
