@@ -25,6 +25,7 @@
 | **osu-lazer** | 2025.101.0 | No | Yes | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0 | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
 | **waybar** | 0.11.0+date=2025-01-10_369c81d | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
+| **whitesur-cursors** | 2024-10-27+master_63d04b8 | Yes | Yes | [🌐](https://github.com/vinceliuice/WhiteSur-cursors) |
 
 ## Flakes
 

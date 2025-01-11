@@ -30,4 +30,5 @@ rec {
   osu-lazer = uncache (callPackage ./osu-lazer { });
   pasteme = getByName "pasteme";
   waybar = callPackage ./waybar { };
+  whitesur-cursors = callPackage ./whitesur-cursors { };
 }
