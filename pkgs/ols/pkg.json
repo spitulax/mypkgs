@@ -1,5 +1,6 @@
 {
-  "hash": "sha256-EAauAA75FodRVv4ZixP5H1YPazhs94jSRP+MJ3NUbEU=",
-  "rev": "59138b1c815b800b783155489c64348fc909ed31",
-  "version": "2025-01-02+master_59138b1"
+  "hash": "sha256-aNXaJMUlkNMcvbJiPtrt6+wWi8mLw3PfonQXVcxYWWI=",
+  "orig_version": "7fe579f0fdfb65f8225a4b370856b83c0c2edb18",
+  "rev": "7fe579f0fdfb65f8225a4b370856b83c0c2edb18",
+  "version": "2025-01-10+master_7fe579f"
 }

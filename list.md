@@ -9,34 +9,34 @@
 | **crt** | 0.2.0 | Yes | Yes | [🌐](https://github.com/spitulax/crt) |
 | **gripper** | 1.1.0 | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hunspell-id** | 2024-11-26+dev_a44e8c3 | Yes | Yes | [🌐](https://github.com/shuLhan/hunspell-id) |
-| **hyprlock** | 0.6.0+date=2025-01-01_e01afaf | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
-| **hyprpaper** | 0.7.3+date=2024-12-29_505e447 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
+| **hyprlock** | 0.6.0+date=2025-01-10_a5e3467 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprpaper** | 0.7.3+date=2025-01-06_251e8e2 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 0.4.1+date=2024-12-30_444c40e | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 0.1.0+date=2025-01-02_467198d | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
-| **hyprswitch** | 3.2.3 | Yes | Yes | [🌐](https://github.com/h3rmt/hyprswitch) |
+| **hyprswitch** | 3.2.5 | Yes | Yes | [🌐](https://github.com/h3rmt/hyprswitch) |
 | **keymapper** | 4.9.2 | Yes | Yes | [🌐](https://github.com/houmain/keymapper) |
 | **lexurgy** | 1.7.3 | Yes | Yes | [🌐](https://github.com/def-gthill/lexurgy) |
 | **musializer** | 0.alpha-3 | Yes | Yes | [🌐](https://github.com/tsoding/musializer) |
 | **odin** | 0.dev-2025-01 | Yes | Yes | [🌐](https://odin-lang.org/) |
 | **odin-doc** | 2024-11-01+master_80980df | Yes | Yes | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
 | **odin-git** | 2024-12-23+master_ad99d20 | No | No | [🌐](https://odin-lang.org/) |
-| **odin-nightly** | 2025-01-02 | Yes | Yes | [🌐](https://odin-lang.org/) |
-| **ols** | 2025-01-02+master_59138b1 | Yes | Yes | [🌐](https://github.com/DanielGavin/ols) |
+| **odin-nightly** | 2025-01-10 | Yes | Yes | [🌐](https://odin-lang.org/) |
+| **ols** | 2025-01-10+master_7fe579f | Yes | Yes | [🌐](https://github.com/DanielGavin/ols) |
 | **osu-lazer** | 2025.101.0 | No | Yes | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0 | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
-| **waybar** | 0.11.0+date=2025-01-01_ac08b75 | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
+| **waybar** | 0.11.0+date=2025-01-10_369c81d | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
 
 ## Flakes
 
 | **Name** | **Rev** | **Maintained** | **Homepage** |
 | :-: | :-: | :-: | :-: |
 | **crt** | 3d4837a7f8d51f6972cdf3626867544e774f1965 | Yes | [🌐](https://github.com/spitulax/crt) |
-| **gripper** | 28589e8a410b6ce2f4d706d7ab13facebc2e0bc3 | Yes | [🌐](https://github.com/spitulax/gripper) |
-| **hyprlock** | e01afaf107650eb7f84ffe6444d1cfcfbb4a0ff5 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
-| **hyprpaper** | 505e447b6c48e6b49f3aecf5da276f3cc5780054 | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
+| **gripper** | d1498db1ace544601671fa06408604b77f1b22a1 | Yes | [🌐](https://github.com/spitulax/gripper) |
+| **hyprlock** | a5e346783ff0e65b1bf23e0eb9ae473dd6ab48c0 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprpaper** | 251e8e2593cdd2ef0a015f4f6e211a7bab3a63ed | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 444c40e5e3dc4058a6a762ba5e73ada6d6469055 | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 467198d5c9e103d2b281d646741e9f0f04fe0e8c | Yes | [🌐](https://github.com/spitulax/hyprpolkitagent) |
-| **hyprswitch** | f4313472b4125f832413876841f8b27c3a1bbe64 | Yes | [🌐](https://github.com/H3rmt/hyprswitch) |
+| **hyprswitch** | 32cba7327588976a5ae66a0dfc1828593b935872 | Yes | [🌐](https://github.com/H3rmt/hyprswitch) |
 | **musializer** | 664f1feefc1a9fc52d50a9582746058471d12e28 | Yes | [🌐](https://github.com/spitulax/musializer) |
-| **pasteme** | cfb5130cac784b695b87fb8e9faa4000b3a98cf0 | Yes | [🌐](https://github.com/spitulax/pasteme) |
-| **waybar** | ac08b752e38986f4ddcc13d257aea2fafcedbc92 | Yes | [🌐](https://github.com/alexays/waybar) |
+| **pasteme** | b155f36e0012986002e0b4d3d2adaa86014171d1 | Yes | [🌐](https://github.com/spitulax/pasteme) |
+| **waybar** | 369c81d6f29e46287a961e8ef26dbf349021d4fb | Yes | [🌐](https://github.com/alexays/waybar) |
