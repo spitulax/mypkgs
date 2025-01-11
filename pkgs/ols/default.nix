@@ -3,6 +3,8 @@
 , makeWrapper
 , odin
 , gitHubPkg
+
+, odinRoot ? "${odin}/share"
 }:
 stdenv.mkDerivation (
   (gitHubPkg {
@@ -40,7 +42,7 @@ stdenv.mkDerivation (
       runHook preInstall
 
       install -Dm755 ols odinfmt -t $out/bin
-      wrapProgram $out/bin/ols --set-default ODIN_ROOT ${odin}/share
+      wrapProgram $out/bin/ols --set-default ODIN_ROOT ${odinRoot}
 
       runHook postInstall
     '';
