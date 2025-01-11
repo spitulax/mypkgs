@@ -1,5 +1,7 @@
 # RUN THIS SCRIPT WITH `nix run .#helper -- <args...>`
 
+# TODO: Rewrite this
+
 set -euo pipefail
 
 # You can change this to your own cache.
@@ -9,7 +11,7 @@ command -v nom >/dev/null
 NOM=$?
 
 _nix () {
-    nix --experimental-features 'nix-command flakes' $@
+    nix --experimental-features 'nix-command flakes' --accept-flake-config $@
 }
 
 echoErr () {
@@ -29,9 +31,9 @@ paths () {
 build () {
     echo -e '\033[1mBuilding packages...\033[0m'
     if [ $NOM -eq 0 ]; then
-        _nix build .#cached --log-format internal-json -v --accept-flake-config |& nom --json
+        _nix build .#cached --log-format internal-json -v |& nom --json
     else
-        _nix build .#cached --accept-flake-config
+        _nix build .#cached
     fi
 }
 
@@ -42,12 +44,12 @@ push () {
 
 upinput () {
     echo -e '\033[1mUpdating flake inputs...\033[0m'
-    _nix flake update --accept-flake-config
+    _nix flake update
 }
 
 uplist () {
     echo -e '\033[1mUpdating package list...\033[0m'
-    local path=$(_nix build .#mypkgs-list --accept-flake-config --json | jq -r '.[].outputs.out')
+    local path=$(_nix build .#mypkgs-list --json | jq -r '.[].outputs.out')
     install -m644 "$path" list.md
 }
 
@@ -111,9 +113,9 @@ upscript () {
     echo -e '\033[1mRunning update scripts...\033[0m'
 
     local pkgs_drv
-    local flakes_drv=$(_nix build .#flakes-update-scripts --accept-flake-config --json | jq -r '.[].outputs.out')
+    local flakes_drv=$(_nix build .#flakes-update-scripts --json | jq -r '.[].outputs.out')
     if [ "${FLAKE_ONLY:-0}" -ne 1 ]; then
-        pkgs_drv=$(_nix build .#pkgs-update-scripts --accept-flake-config --json | jq -r '.[].outputs.out')
+        pkgs_drv=$(_nix build .#pkgs-update-scripts --json | jq -r '.[].outputs.out')
     fi
 
     for x in $(find -L "$flakes_drv" -type f -executable); do
@@ -187,7 +189,7 @@ case "$1" in
 # Push this flake's inputs to cachix.
 "pushinput")
     echo -e '\033[1mPushing inputs to cachix...\033[0m'
-    _nix flake archive --accept-flake-config --json \
+    _nix flake archive --json \
         | jq -r '.path,(.inputs|to_entries[].value.path)' \
         | cachix push "$CACHIX_NAME"
     ;;
