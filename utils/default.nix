@@ -127,9 +127,12 @@ rec {
     Notes about *VersionScript functions:
     - Return a shell script.
     - Should only be called from `/flakes` or `/pkgs` but not enforced.
-    - Should accept the previous version (for *Pkg) or rev (for *Flake) as an
+    - Should accept the previous `orig_version` (for *Pkg) or `rev` (for *Flake) as an
       argument ($1) from the helper script and add the check with
       `exitIfNoNewVer` to the script.
+    - If it does call to `exitIfNoNewVer`, output `orig_version` just to indicate the version script
+      caller to propagate `orig_version`.
+    - The argument to pass to `exitIfNoNewVer` is the same as the one outputted to `orig_version`.
     - Any custom update script that doesn't call *VersionScript must also add `exitIfNoNewVer` themselves.
   */
 
@@ -155,6 +158,7 @@ rec {
           The version will be generated based on the branch name and commit hash if `ref` is not empty
           Otherwise it will be taken from the release name with the initial non-number characters removed
         release_name: The release name unaltered. Empty if `ref` is not empty
+        orig_version: Propagate this.
       }
 
     Type: AttrSet -> Derivation
@@ -164,7 +168,6 @@ rec {
     , repo
     , ref ? ""        # The branch or tag name. Empty means fetch latest release
     , dirname ? repo  # For identification only
-    , ...
     }:
     let
       updateScript = writeShellScript "mypkgs-update-version-${dirname}" ''
@@ -187,21 +190,24 @@ rec {
             REV=${importJSON (ghApi "/repos/${owner}/${repo}/git/tags/$TAG_SHA") ".object.sha"}
           fi
           RELEASE_NAME=${importJSON "$RELEASE_INFO" ".name"}
-          VERSION=$(echo "$RELEASE_NAME" | $SED 's/[^1-9]*//')
+          VERSION=$(echo "$RELEASE_NAME" | $SED 's/[^0-9]*//')
+          ORIG_VERSION="$RELEASE_NAME"
         else
           COMMIT=${ghApi "/repos/${owner}/${repo}/commits/${ref}"}
           REV=${importJSON "$COMMIT" ".sha"}
           COMMIT_DATE=${importJSON "$COMMIT" ".commit.committer.date"}
           DATE=$($DATE -d "$COMMIT_DATE" --utc '+%Y-%m-%d')
           VERSION=$(printf '%s+%s_%s' "$DATE" "${ref}" "$(echo "$REV" | "$HEAD" -c7)")
+          ORIG_VERSION="$REV"
         fi
 
-        ${exitIfNoNewVer "$VERSION"}
+        ${exitIfNoNewVer "$ORIG_VERSION"}
 
         ${serialiseJSON {
           rev = "$REV";
           version = "$VERSION";
           release_name = "\${RELEASE_NAME:-}";
+          orig_version = "$ORIG_VERSION";
         }}
       '';
     in
@@ -248,7 +254,13 @@ rec {
     - `updateScript` should accept the previous version as an argument ($1) from
       the helper script.
       When calling *VersionScript, it should also pass the argument.
-    - Storing version in `pkg.json` is necessary.
+    - Storing `orig_version` in `pkg.json` is necessary.
+      orig_version:
+        The version as it was fetched with *VersionScript
+        This is important for `exitIfNoNewVer` to work since this data is passed
+        to the update script every execution to be compared with newly found
+        version and so must have the same format
+        Not used for storing derivation version, use `version` instead
 
     MypkgsPkg :: AttrSet {
       version :: String: The package version
@@ -294,6 +306,7 @@ rec {
         version: The generated version
           The version will be generated based on the branch name and commit hash if `ref` is not empty
           Otherwise it will be taken from the release name with the initial non-number characters removed
+        orig_version: Propagated from `GitHubVersionScript`
       }
 
     Type: AttrSet -> MypkgsPkg
@@ -319,12 +332,14 @@ rec {
         VERSIONDATA=$(${versionScript} "$1")
         REV=${importJSON "$VERSIONDATA" ".rev"}
         VERSION=${importJSON "$VERSIONDATA" ".version"}
+        ORIG_VERSION=${importJSON "$VERSIONDATA" ".orig_version"}
         HASH=${getFileHash {url = "https://github.com/${owner}/${repo}/archive/\${REV}.tar.gz"; archive = true;}}
 
         ${serialiseJSON {
           hash = "$HASH";
           rev = "$REV";
           version = "$VERSION";
+          orig_version = "$ORIG_VERSION";
         }}
       '';
     in
@@ -342,6 +357,7 @@ rec {
         url: The url to the asset
         version: The version taken from the release name
           (adjust with `prefixVersion` and `useReleaseName`)
+        orig_version: Propagated from `gitHubVersionScript`
         hash: The asset's hash
       }
 
@@ -356,10 +372,12 @@ rec {
     , dirname ? repo
     , prefixVersion ? false   # Prefix the version with "0."
     , useReleaseName ? false  # Use the full release name for the version
-    }@inputs:
+    }:
     let
       pkgData = getPkgData dirname;
-      versionScript = gitHubVersionScript inputs;
+      versionScript = gitHubVersionScript {
+        inherit owner repo dirname;
+      };
       inherit (pkgData) version;
 
       shAssetName = replaceStrings [ "%V" "%v" ] [ "\${1}" "\${2}" ] assetName;
@@ -384,8 +402,8 @@ rec {
         set -euo pipefail
 
         VERSIONDATA=$(${versionScript} "$1")
-        [ $? -eq 1 ] && exit 1
         VERSION=${importJSON "$VERSIONDATA" ".version"}
+        ORIG_VERSION=${importJSON "$VERSIONDATA" ".orig_version"}
         RELEASE_NAME=${importJSON "$VERSIONDATA" ".release_name"}
         ARCHIVEDATA=$(${hashScript} "$RELEASE_NAME" "$VERSION")
         HASH=${importJSON "$ARCHIVEDATA" ".hash"}
@@ -401,6 +419,7 @@ rec {
         ${serialiseJSON {
           url = "$URL";
           version = "$VERSION";
+          orig_version = "$ORIG_VERSION";
           hash = "$HASH";
         }}
       '';
@@ -417,7 +436,7 @@ rec {
     - `updateScript` should accept the previous commit hash as an argument ($1) from
       the helper script.
       When calling *VersionScript, it should also pass the argument.
-    - Storing version in `flake.json` is necessary.
+    - Storing `rev` in `flake.json` is necessary.
 
     MypkgsFlake :: AttrSet {
       rev :: String: The flake's commit hash
@@ -464,12 +483,14 @@ rec {
     , ref ? "" # empty means fetch latest release
     , dirname ? repo
     , submodules ? false
-    }@inputs:
+    }:
     let
-      versionScript = gitHubVersionScript inputs;
+      versionScript = gitHubVersionScript {
+        inherit owner repo ref dirname;
+      };
 
       inherit (getFlakeData dirname) rev;
-      # TODO: https://github.com/NixOS/nix/pull/11952 overridable inputs
+      # TODO: https://github.com/NixOS/nix/pull/11952 overrideable inputs
       url =
         if submodules
         then "git+https://github.com/${owner}/${repo}?rev=${rev}&submodules=1"

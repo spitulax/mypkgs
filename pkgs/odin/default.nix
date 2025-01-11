@@ -12,11 +12,14 @@ let
     useReleaseName = true;
     prefixVersion = true;
   };
+  inherit (pkg') version;
+  inherit (pkg'.passthru) dirname;
+  updateScript = pkg'.passthru.mypkgsUpdateScript;
 in
-(callPackage myLib.helpers.odinDerivation { }).override {
+callPackage myLib.helpers.odinDerivation {
   pname = "odin";
   pkg = mkPkg {
-    inherit (pkg') version updateScript dirname;
+    inherit version dirname updateScript;
     # For some unknown reason, inside the .zip file is another archive (.tar.gz) file
     src = archiveTools.extractTarGz {
       inherit (pkg') src;

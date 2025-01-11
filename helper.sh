@@ -88,7 +88,7 @@ upscript () {
             if [ "$type" == "flake" ]; then
                 oldver=$(cat "$json_path" | jq -r '.rev')
             elif [ "$type" == "pkg" ]; then
-                oldver=$(cat "$json_path" | jq -r '.version')
+                oldver=$(cat "$json_path" | jq -r '.orig_version')
             fi
         fi
 

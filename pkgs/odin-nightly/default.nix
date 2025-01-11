@@ -49,12 +49,13 @@ let
 
     ${serialiseJSON {
       version = "$VERSION";
+      orig_version = "$VERSION";
       url = "$URL";
       hash = "$HASH";
     }}
   '';
 in
-(callPackage myLib.helpers.odinDerivation { }).override {
+callPackage myLib.helpers.odinDerivation {
   pname = "odin-nightly";
   pkg = mkPkg {
     inherit src updateScript dirname version;
