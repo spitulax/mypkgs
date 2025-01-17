@@ -7,9 +7,9 @@
 | **Name** | **Version** | **Cached** | **Maintained** | **Homepage** |
 | :-: | :-: | :-: | :-: | :-: |
 | **crt** | 0.2.0 | Yes | Yes | [🌐](https://github.com/spitulax/crt) |
-| **gripper** | 1.1.0 | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
+| **gripper** | 1.2.0 | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hunspell-id** | 2024-11-26+dev_a44e8c3 | Yes | Yes | [🌐](https://github.com/shuLhan/hunspell-id) |
-| **hyprlock** | 0.6.0+date=2025-01-10_a5e3467 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprlock** | 0.6.0+date=2025-01-15_02639c2 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 0.7.3+date=2025-01-06_251e8e2 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 0.4.1+date=2024-12-30_444c40e | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 0.1.0+date=2025-01-02_467198d | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
@@ -20,24 +20,24 @@
 | **odin** | 0.dev-2025-01 | Yes | Yes | [🌐](https://odin-lang.org/) |
 | **odin-doc** | 2024-11-01+master_80980df | Yes | Yes | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
 | **odin-git** | 2024-12-23+master_ad99d20 | No | No | [🌐](https://odin-lang.org/) |
-| **odin-nightly** | 2025-01-10 | Yes | Yes | [🌐](https://odin-lang.org/) |
-| **ols** | 2025-01-10+master_7fe579f | Yes | Yes | [🌐](https://github.com/DanielGavin/ols) |
+| **odin-nightly** | 2025-01-16 | Yes | Yes | [🌐](https://odin-lang.org/) |
+| **ols** | 2025-01-13+master_42ce5bd | Yes | Yes | [🌐](https://github.com/DanielGavin/ols) |
 | **osu-lazer** | 2025.101.0 | No | Yes | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0 | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
-| **waybar** | 0.11.0+date=2025-01-10_369c81d | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
-| **whitesur-cursors** | 2024-10-27+master_63d04b8 | Yes | Yes | [🌐](https://github.com/vinceliuice/WhiteSur-cursors) |
+| **waybar** | 0.11.0+date=2025-01-12_a4241d7 | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
+| **whitesur-cursors** | 2025-01-13+master_c8759f1 | Yes | Yes | [🌐](https://github.com/vinceliuice/WhiteSur-cursors) |
 
 ## Flakes
 
 | **Name** | **Rev** | **Maintained** | **Homepage** |
 | :-: | :-: | :-: | :-: |
 | **crt** | 3d4837a7f8d51f6972cdf3626867544e774f1965 | Yes | [🌐](https://github.com/spitulax/crt) |
-| **gripper** | d1498db1ace544601671fa06408604b77f1b22a1 | Yes | [🌐](https://github.com/spitulax/gripper) |
-| **hyprlock** | a5e346783ff0e65b1bf23e0eb9ae473dd6ab48c0 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **gripper** | 025296ead321a4c9045e19642543d85883592c2d | Yes | [🌐](https://github.com/spitulax/gripper) |
+| **hyprlock** | 02639c27599b03c81dc1d0e031628224f5ad8d50 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 251e8e2593cdd2ef0a015f4f6e211a7bab3a63ed | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 444c40e5e3dc4058a6a762ba5e73ada6d6469055 | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 467198d5c9e103d2b281d646741e9f0f04fe0e8c | Yes | [🌐](https://github.com/spitulax/hyprpolkitagent) |
-| **hyprswitch** | 32cba7327588976a5ae66a0dfc1828593b935872 | Yes | [🌐](https://github.com/H3rmt/hyprswitch) |
+| **hyprswitch** | a58c86caaf384f36c0367c1bb06f09d759a8579a | Yes | [🌐](https://github.com/H3rmt/hyprswitch) |
 | **musializer** | 664f1feefc1a9fc52d50a9582746058471d12e28 | Yes | [🌐](https://github.com/spitulax/musializer) |
 | **pasteme** | b155f36e0012986002e0b4d3d2adaa86014171d1 | Yes | [🌐](https://github.com/spitulax/pasteme) |
-| **waybar** | 369c81d6f29e46287a961e8ef26dbf349021d4fb | Yes | [🌐](https://github.com/alexays/waybar) |
+| **waybar** | a4241d700823cbee9e717c90a8408e2dfc977b45 | Yes | [🌐](https://github.com/alexays/waybar) |
