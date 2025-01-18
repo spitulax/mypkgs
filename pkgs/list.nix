@@ -1,5 +1,6 @@
 { callPackage
 , getByName
+, getByName'
 , myLib
 , ...
 }:
@@ -11,17 +12,20 @@ let
 in
 rec {
   # KEEP THE LIST ALPHABETICALLY SORTED!
-  crt = getByName "crt";
+  crt = getByName' "crt";
   gripper = getByName "gripper";
   hunspell-id = callPackage ./hunspell-id { };
   hyprlock = getByName "hyprlock";
   hyprpaper = getByName "hyprpaper";
   hyprpicker = getByName "hyprpicker";
   hyprpolkitagent = getByName "hyprpolkitagent";
-  hyprswitch = getByName "hyprswitch";
+  hyprswitch = (getByName' "hyprswitch").overrideAttrs (_: prevAttrs: {
+    # TODO: https://github.com/H3rmt/hyprswitch/pull/122
+    name = "hyprswitch-${prevAttrs.version}";
+  });
   keymapper = callPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
-  musializer = getByName "musializer";
+  musializer = getByName' "musializer";
   odin = callPackage ./odin { };
   odin-doc = callPackage ./odin-doc { odin = odin-nightly; };
   odin-git = unmaintain (uncache (callPackage ./odin-git { }));

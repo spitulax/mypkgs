@@ -19,7 +19,14 @@ let
     ;
 
   inherit (utils)
+    getFlake
+    getFlakePackages
     getFlakePackages'
+    ;
+
+  inherit (myLib)
+    mkDate
+    drv
     ;
 
   # If the package name is the same as the input name
@@ -31,9 +38,25 @@ let
     then packages.${name}
     else packages.default;
 
+  # Same as `getByName` but adds unique rev to version
+  getByName' = name:
+    let
+      flake = getFlake name;
+      packages = getFlakePackages flake;
+      pkg =
+        if builtins.hasAttr name packages
+        then packages.${name}
+        else packages.default;
+    in
+    pkg.overrideAttrs (_: prevAttrs: {
+      version = prevAttrs.version
+        + "+date=" + (mkDate (flake.lastModifiedDate or "19700101"))
+        + "_" + (flake.shortRev or "dirty");
+    });
+
   scope = makeScope callPackageWith
     (self: {
-      inherit myLib pkgs lib utils getByName;
+      inherit myLib pkgs lib utils getByName getByName';
       inherit (self) callPackage;
       inherit (pkgs) system;
     } // pkgs // utils);
@@ -61,6 +84,6 @@ rec {
   # NOTE: Before adding packages from a flake, make sure the flake.json file for the flake already exists.
   packages = import ./list.nix scope;
 
-  update-scripts = updateScripts (myLib.drv.maintained packages);
+  update-scripts = updateScripts (drv.maintained packages);
   update-scripts-all = updateScripts packages;
 }

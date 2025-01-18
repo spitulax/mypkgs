@@ -63,6 +63,20 @@ rec {
       ".tar.zst"
     ];
 
+  /*
+    Returns a date with `YYYY-MM-DD` format from `YYYYMMDD` format date string.
+
+    Inputs:
+      - `longDate`: `YYYYMMDD` date string.
+
+    Type: String -> String
+  */
+  mkDate = longDate: (lib.concatStringsSep "-" [
+    (builtins.substring 0 4 longDate)
+    (builtins.substring 4 2 longDate)
+    (builtins.substring 6 2 longDate)
+  ]);
+
   drv = rec {
     /*
       Determines if a package is considered to be cached.
