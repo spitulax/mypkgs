@@ -28,8 +28,8 @@ rec {
   musializer = getByName' "musializer";
   odin = callPackage ./odin { };
   odin-doc = callPackage ./odin-doc { odin = odin-nightly; };
-  odin-git = uncache (callPackage ./odin-git { });
-  odin-nightly = callPackage ./odin-nightly { };
+  odin-git = callPackage ./odin-git { };
+  odin-nightly = unmaintain (uncache (callPackage ./odin-nightly { }));
   ols = callPackage ./ols { odin = odin-nightly; };
   osu-lazer = uncache (callPackage ./osu-lazer { });
   pasteme = getByName "pasteme";

@@ -19,8 +19,8 @@
 | **musializer** | 0.alpha-3+date=2024-12-31_664f1fe | Yes | Yes | [🌐](https://github.com/tsoding/musializer) |
 | **odin** | 0.dev-2025-01 | Yes | Yes | [🌐](https://odin-lang.org/) |
 | **odin-doc** | 2024-11-01+ref=master_80980df | Yes | Yes | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
-| **odin-git** | 2024-12-23+master_ad99d20 | No | No | [🌐](https://odin-lang.org/) |
-| **odin-nightly** | 2025-01-17 | Yes | Yes | [🌐](https://odin-lang.org/) |
+| **odin-git** | 2025-01-17+ref=master_4703050 | Yes | Yes | [🌐](https://odin-lang.org/) |
+| **odin-nightly** | 2025-01-17 | No | No | [🌐](https://odin-lang.org/) |
 | **ols** | 2025-01-13+ref=master_42ce5bd | Yes | Yes | [🌐](https://github.com/DanielGavin/ols) |
 | **osu-lazer** | 2025.101.0 | No | Yes | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0+date=2025-01-17_de3276e | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
