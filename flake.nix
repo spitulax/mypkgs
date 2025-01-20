@@ -82,5 +82,9 @@
             helper = pkgs.writeShellScriptBin "mypkgs-helper" (builtins.readFile ./helper.sh);
           }
         );
+
+      # For testing
+      inherit myLib;
+      utils = eachSystem (system: utilsFor.${system});
     };
 }

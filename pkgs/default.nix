@@ -27,6 +27,7 @@ let
   inherit (myLib)
     mkDate
     drv
+    mkLongVersion
     ;
 
   # If the package name is the same as the input name
@@ -49,9 +50,7 @@ let
         else packages.default;
     in
     pkg.overrideAttrs (_: prevAttrs: {
-      version = prevAttrs.version
-        + "+date=" + (mkDate (flake.lastModifiedDate or "19700101"))
-        + "_" + (flake.shortRev or "dirty");
+      version = mkLongVersion flake prevAttrs.version;
     });
 
   scope = makeScope callPackageWith

@@ -77,6 +77,20 @@ rec {
     (builtins.substring 6 2 longDate)
   ]);
 
+  /*
+    Disambiguate versions by adding revision hash from a flake.
+
+    Inputs:
+      - `flake`: The flake object.
+      - `version`: The version.
+
+    Type: String -> String
+  */
+  mkLongVersion = flake: version:
+    version
+    + "+date=" + (mkDate (flake.lastModifiedDate or "19700101"))
+    + "_" + (flake.shortRev or "dirty");
+
   drv = rec {
     /*
       Determines if a package is considered to be cached.
