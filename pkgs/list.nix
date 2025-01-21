@@ -24,10 +24,10 @@ rec {
   lexurgy = callPackage ./lexurgy { };
   musializer = getByName' "musializer";
   odin = callPackage ./odin { };
-  odin-doc = callPackage ./odin-doc { odin = odin-nightly; };
+  odin-doc = callPackage ./odin-doc { odin = odin-git; };
   odin-git = callPackage ./odin-git { };
   odin-nightly = unmaintain (uncache (callPackage ./odin-nightly { }));
-  ols = callPackage ./ols { odin = odin-nightly; };
+  ols = callPackage ./ols { odin = odin-git; };
   osu-lazer = uncache (callPackage ./osu-lazer { });
   pasteme = getByName "pasteme";
   waybar = callPackage ./waybar { };
