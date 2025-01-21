@@ -12,7 +12,7 @@ import (
 	"syscall"
 )
 
-const CachixName = "spitulax"
+const DefaultCachixName = "spitulax"
 
 var prog Prog
 

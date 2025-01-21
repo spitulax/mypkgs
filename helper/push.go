@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func Push() error {
+func Push(cachixName string) error {
 	fmt.Println("\033[1mPushing packages...\033[0m")
 
 	paths, pathsErr := Paths()
@@ -15,7 +15,7 @@ func Push() error {
 	}
 	pathsJoined := strings.Join(paths, " ")
 
-	if err := Cachix("push '" + CachixName + "' " + pathsJoined); err != nil {
+	if err := Cachix("push '" + cachixName + "' " + pathsJoined); err != nil {
 		return errors.Join(err, fmt.Errorf("Push(): Failed to run cachix"))
 	}
 
