@@ -49,6 +49,7 @@ func (p Prog) Run() {
 	p.subcommands = append(p.subcommands, NewSubcommandPushinput())
 	p.subcommands = append(p.subcommands, NewSubcommandPushpkgs())
 	p.subcommands = append(p.subcommands, NewSubcommandUpinput())
+	p.subcommands = append(p.subcommands, NewSubcommandUplist())
 	// o.NewSubcommand("build", nil)
 	// o.NewSubcommand("commitup", nil)
 	// o.NewSubcommand("partup", nil)

@@ -87,6 +87,35 @@ func NixCapture(args string) (out []byte, err error) {
 	return RunCapture(NixCmd + " " + args)
 }
 
+func NixBuild(drv string) (output string, err error) {
+	out, outErr := NixCapture("build --json " + drv)
+	if outErr != nil {
+		return "", errors.Join(outErr, fmt.Errorf("NixBuild(): Failed to build `%s`", drv))
+	}
+
+	var root [](map[string]any)
+	if err := json.Unmarshal(out, &root); err != nil {
+		return "", errors.Join(err, fmt.Errorf("NixBuild(): Malformed JSON"))
+	}
+
+	for _, p := range root {
+		pathsAny, pathsAnyOk := p["outputs"].(map[string]any)
+		if !pathsAnyOk {
+			return "", fmt.Errorf("NixBuild(): Malformed output (pathsAny)")
+		}
+
+		var outputOk bool
+		output, outputOk = pathsAny["out"].(string)
+		if !outputOk {
+			return "", fmt.Errorf("NixBuild(): Malformed output (output)")
+		}
+
+		break
+	}
+
+	return output, nil
+}
+
 func Cachix(args string) error {
 	return Run("cachix " + args)
 }
