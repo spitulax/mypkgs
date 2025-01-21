@@ -80,6 +80,8 @@ func (p Prog) Run() {
 
 	if len(os.Args) < 2 {
 		fmt.Fprintln(os.Stderr, "Expected a subcommand")
+		flag.CommandLine.SetOutput(os.Stderr)
+		flag.Usage()
 		os.Exit(2)
 	}
 
@@ -99,5 +101,7 @@ func (p Prog) Run() {
 	}
 
 	fmt.Fprintf(os.Stderr, "Unknown subcommand `%s`\n", subcommand)
+	flag.CommandLine.SetOutput(os.Stderr)
+	flag.Usage()
 	os.Exit(2)
 }
