@@ -28,7 +28,7 @@ func init() {
 		<-c
 
 		// Restore cursor visibility
-		fmt.Print("\033[?25h")
+		fmt.Print("\033[?25h\n")
 
 		os.Exit(1)
 	}()
