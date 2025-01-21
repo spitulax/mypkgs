@@ -1,0 +1,46 @@
+package main
+
+import (
+	"flag"
+	"io"
+)
+
+type SubcommandPartup struct {
+	flags  *flag.FlagSet
+	useNom *bool
+}
+
+func NewSubcommandPartup() (s SubcommandPartup) {
+	s.flags = NewFlagSet(s.Name())
+	s.useNom = FlagNom(s.flags)
+	return s
+}
+
+func (s SubcommandPartup) Name() string {
+	return "partup"
+}
+
+func (s SubcommandPartup) Usage() string {
+	return "Partial update (useful for adding new packages without updating other packages)"
+}
+
+func (s SubcommandPartup) Run() error {
+	if err := Build(*s.useNom); err != nil {
+		return err
+	}
+
+	if err := Push(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s SubcommandPartup) PrintDefaults(output io.Writer) {
+	s.flags.SetOutput(output)
+	s.flags.PrintDefaults()
+}
+
+func (s SubcommandPartup) Parse(args []string) {
+	s.flags.Parse(args)
+}
