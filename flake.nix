@@ -57,6 +57,15 @@
     {
       flakes = lib.mapAttrs (_: v: v.flakes) flakesFor;
 
+      overlays = {
+        default = self.overlays.mypkgs;
+        mypkgs = final: _: {
+          mypkgs = packagesFor.${final.system}.packages;
+        };
+        mypkgsOverride = final: _:
+          packagesFor.${final.system}.packages;
+      };
+
       packages = eachSystem
         (system:
           let
@@ -84,7 +93,6 @@
         );
 
       # For testing
-      inherit myLib;
-      utils = eachSystem (system: utilsFor.${system});
+      inherit myLib utilsFor packagesFor flakesFor pkgsFor;
     };
 }
