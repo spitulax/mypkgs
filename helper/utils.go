@@ -136,15 +136,22 @@ func Paths() (paths []string, err error) {
 }
 
 // Assuming `dst` exists
-func CopyToDir(dst string, src string) error {
+// `newName` is emptiable
+func CopyToDir(dst string, src string, newName string) error {
 	srcF, srcFErr := os.Open(src)
 	if srcFErr != nil {
 		return errors.Join(srcFErr, fmt.Errorf("CopyToDir(): Failed to open `%s`", src))
 	}
 	defer srcF.Close()
 
+	dstFilePath := dst
+	if newName == "" {
+		dstFilePath = filepath.Join(dstFilePath, filepath.Base(src))
+	} else {
+		dstFilePath = filepath.Join(dstFilePath, newName)
+	}
+
 	// Would override files
-	dstFilePath := filepath.Join(dst, filepath.Base(src))
 	dstF, dstFErr := os.Create(dstFilePath)
 	if dstFErr != nil {
 		return errors.Join(dstFErr)

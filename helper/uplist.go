@@ -21,19 +21,19 @@ func Uplist() error {
 	}
 
 	for _, p := range root {
-		paths, pathsOk := p["outputs"].(map[string]string)
-		if !pathsOk {
-			return fmt.Errorf("Uplist(): Malformed output (paths)")
+		pathsAny, pathsAnyOk := p["outputs"].(map[string]any)
+		if !pathsAnyOk {
+			return fmt.Errorf("Uplist(): Malformed output (pathsAny)")
 		}
 
 		var pathOk bool
-		path, pathOk = paths["out"]
+		path, pathOk = pathsAny["out"].(string)
 		if !pathOk {
 			return fmt.Errorf("Uplist(): Malformed output (path)")
 		}
 	}
 
-	if err := CopyToDir(".", path); err != nil {
+	if err := CopyToDir(".", path, "list.md"); err != nil {
 		return errors.Join(err, fmt.Errorf("Uplist(): Failed to copy list"))
 	}
 
