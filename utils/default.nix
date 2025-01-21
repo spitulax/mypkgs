@@ -128,7 +128,7 @@ rec {
     - Return a shell script.
     - Should only be called from `/flakes` or `/pkgs` but not enforced.
     - Should accept the previous `orig_version` (for *Pkg) or `rev` (for *Flake) as an
-      argument ($1) from the helper script and add the check with
+      argument ($1) from the helper "script" and add the check with
       `exitIfNoNewVer` to the script.
     - If it does call to `exitIfNoNewVer`, output `orig_version` just to indicate the version script
       caller to propagate `orig_version`.
@@ -250,9 +250,9 @@ rec {
     Notes about *Pkg functions (except mkPkg):
     - Return a `MypkgsPkg` by calling `mkPkg`. See `mkPkg`.
     - Only expected to be used from somewhere within `/pkgs` or it will not work.
-    - Generate `pkg.json` in the given `dirname` through the helper script.
+    - Generate `pkg.json` in the given `dirname` through the helper "script".
     - `updateScript` should accept the previous version as an argument ($1) from
-      the helper script.
+      the helper "script".
       When calling *VersionScript, it should also pass the argument.
     - Storing `orig_version` in `pkg.json` is necessary.
       orig_version:
@@ -267,7 +267,7 @@ rec {
       src :: Derivation: The fetched source
       passthru :: AttrSet {
         dirname :: String: The directory of the package declaration relative to `/pkgs`
-        mypkgsUpdateScript :: Derivation: The update script (run from the helper script)
+        mypkgsUpdateScript :: Derivation: The update script (run from the helper "script")
       }
     }
   */
@@ -432,9 +432,9 @@ rec {
     Notes about *Flake functions (except mkFlake):
     - Return a `MypkgsFlake` by calling `mkFlake`. See `mkFlake`.
     - Only expected to be used from somewhere within `/flakes` or it will not work.
-    - Generate `flake.json` in the given `dirname` through the helper script.
+    - Generate `flake.json` in the given `dirname` through the helper "script".
     - `updateScript` should accept the previous commit hash as an argument ($1) from
-      the helper script.
+      the helper "script".
       When calling *VersionScript, it should also pass the argument.
     - Storing `rev` in `flake.json` is necessary.
 
@@ -443,7 +443,7 @@ rec {
       flake :: Flake: The actual Nix flake object
         (nested to avoid evaluating it before the `flake.json` is generated)
       dirname :: String: The directory of the package declaration relative to `/flakes`
-      mypkgsUpdateScript :: Derivation: The update script (run from the helper script)
+      mypkgsUpdateScript :: Derivation: The update script (run from the helper "script")
       homepage :: String: Equivalent to `meta.homepage`
     }
   */

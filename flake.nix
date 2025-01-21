@@ -67,9 +67,9 @@
           in
           packages.packages
           // {
-            # `cached` is built by the helper script for its result to be pushed to cachix.
+            # `cached` is built by the helper "script" for its result to be pushed to cachix.
             cached = pkgs.linkFarm "mypkgs-cached" cachedPackages;
-            # `*-update-scripts` is run by the helper script and will modify the repo tree.
+            # `*-update-scripts` is run by the helper "script" and will modify the repo tree.
             pkgs-update-scripts = packages.update-scripts;
             flakes-update-scripts = flakes.update-scripts;
 
@@ -78,8 +78,8 @@
               inherit (packages) packages;
               inherit (flakes) flakes;
             };
-            # The helper script. Where everything needed is there.
-            helper = pkgs.writeShellScriptBin "mypkgs-helper" (builtins.readFile ./helper.sh);
+            # The helper "script". Where everything needed is there.
+            helper = pkgs.callPackage myLib.helpers.helper { };
           }
         );
 

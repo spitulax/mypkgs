@@ -117,7 +117,7 @@ rec {
 
     /*
       Determines if a package or flake is considered to be maintained.
-      Maintained packages or flakes will be automatically updated by the helper script.
+      Maintained packages or flakes will be automatically updated by the helper "script".
 
       Inputs:
         - `d`: The package or flake
@@ -173,6 +173,30 @@ rec {
   };
 
   helpers = {
+    /*
+      mypkgs helper "script" derivation.
+
+      Type: AttrSet -> Derivation
+    */
+    helper =
+      { buildGoModule }:
+      buildGoModule {
+        pname = "helper";
+        version = lib.trim (builtins.readFile ../helper/VERSION);
+
+        src = lib.cleanSource ../helper;
+
+        vendorHash = null;
+
+        meta = {
+          description = "Helper \"script\" for mypkgs";
+          homepage = "https://github.com/spitulax/mypkgs";
+          platforms = lib.platforms.all;
+          license = lib.licenses.mit;
+          maintainers = with lib.maintainers; [ spitulax ];
+        };
+      };
+
     /*
       Generates a derivation that writes a markdown file listing the packages and flakes
       for documentation purpose of this flake.
