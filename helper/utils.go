@@ -47,6 +47,7 @@ func Run(cmd string) error {
 	go ReadOutput(&wg, stdout, os.Stdout)
 	go ReadOutput(&wg, stderr, os.Stderr)
 	wg.Wait()
+	fmt.Println()
 
 	if err := c.Wait(); err != nil {
 		if exitErr, ok := err.(*exec.ExitError); ok {
