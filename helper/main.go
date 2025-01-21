@@ -38,14 +38,6 @@ type Prog struct {
 	subcommands []Subcommand
 }
 
-type Subcommand interface {
-	Name() string
-	Usage() string
-	Run() error
-	PrintDefaults(output io.Writer)
-	Parse(args []string)
-}
-
 func NewProg() (p Prog) {
 	return p
 }
@@ -104,4 +96,12 @@ func (p Prog) Run() {
 	flag.CommandLine.SetOutput(os.Stderr)
 	flag.Usage()
 	os.Exit(2)
+}
+
+type Subcommand interface {
+	Name() string
+	Usage() string
+	Run() error
+	PrintDefaults(output io.Writer)
+	Parse(args []string)
 }
