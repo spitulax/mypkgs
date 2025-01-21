@@ -118,12 +118,16 @@ func Paths() (paths []string, err error) {
 			return nil, fmt.Errorf("Paths(): Malformed output (p)")
 		}
 
-		refs, refsOk := p["references"].([]string)
-		if !refsOk {
-			return nil, fmt.Errorf("Paths(): Malformed output (refs)")
+		refsAny, refsAnyOk := p["references"].([]any)
+		if !refsAnyOk {
+			return nil, fmt.Errorf("Paths(): Malformed output (refsAny)")
 		}
 
-		for _, ref := range refs {
+		for _, refAny := range refsAny {
+			ref, refOk := refAny.(string)
+			if !refOk {
+				return nil, fmt.Errorf("Paths(): Malformed output (ref)")
+			}
 			paths = append(paths, ref)
 		}
 	}
