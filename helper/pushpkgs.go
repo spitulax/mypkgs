@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func Push(cachixName string) error {
+func PushPkgs(cachixName string) error {
 	fmt.Println("\033[1mPushing packages...\033[0m")
 
 	paths, pathsErr := Paths()

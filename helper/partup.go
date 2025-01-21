@@ -14,7 +14,7 @@ type SubcommandPartup struct {
 func NewSubcommandPartup() (s SubcommandPartup) {
 	s.flags = NewFlagSet(s.Name())
 	s.useNom = FlagNom(s.flags)
-	s.cachixName = s.flags.String("cachix", DefaultCachixName, "Cachix cache to push the packages to")
+	s.cachixName = FlagCachixName(s.flags)
 	return s
 }
 
@@ -31,7 +31,7 @@ func (s SubcommandPartup) Run() error {
 		return err
 	}
 
-	if err := Push(*s.cachixName); err != nil {
+	if err := PushPkgs(*s.cachixName); err != nil {
 		return err
 	}
 

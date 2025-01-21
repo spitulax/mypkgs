@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -89,16 +88,6 @@ func NixCapture(args string) (out []byte, err error) {
 
 func Cachix(args string) error {
 	return Run("cachix " + args)
-}
-
-func NewFlagSet(name string) *flag.FlagSet {
-	return flag.NewFlagSet(name, flag.ExitOnError)
-}
-
-func FlagNom(f *flag.FlagSet) *bool {
-	_, err := exec.LookPath("nom")
-	hasNom := err == nil
-	return f.Bool("nom", hasNom, "Whether to use nom")
 }
 
 func Paths() (paths []string, err error) {
