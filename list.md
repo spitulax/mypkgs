@@ -24,6 +24,7 @@
 | **ols** | 2025-01-13+ref=master_42ce5bd | Yes | Yes | [🌐](https://github.com/DanielGavin/ols) |
 | **osu-lazer** | 2025.118.2 | No | Yes | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0+date=2025-01-17_de3276e | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
+| **superfile** | 1.1.7.1+date=2025-01-06_820140a | Yes | Yes | [🌐](https://superfile.netlify.app/) |
 | **waybar** | 0.11.0+date=2025-01-12_a4241d7 | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
 | **whitesur-cursors** | 2025-01-13+ref=master_c8759f1 | Yes | Yes | [🌐](https://github.com/vinceliuice/WhiteSur-cursors) |
 
@@ -40,4 +41,5 @@
 | **hyprswitch** | 2dca373507705f0ee7d921f34f0e6ba894c147ca | Yes | [🌐](https://github.com/H3rmt/hyprswitch) |
 | **musializer** | 664f1feefc1a9fc52d50a9582746058471d12e28 | Yes | [🌐](https://github.com/spitulax/musializer) |
 | **pasteme** | de3276e9c5b2b6aae8173470ea5ff0f736b28c5c | Yes | [🌐](https://github.com/spitulax/pasteme) |
+| **superfile** | 820140a9cb3f815f5528c59d43681575aceef172 | Yes | [🌐](https://github.com/yorukot/superfile) |
 | **waybar** | a4241d700823cbee9e717c90a8408e2dfc977b45 | Yes | [🌐](https://github.com/alexays/waybar) |

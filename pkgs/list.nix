@@ -30,6 +30,7 @@ rec {
   ols = callPackage ./ols { odin = odin-git; };
   osu-lazer = uncache (callPackage ./osu-lazer { });
   pasteme = getByName "pasteme";
+  superfile = callPackage ./superfile { };
   waybar = callPackage ./waybar { };
   whitesur-cursors = callPackage ./whitesur-cursors { };
 }
