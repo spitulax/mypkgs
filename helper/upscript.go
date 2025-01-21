@@ -21,6 +21,16 @@ type UpscriptOpts struct {
 	skipExist  *bool
 }
 
+func NewUpscriptOpts(f *flag.FlagSet) (o UpscriptOpts) {
+	o.pkgs = f.String("pkgs", "", "One or more packages to update (comma-separated)")
+	o.flakes = f.String("flakes", "", "One or more flakes to update (comma-separated)")
+	o.force = f.Bool("force", false, "Update even if the found version is the same as the old version")
+	o.flakesOnly = f.Bool("flakes-only", false, "Only update the flakes")
+	o.pkgsOnly = f.Bool("pkgs-only", false, "Only update the packages")
+	o.skipExist = f.Bool("skip-exist", false, "Skip directories where pkg.json or flake.json already exists")
+	return o
+}
+
 type SubcommandUpscript struct {
 	flags *flag.FlagSet
 	UpscriptOpts
@@ -28,12 +38,7 @@ type SubcommandUpscript struct {
 
 func NewSubcommandUpscript() (s SubcommandUpscript) {
 	s.flags = NewFlagSet(s.Name())
-	s.pkgs = s.flags.String("pkgs", "", "One or more packages to update (comma-separated)")
-	s.flakes = s.flags.String("flakes", "", "One or more flakes to update (comma-separated)")
-	s.force = s.flags.Bool("force", false, "Update even if the found version is the same as the old version")
-	s.flakesOnly = s.flags.Bool("flakes-only", false, "Only update the flakes")
-	s.pkgsOnly = s.flags.Bool("pkgs-only", false, "Only update the packages")
-	s.skipExist = s.flags.Bool("skip-exist", false, "Skip directories where pkg.json or flake.json already exists")
+	s.UpscriptOpts = NewUpscriptOpts(s.flags)
 	return s
 }
 
