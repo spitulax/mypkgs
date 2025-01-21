@@ -5,9 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"sync"
 )
 
@@ -191,4 +193,29 @@ func CopyToDir(dst string, src string, newName string) error {
 	}
 
 	return nil
+}
+
+func SplitAndTrim(s string, sep string) []string {
+	strs := strings.Split(s, sep)
+	for i, v := range strs {
+		strs[i] = strings.TrimSpace(v)
+	}
+	return strs
+}
+
+func ReadDir(dir string) (files []string, err error) {
+	d := os.DirFS(dir)
+	dirEntries, dirEntriesErr := fs.ReadDir(d, ".")
+	if dirEntriesErr != nil {
+		return nil, errors.Join(dirEntriesErr, fmt.Errorf("ReadDir(): Failed to read `%s`", dir))
+	}
+	for _, e := range dirEntries {
+		files = append(files, e.Name())
+	}
+	return files, nil
+}
+
+func IsExist(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil
 }

@@ -1,5 +1,7 @@
 // THIS IS A JOKE BUT EVERYTHING IS BETTER THAN BASH
-// Programs needed: nix, cachix, nom (optional)
+// Programs needed:
+// For helper: nix, cachix, nom (optional)
+// For update scripts: nix, gh (authorised), jq, coreutils
 
 package main
 
@@ -50,6 +52,7 @@ func (p Prog) Run() {
 	p.subcommands = append(p.subcommands, NewSubcommandPushpkgs())
 	p.subcommands = append(p.subcommands, NewSubcommandUpinput())
 	p.subcommands = append(p.subcommands, NewSubcommandUplist())
+	p.subcommands = append(p.subcommands, NewSubcommandUpscript())
 	// o.NewSubcommand("build", nil)
 	// o.NewSubcommand("commitup", nil)
 	// o.NewSubcommand("partup", nil)
