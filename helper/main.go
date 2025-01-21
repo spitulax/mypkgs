@@ -59,13 +59,10 @@ func (p Prog) Run() {
 		out := flag.CommandLine.Output()
 		fmt.Fprintf(out, "Usage of %s:\n", os.Args[0])
 		flag.CommandLine.PrintDefaults()
-		fmt.Fprintln(out, "\nSubcommands:")
+		fmt.Fprintln(out, "\nSubcommands: (Run `--help` for each subcommand)")
 		for _, s := range p.subcommands {
-			fmt.Fprint(out, "\033[1;34m")
-			fmt.Fprintf(out, "%s", s.Name())
-			fmt.Fprint(out, "\033[0m")
+			fmt.Fprintf(out, "\033[1;34m%s\033[0m", s.Name())
 			fmt.Fprintf(out, ": %s\n", s.Usage())
-			s.PrintDefaults(out)
 		}
 	}
 
