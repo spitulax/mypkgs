@@ -35,6 +35,10 @@ func (s SubcommandPartup) Run() error {
 		return err
 	}
 
+	if err := Uplist(); err != nil {
+		return err
+	}
+
 	return nil
 }
 
