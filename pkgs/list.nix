@@ -19,10 +19,7 @@ rec {
   hyprpaper = getByName "hyprpaper";
   hyprpicker = getByName "hyprpicker";
   hyprpolkitagent = getByName "hyprpolkitagent";
-  hyprswitch = (getByName' "hyprswitch").overrideAttrs (_: prevAttrs: {
-    # TODO: https://github.com/H3rmt/hyprswitch/pull/122
-    name = "hyprswitch-${prevAttrs.version}";
-  });
+  hyprswitch = getByName "hyprswitch";
   keymapper = callPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
   musializer = getByName' "musializer";
