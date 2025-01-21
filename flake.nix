@@ -62,8 +62,8 @@
         mypkgs = final: _: {
           mypkgs = packagesFor.${final.system}.packages;
         };
-        mypkgsOverride = final: _:
-          packagesFor.${final.system}.packages;
+        mypkgsOverride = _: prev:
+          packagesFor.${prev.system}.packages;
       };
 
       packages = eachSystem
