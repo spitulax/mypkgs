@@ -21,9 +21,17 @@ let
     ref = "master";
     dirname = "odin-git";
   };
+
+  # TODO: Temporary patch, not needed after my PRs are merged
+  patches = [
+    ./linker.patch
+    ./raylib-system.patch
+  ];
 in
 stdenv.mkDerivation (pkg // {
   pname = "odin-git";
+
+  inherit patches;
 
   postPatch =
     lib.optionalString stdenv.hostPlatform.isDarwin ''
