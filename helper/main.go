@@ -45,15 +45,17 @@ func NewProg() (p Prog) {
 }
 
 func (p Prog) Run() {
-	p.subcommands = append(p.subcommands, NewSubcommandBuild())
-	p.subcommands = append(p.subcommands, NewSubcommandCommitup())
-	p.subcommands = append(p.subcommands, NewSubcommandPartup())
-	p.subcommands = append(p.subcommands, NewSubcommandPushinput())
-	p.subcommands = append(p.subcommands, NewSubcommandPushpkgs())
-	p.subcommands = append(p.subcommands, NewSubcommandUp())
-	p.subcommands = append(p.subcommands, NewSubcommandUpinput())
-	p.subcommands = append(p.subcommands, NewSubcommandUplist())
-	p.subcommands = append(p.subcommands, NewSubcommandUpscript())
+	p.subcommands = []Subcommand{
+		NewSubcommandBuild(),
+		NewSubcommandCommitup(),
+		NewSubcommandPartup(),
+		NewSubcommandPushinput(),
+		NewSubcommandPushpkgs(),
+		NewSubcommandUp(),
+		NewSubcommandUpinput(),
+		NewSubcommandUplist(),
+		NewSubcommandUpscript(),
+	}
 
 	flag.Usage = func() {
 		out := flag.CommandLine.Output()
