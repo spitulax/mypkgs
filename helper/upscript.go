@@ -162,7 +162,7 @@ func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error 
 	}
 
 	dir := filepath.Join(containingDir, name)
-	if !IsExist(dir) {
+	if !FileExist(dir) {
 		return fmt.Errorf("UpOne(): `%s` does not exist", dir)
 	}
 
@@ -174,7 +174,7 @@ func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error 
 		jsonPath = filepath.Join(dir, "pkg.json")
 	}
 
-	if *opts.skipExist && IsExist(jsonPath) {
+	if *opts.skipExist && FileExist(jsonPath) {
 		return nil
 	}
 
@@ -237,11 +237,11 @@ func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error 
 func GetJsonObjectString(data []byte, key string) (value string, err error) {
 	var rootAny map[string]any
 	if err := json.Unmarshal(data, &rootAny); err != nil {
-		return "", errors.Join(err, fmt.Errorf("UpOne(): Malformed JSON"))
+		return "", errors.Join(err, fmt.Errorf("GetJsonObjectString(): Malformed JSON"))
 	}
 	val, valOk := rootAny[key].(string)
 	if !valOk {
-		return "", fmt.Errorf("UpOne(): Malformed output (val)")
+		return "", fmt.Errorf("GetJsonObjectString(): Malformed output (val)")
 	}
 
 	return val, nil

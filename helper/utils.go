@@ -215,7 +215,7 @@ func ReadDir(dir string) (files []string, err error) {
 	return files, nil
 }
 
-func IsExist(path string) bool {
+func FileExist(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil
 }
