@@ -41,10 +41,6 @@ type Prog struct {
 }
 
 func NewProg() (p Prog) {
-	return p
-}
-
-func (p Prog) Run() {
 	p.subcommands = []Subcommand{
 		NewSubcommandBuild(),
 		NewSubcommandCommitup(),
@@ -57,6 +53,10 @@ func (p Prog) Run() {
 		NewSubcommandUpscript(),
 	}
 
+	return p
+}
+
+func (p *Prog) Run() {
 	flag.Usage = func() {
 		out := flag.CommandLine.Output()
 		fmt.Fprintf(out, "Usage of %s:\n", os.Args[0])
