@@ -98,11 +98,10 @@ func Upscript(opts UpscriptOpts) error {
 
 	// WARNING: A string could be empty
 	var flakes, pkgs []string
-	relyOnOpts := false
+	relyOnOpts := *opts.flakes != "" || *opts.pkgs != ""
 
 	if buildFlakes {
 		if *opts.flakes != "" {
-			relyOnOpts = true
 			flakes = SplitAndTrim(*opts.flakes, ",")
 		} else if !relyOnOpts {
 			var err error
@@ -115,7 +114,6 @@ func Upscript(opts UpscriptOpts) error {
 
 	if buildPkgs {
 		if *opts.pkgs != "" {
-			relyOnOpts = true
 			pkgs = SplitAndTrim(*opts.pkgs, ",")
 		} else if !relyOnOpts {
 			var err error
