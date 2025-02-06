@@ -10,46 +10,25 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
-	"sync"
+	"syscall"
 )
 
 func Run(cmd string) error {
 	c := exec.Command("sh", "-c", cmd)
 
-	stdout, stdoutErr := c.StdoutPipe()
-	if stdoutErr != nil {
-		return errors.Join(stdoutErr, fmt.Errorf("Run(): Failed to get stdout"))
+	_, pipeW, pipeErr := os.Pipe()
+	if pipeErr != nil {
+		return errors.Join(pipeErr, fmt.Errorf("Run(): Failed to create output pipe"))
 	}
-	stderr, stderrErr := c.StderrPipe()
-	if stderrErr != nil {
-		return errors.Join(stderrErr, fmt.Errorf("Run(): Failed to get stderr"))
-	}
+
+	c.Stdout = pipeW
+	c.Stderr = pipeW
+	syscall.Dup2(syscall.Stdout, int(pipeW.Fd()))
 
 	if err := c.Start(); err != nil {
 		return errors.Join(err, fmt.Errorf("Run(): Failed to run `%s`", cmd))
 	}
 	pid := c.Process.Pid
-
-	ReadOutput := func(wg *sync.WaitGroup, reader io.ReadCloser, output io.Writer) {
-		defer wg.Done()
-
-		var buf [1024]byte
-		for {
-			n, readErr := reader.Read(buf[:])
-			if n > 0 && readErr == nil {
-				fmt.Fprint(output, string(buf[:n]))
-			} else {
-				break
-			}
-		}
-	}
-
-	var wg sync.WaitGroup
-	wg.Add(2)
-	go ReadOutput(&wg, stdout, os.Stdout)
-	go ReadOutput(&wg, stderr, os.Stderr)
-	wg.Wait()
-	fmt.Println()
 
 	if err := c.Wait(); err != nil {
 		if exitErr, ok := err.(*exec.ExitError); ok {
