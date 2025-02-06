@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"time"
 )
 
 const DefaultMaxThreads = 8
@@ -129,10 +130,12 @@ func Upscript(opts UpscriptOpts) error {
 		}
 	}
 
+	fmt.Printf("\033[1;32mRunning %d flake update scripts...\033[0m\n", len(flakes))
 	if err := UpMany(opts, UpFlake, flakesScripts, flakes); err != nil {
 		return err
 	}
 
+	fmt.Printf("\033[1;32mRunning %d package update scripts...\033[0m\n", len(pkgs))
 	if err := UpMany(opts, UpPkg, pkgsScripts, pkgs); err != nil {
 		return err
 	}
@@ -161,45 +164,59 @@ const (
 	UpPkg
 )
 
-type UpScriptEnvData struct {
+type UpScriptState uint8
+
+const (
+	Done UpScriptState = iota
+	Completing
+)
+
+type UpScriptOneData struct {
 	err      chan error
 	fullName string
+	state    UpScriptState
 }
 
+const WaitTimeout = 100 * time.Millisecond
+
 // TODO: Better visualisation
-func UpMany(opts UpscriptOpts, kind UpKind, scriptDir string, derivations []string) error {
+func UpMany(opts UpscriptOpts, kind UpKind, scriptDir string, names []string) error {
 	maxThreads := int(*opts.maxThreads)
-	for i := range CeilDiv(len(derivations), maxThreads) {
-		lowerIndex := i * maxThreads
-		upperIndex := min(i*maxThreads+maxThreads, len(derivations))
-		datas := make([]UpScriptEnvData, upperIndex-lowerIndex)
-		for j := lowerIndex; j < upperIndex; j++ {
-			relJ := j - i*maxThreads
-			name := derivations[j]
+	datas := make([]UpScriptOneData, maxThreads)
+	for i := range datas {
+		datas[i].err = make(chan error)
+		datas[i].state = Done
+	}
 
-			datas[relJ] = UpScriptEnvData{
-				err:      make(chan error),
-				fullName: UpFullName(kind, name),
-			}
-
-			go func(d *UpScriptEnvData, opts UpscriptOpts, kind UpKind, name string, scriptDir string) {
-				d.err <- UpOne(opts, kind, name, scriptDir)
-			}(&datas[relJ], opts, kind, name, scriptDir)
-		}
-
-		var err error
-		var fullName string
+	namesIdx := 0
+	done := 0
+	for done < len(names) {
 		for i := range datas {
 			data := &datas[i]
-			err = <-data.err
-			if err != nil {
-				fullName = data.fullName
-				break
+			switch data.state {
+			case Done:
+				if namesIdx < len(names) {
+					name := names[namesIdx]
+					data.fullName = UpFullName(kind, name)
+					data.state = Completing
+					namesIdx++
+					go func(d *UpScriptOneData, opts UpscriptOpts, kind UpKind, name string, scriptDir string) {
+						d.err <- UpOne(opts, kind, name, scriptDir)
+					}(data, opts, kind, name, scriptDir)
+				}
+			case Completing:
+				select {
+				case err := <-data.err:
+					if err != nil {
+						return errors.Join(err, fmt.Errorf("UpScriptEnv.Wait(): Failed to update %s", data.fullName))
+					} else {
+						data.state = Done
+						done++
+					}
+				case <-time.After(WaitTimeout):
+					break
+				}
 			}
-		}
-
-		if err != nil {
-			return errors.Join(err, fmt.Errorf("UpScriptEnv.Wait(): Failed to update %s", fullName))
 		}
 	}
 
