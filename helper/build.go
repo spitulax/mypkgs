@@ -42,7 +42,7 @@ func (s SubcommandBuild) Parse(args []string) {
 }
 
 func Build(useNom bool) error {
-	fmt.Println("\033[1mBuilding packages...\033[0m")
+	fmt.Println("\033[1;34mBuilding packages...\033[0m")
 
 	var cmd string
 	if useNom {

@@ -37,7 +37,7 @@ func (s SubcommandUplist) Parse(args []string) {
 }
 
 func Uplist() error {
-	fmt.Println("\033[1mUpdating package list...\033[0m")
+	fmt.Println("\033[1;34mUpdating package list...\033[0m")
 
 	path, pathErr := NixBuild(".#mypkgs-list")
 	if pathErr != nil {

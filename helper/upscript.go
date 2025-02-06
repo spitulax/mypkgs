@@ -72,7 +72,7 @@ func (s SubcommandUpscript) Parse(args []string) {
 }
 
 func Upscript(opts UpscriptOpts) error {
-	fmt.Println("\033[1mRunning update scripts...\033[0m")
+	fmt.Println("\033[1;34mRunning update scripts...\033[0m")
 
 	var buildPkgs, buildFlakes bool
 	if !(*opts.pkgsOnly || *opts.flakesOnly) {

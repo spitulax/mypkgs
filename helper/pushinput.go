@@ -42,7 +42,7 @@ func (s SubcommandPushinput) Parse(args []string) {
 }
 
 func PushInputs(cachixName string) error {
-	fmt.Println("\033[1mPushing inputs to cachix...\033[0m")
+	fmt.Println("\033[1;34mPushing inputs to cachix...\033[0m")
 
 	// TODO: Implement pushinputs
 	panic("Unimplemented")

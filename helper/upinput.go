@@ -37,6 +37,8 @@ func (s SubcommandUpinput) Parse(args []string) {
 }
 
 func Upinput() error {
+	fmt.Println("\033[1;34mUpdating flake inputs...\033[0m")
+
 	if err := Nix("flake update"); err != nil {
 		return errors.Join(err, fmt.Errorf("Upinput(): Failed to update flake input"))
 	}

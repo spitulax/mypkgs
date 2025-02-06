@@ -44,7 +44,7 @@ func (s SubcommandPushpkgs) Parse(args []string) {
 }
 
 func PushPkgs(cachixName string) error {
-	fmt.Println("\033[1mPushing packages...\033[0m")
+	fmt.Println("\033[1;34mPushing packages...\033[0m")
 
 	paths, pathsErr := Paths()
 	if pathsErr != nil {
