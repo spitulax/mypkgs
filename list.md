@@ -9,23 +9,23 @@
 | **crt** | 0.2.0+date=2024-12-31_3d4837a | Yes | Yes | [🌐](https://github.com/spitulax/crt) |
 | **gripper** | 1.2.2+date=2025-01-17_6c4628c | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hunspell-id** | 2024-11-26+ref=dev_a44e8c3 | Yes | Yes | [🌐](https://github.com/shuLhan/hunspell-id) |
-| **hyprlock** | 0.6.0+date=2025-01-24_07b5e1b | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
-| **hyprpaper** | 0.7.4+date=2025-01-23_7efb4a0 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
+| **hyprlock** | 0.6.0+date=2025-02-06_dc6d721 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprpaper** | 0.7.4+date=2025-01-29_f827dc3 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 0.4.2+date=2025-01-23_c377732 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 0.1.0+date=2025-01-02_467198d | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
-| **hyprswitch** | 3.2.5+date=2025-01-20_2dca373 | Yes | Yes | [🌐](https://github.com/h3rmt/hyprswitch) |
-| **keymapper** | 4.9.2 | Yes | Yes | [🌐](https://github.com/houmain/keymapper) |
+| **hyprswitch** | 3.3.2+date=2025-02-06_1099503 | Yes | Yes | [🌐](https://github.com/h3rmt/hyprswitch) |
+| **keymapper** | 4.10.0 | Yes | Yes | [🌐](https://github.com/houmain/keymapper) |
 | **lexurgy** | 1.7.3 | Yes | Yes | [🌐](https://github.com/def-gthill/lexurgy) |
 | **musializer** | 0.alpha-3+date=2024-12-31_664f1fe | Yes | Yes | [🌐](https://github.com/tsoding/musializer) |
 | **odin** | 0.dev-2025-01 | Yes | Yes | [🌐](https://odin-lang.org/) |
-| **odin-doc** | 2024-11-01+ref=master_80980df | Yes | Yes | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
-| **odin-git** | 2025-01-24+ref=master_3a13c59 | Yes | Yes | [🌐](https://odin-lang.org/) |
+| **odin-doc** | 2025-02-01+ref=master_0a2fc5a | Yes | Yes | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
+| **odin-git** | 2025-02-05+ref=master_b86d2c3 | Yes | Yes | [🌐](https://odin-lang.org/) |
 | **odin-nightly** | 2025-01-17 | No | No | [🌐](https://odin-lang.org/) |
-| **ols** | 2025-01-22+ref=master_c1615ee | Yes | Yes | [🌐](https://github.com/DanielGavin/ols) |
-| **osu-lazer** | 2025.118.2 | No | Yes | [🌐](https://osu.ppy.sh) |
+| **ols** | 2025-02-04+ref=master_94822db | Yes | Yes | [🌐](https://github.com/DanielGavin/ols) |
+| **osu-lazer** | 2025.118.3 | No | Yes | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0+date=2025-01-17_de3276e | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
-| **superfile** | 1.1.7.1+date=2025-01-24_b157637 | Yes | Yes | [🌐](https://superfile.netlify.app/) |
-| **waybar** | 0.11.0+date=2025-01-12_a4241d7 | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
+| **superfile** | 1.1.7.1+date=2025-02-05_343a699 | Yes | Yes | [🌐](https://superfile.netlify.app/) |
+| **waybar** | 0.11.0+date=2025-02-05_c32d5e3 | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
 | **whitesur-cursors** | 2025-01-13+ref=master_c8759f1 | Yes | Yes | [🌐](https://github.com/vinceliuice/WhiteSur-cursors) |
 
 ## Flakes
@@ -34,12 +34,12 @@
 | :-: | :-: | :-: | :-: |
 | **crt** | 3d4837a7f8d51f6972cdf3626867544e774f1965 | Yes | [🌐](https://github.com/spitulax/crt) |
 | **gripper** | 6c4628cdbc0bcceb2b7d38110202c2a0be3813d8 | Yes | [🌐](https://github.com/spitulax/gripper) |
-| **hyprlock** | 07b5e1b4cd28518fcb54f59e9e69d593ab2fc1c0 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
-| **hyprpaper** | 7efb4a03464c45bf9fee7b0f428c09462da70a14 | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
+| **hyprlock** | dc6d72158c22d802845679e783231061b717ffd1 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprpaper** | f827dc31978a8b99ec08755b61b094e817c16fc4 | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | c3777320b358bb28a0f2112441377fe452d77ea8 | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 467198d5c9e103d2b281d646741e9f0f04fe0e8c | Yes | [🌐](https://github.com/spitulax/hyprpolkitagent) |
-| **hyprswitch** | 2dca373507705f0ee7d921f34f0e6ba894c147ca | Yes | [🌐](https://github.com/H3rmt/hyprswitch) |
+| **hyprswitch** | 1099503572628d90e2e6b282e2b7cdffaaa98725 | Yes | [🌐](https://github.com/H3rmt/hyprswitch) |
 | **musializer** | 664f1feefc1a9fc52d50a9582746058471d12e28 | Yes | [🌐](https://github.com/spitulax/musializer) |
 | **pasteme** | de3276e9c5b2b6aae8173470ea5ff0f736b28c5c | Yes | [🌐](https://github.com/spitulax/pasteme) |
-| **superfile** | b157637e9ac799c70df168f1988279851e8d24a9 | Yes | [🌐](https://github.com/yorukot/superfile) |
-| **waybar** | a4241d700823cbee9e717c90a8408e2dfc977b45 | Yes | [🌐](https://github.com/alexays/waybar) |
+| **superfile** | 343a69968a8b135524b34902570218106d363104 | Yes | [🌐](https://github.com/yorukot/superfile) |
+| **waybar** | c32d5e3883558db2913dcd09c1b96a7e6c467c25 | Yes | [🌐](https://github.com/alexays/waybar) |
