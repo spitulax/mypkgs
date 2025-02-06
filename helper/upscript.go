@@ -258,7 +258,8 @@ func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error 
 		cmd.Env = append(cmd.Env, "FORCE=0")
 	}
 
-	// FIXME: Download processes are not displayed
+	// TODO: Download processes are not displayed
+	// They also run concurrently which makes them harder to display
 	stdout, cmdErr := cmd.Output()
 	if cmdErr != nil {
 		if _, ok := cmdErr.(*exec.ExitError); !ok {
@@ -294,32 +295,4 @@ func GetJsonObjectString(data []byte, key string) (value string, err error) {
 	}
 
 	return val, nil
-}
-
-type Pkg struct {
-	_type        string
-	orig_version string
-}
-
-type PkgGitHub struct {
-	Pkg
-	hash    string
-	rev     string
-	version string
-}
-
-type PkgGitHubRelease struct {
-	Pkg
-	url     string
-	version string
-	hash    string
-}
-
-type Flake struct {
-	_type string
-	rev   string
-}
-
-type FlakeGitHub struct {
-	Flake
 }
