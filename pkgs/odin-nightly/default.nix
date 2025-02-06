@@ -1,3 +1,4 @@
+# WARNING: Retired code
 { lib
 , myLib
 , curl
