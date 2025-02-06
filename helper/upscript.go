@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 )
 
+const DefaultMaxThreads = 8
+
 // `pkgs` and `flakes` are comma-separated
 type UpscriptOpts struct {
 	pkgs       *string
@@ -19,6 +21,7 @@ type UpscriptOpts struct {
 	flakesOnly *bool
 	pkgsOnly   *bool
 	skipExist  *bool
+	maxThreads *uint
 }
 
 func NewUpscriptOpts(f *flag.FlagSet) (o UpscriptOpts) {
@@ -28,6 +31,7 @@ func NewUpscriptOpts(f *flag.FlagSet) (o UpscriptOpts) {
 	o.flakesOnly = f.Bool("flakes-only", false, "Only update the flakes")
 	o.pkgsOnly = f.Bool("pkgs-only", false, "Only update the packages")
 	o.skipExist = f.Bool("skip-exist", false, "Skip directories where pkg.json or flake.json already exists")
+	o.maxThreads = f.Uint("max-threads", DefaultMaxThreads, "Maximum amount of scripts to run at once")
 	return o
 }
 
@@ -81,6 +85,7 @@ func Upscript(opts UpscriptOpts) error {
 	var flakesScripts, pkgsScripts string
 
 	if buildFlakes {
+		fmt.Println("Building `flakes-update-scripts`...")
 		var drvErr error
 		flakesScripts, drvErr = NixBuild(".#flakes-update-scripts")
 		if drvErr != nil {
@@ -89,6 +94,7 @@ func Upscript(opts UpscriptOpts) error {
 	}
 
 	if buildPkgs {
+		fmt.Println("Building `pkgs-update-scripts`...")
 		var drvErr error
 		pkgsScripts, drvErr = NixBuild(".#pkgs-update-scripts")
 		if drvErr != nil {
@@ -96,7 +102,6 @@ func Upscript(opts UpscriptOpts) error {
 		}
 	}
 
-	// WARNING: A string could be empty
 	var flakes, pkgs []string
 	relyOnOpts := *opts.flakes != "" || *opts.pkgs != ""
 
@@ -124,20 +129,12 @@ func Upscript(opts UpscriptOpts) error {
 		}
 	}
 
-	for _, flake := range flakes {
-		if flake != "" {
-			if err := UpOne(opts, UpFlake, flake, flakesScripts); err != nil {
-				return err
-			}
-		}
+	if err := UpMany(opts, UpFlake, flakesScripts, flakes); err != nil {
+		return err
 	}
 
-	for _, pkg := range pkgs {
-		if pkg != "" {
-			if err := UpOne(opts, UpPkg, pkg, pkgsScripts); err != nil {
-				return err
-			}
-		}
+	if err := UpMany(opts, UpPkg, pkgsScripts, pkgs); err != nil {
+		return err
 	}
 
 	return nil
@@ -145,19 +142,72 @@ func Upscript(opts UpscriptOpts) error {
 
 type UpKind uint8
 
+func ContainingDir(kind UpKind) string {
+	switch kind {
+	case UpFlake:
+		return "flakes"
+	case UpPkg:
+		return "pkgs"
+	}
+	panic("Unreachable")
+}
+
+func UpFullName(kind UpKind, name string) string {
+	return fmt.Sprintf("%s:%s", ContainingDir(kind), name)
+}
+
 const (
 	UpFlake UpKind = iota
 	UpPkg
 )
 
-func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error {
-	var containingDir string
-	switch kind {
-	case UpFlake:
-		containingDir = "flakes"
-	case UpPkg:
-		containingDir = "pkgs"
+type UpScriptEnvData struct {
+	err      chan error
+	fullName string
+}
+
+// TODO: Better visualisation
+func UpMany(opts UpscriptOpts, kind UpKind, scriptDir string, derivations []string) error {
+	maxThreads := int(*opts.maxThreads)
+	for i := range CeilDiv(len(derivations), maxThreads) {
+		lowerIndex := i * maxThreads
+		upperIndex := min(i*maxThreads+maxThreads, len(derivations))
+		datas := make([]UpScriptEnvData, upperIndex-lowerIndex)
+		for j := lowerIndex; j < upperIndex; j++ {
+			relJ := j - i*maxThreads
+			name := derivations[j]
+
+			datas[relJ] = UpScriptEnvData{
+				err:      make(chan error),
+				fullName: UpFullName(kind, name),
+			}
+
+			go func(d *UpScriptEnvData, opts UpscriptOpts, kind UpKind, name string, scriptDir string) {
+				d.err <- UpOne(opts, kind, name, scriptDir)
+			}(&datas[relJ], opts, kind, name, scriptDir)
+		}
+
+		var err error
+		var fullName string
+		for i := range datas {
+			data := &datas[i]
+			err = <-data.err
+			if err != nil {
+				fullName = data.fullName
+				break
+			}
+		}
+
+		if err != nil {
+			return errors.Join(err, fmt.Errorf("UpScriptEnv.Wait(): Failed to update %s", fullName))
+		}
 	}
+
+	return nil
+}
+
+func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error {
+	containingDir := ContainingDir(kind)
 
 	dir := filepath.Join(containingDir, name)
 	if !FileExist(dir) {
@@ -176,7 +226,7 @@ func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error 
 		return nil
 	}
 
-	fullName := fmt.Sprintf("%s:%s", containingDir, name)
+	fullName := UpFullName(kind, name)
 	fmt.Printf("\033[1mUpdating %s...\033[0m\n", fullName)
 
 	var oldVer string
@@ -219,11 +269,12 @@ func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error 
 	exit := cmd.ProcessState.ExitCode()
 	switch exit {
 	case 0:
+		fmt.Printf("Updated %s\n", fullName)
 		if err := os.WriteFile(jsonPath, stdout, 0o644); err != nil {
 			return errors.Join(err, fmt.Errorf("UpOne(): Failed to write to `%s`", jsonPath))
 		}
 	case 200:
-		fmt.Println("Skipped")
+		break
 	default:
 		fmt.Fprint(os.Stderr, string(cmdErr.(*exec.ExitError).Stderr))
 		return fmt.Errorf("UpOne(): Update script %s exited with status %d", fullName, exit)
@@ -243,4 +294,32 @@ func GetJsonObjectString(data []byte, key string) (value string, err error) {
 	}
 
 	return val, nil
+}
+
+type Pkg struct {
+	_type        string
+	orig_version string
+}
+
+type PkgGitHub struct {
+	Pkg
+	hash    string
+	rev     string
+	version string
+}
+
+type PkgGitHubRelease struct {
+	Pkg
+	url     string
+	version string
+	hash    string
+}
+
+type Flake struct {
+	_type string
+	rev   string
+}
+
+type FlakeGitHub struct {
+	Flake
 }

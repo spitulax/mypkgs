@@ -219,3 +219,7 @@ func FileExist(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil
 }
+
+func CeilDiv(a, b int) int {
+	return (a + b - 1) / b
+}
