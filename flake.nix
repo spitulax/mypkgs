@@ -76,6 +76,9 @@
           in
           packages.packages
           // {
+            # NOTE: This packages are exposed to `packages` output for convenience.
+            # Use the overlay for accessing packages.
+
             # `cached` is built by the helper "script" for its result to be pushed to cachix.
             cached = pkgs.linkFarm "mypkgs-cached" cachedPackages;
             # `*-update-scripts` is run by the helper "script" and will modify the repo tree.

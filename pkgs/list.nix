@@ -28,7 +28,7 @@ rec {
   odin-git = callPackage ./odin-git { };
   odin-nightly = unmaintain (uncache (callPackage ./odin-nightly { }));
   ols = callPackage ./ols { odin = odin-git; };
-  osu-lazer = uncache (callPackage ./osu-lazer { });
+  osu-lazer = unmaintain (uncache (callPackage ./osu-lazer { }));
   pasteme = getByName "pasteme";
   superfile = callPackage ./superfile { };
   waybar = callPackage ./waybar { };
