@@ -1,14 +1,15 @@
 { myLib
+, lib
 , gitHubReleasePkg
 , callPackage
-, archiveTools
 , mkPkg
+  # , archiveTools
 }:
 let
   pkg' = gitHubReleasePkg {
     owner = "odin-lang";
     repo = "odin";
-    assetName = "odin-ubuntu-amd64-%V.zip";
+    assetName = "odin-linux-amd64-%V.zip";
     useReleaseName = true;
     prefixVersion = true;
   };
@@ -18,12 +19,31 @@ let
 in
 callPackage myLib.helpers.odinDerivation {
   pname = "odin";
-  pkg = mkPkg {
-    inherit version dirname updateScript;
-    # For some unknown reason, inside the .zip file is another archive (.tar.gz) file
-    src = archiveTools.extractTarGz {
-      inherit (pkg') src;
-      flatten = true;
+  pkg =
+    let
+      url = (myLib.getPkgData dirname).url;
+      dir = lib.elemAt
+        (lib.splitString
+          "."
+          (lib.last
+            (lib.splitString "/" url)))
+        0;
+    in
+    mkPkg {
+      inherit version dirname updateScript;
+      # For some unknown reason, inside the .zip file there are 2 directories
+      src = "${pkg'.src}/${dir}";
     };
-  };
 }
+# NOTE: Not needed now
+# callPackage myLib.helpers.odinDerivation {
+#   pname = "odin";
+#   pkg = mkPkg {
+#     inherit version dirname updateScript;
+#     # For some unknown reason, inside the .zip file is another archive (.tar.gz) file
+#     src = archiveTools.extractTarGz {
+#       inherit (pkg') src;
+#       flatten = true;
+#     };
+#   };
+# }

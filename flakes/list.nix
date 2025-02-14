@@ -11,7 +11,6 @@
   hyprswitch = callPackage ./hyprswitch { };
   musializer = callPackage ./musializer { };
   pasteme = callPackage ./pasteme { };
-  superfile = callPackage ./superfile { };
   waybar = callPackage ./waybar { };
 }
 

@@ -48,7 +48,7 @@ rec {
   */
   archiveTools = {
     # NOTE: `flatten` can only be used if the archive only contains one folder at top-level
-    extractTarGz = args@{ src, flatten ? false, ... }:
+    extractTarGz = { src, flatten ? false, ... }@args:
       runCommand
         "source"
         ({
