@@ -74,8 +74,13 @@ func (s SubcommandUpscript) Parse(args []string) {
 func Upscript(opts UpscriptOpts) error {
 	fmt.Println("\033[1;34mRunning update scripts...\033[0m")
 
+	relyOnOpts := *opts.flakes != "" || *opts.pkgs != ""
+
 	var buildPkgs, buildFlakes bool
-	if !(*opts.pkgsOnly || *opts.flakesOnly) {
+	if relyOnOpts {
+		buildPkgs = *opts.pkgs != ""
+		buildFlakes = *opts.flakes != ""
+	} else if !(*opts.pkgsOnly || *opts.flakesOnly) {
 		buildPkgs, buildFlakes = true, true
 	} else {
 		buildPkgs = *opts.pkgsOnly
@@ -104,7 +109,6 @@ func Upscript(opts UpscriptOpts) error {
 	}
 
 	var flakes, pkgs []string
-	relyOnOpts := *opts.flakes != "" || *opts.pkgs != ""
 
 	if buildFlakes {
 		if *opts.flakes != "" {
