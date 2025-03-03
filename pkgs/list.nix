@@ -13,6 +13,7 @@ in
 rec {
   # KEEP THE LIST ALPHABETICALLY SORTED!
   crt = getByName' "crt";
+  gplates = callPackage ./gplates { };
   gripper = getByName "gripper";
   hunspell-id = callPackage ./hunspell-id { };
   hyprlock = getByName "hyprlock";
@@ -23,7 +24,7 @@ rec {
   keymapper = callPackage ./keymapper { };
   lexurgy = callPackage ./lexurgy { };
   musializer = getByName' "musializer";
-  odin = callPackage ./odin { };
+  odin = unmaintain (uncache (callPackage ./odin { }));
   odin-doc = callPackage ./odin-doc { odin = odin-git; };
   odin-git = callPackage ./odin-git { };
   odin-nightly = unmaintain (uncache (callPackage ./odin-nightly { }));

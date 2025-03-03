@@ -7,6 +7,7 @@
 | **Name** | **Version** | **Cached** | **Maintained** | **Homepage** |
 | :-: | :-: | :-: | :-: | :-: |
 | **crt** | 0.2.0+date=2024-12-31_3d4837a | Yes | Yes | [🌐](https://github.com/spitulax/crt) |
+| **gplates** | 2.5 | Yes | Yes | [🌐](https://www.gplates.org) |
 | **gripper** | 1.2.2+date=2025-01-17_6c4628c | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hunspell-id** | 2024-11-26+ref=dev_a44e8c3 | Yes | Yes | [🌐](https://github.com/shuLhan/hunspell-id) |
 | **hyprlock** | 0.6.0+date=2025-02-21_f6e4c13 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
@@ -17,7 +18,7 @@
 | **keymapper** | 4.10.2 | Yes | Yes | [🌐](https://github.com/houmain/keymapper) |
 | **lexurgy** | 1.7.3 | Yes | Yes | [🌐](https://github.com/def-gthill/lexurgy) |
 | **musializer** | 0.alpha-3+date=2024-12-31_664f1fe | Yes | Yes | [🌐](https://github.com/tsoding/musializer) |
-| **odin** | 0.dev-2025-02 | Yes | Yes | [🌐](https://odin-lang.org/) |
+| **odin** | 0.dev-2025-02 | No | No | [🌐](https://odin-lang.org/) |
 | **odin-doc** | 2025-02-08+ref=master_92701aa | Yes | Yes | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
 | **odin-git** | 2025-02-21+ref=master_55e0f94 | Yes | Yes | [🌐](https://odin-lang.org/) |
 | **odin-nightly** | 2025-01-17 | No | No | [🌐](https://odin-lang.org/) |
