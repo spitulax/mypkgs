@@ -14,6 +14,7 @@
 , fetchurl
 , callPackage
 , gnutar
+, unzip
 }:
 let
   inherit (builtins)
@@ -48,6 +49,7 @@ rec {
   */
   archiveTools = {
     # NOTE: `flatten` can only be used if the archive only contains one folder at top-level
+
     extractTarGz = { src, flatten ? false, ... }@args:
       runCommand
         "source"
@@ -58,6 +60,22 @@ rec {
         (''
           mkdir -p $out
           tar xf $src --directory=$out
+        '' + lib.optionalString flatten ''
+          DIR="$out/$(ls $out)"
+          mv "$DIR"/* $out
+          rmdir "$DIR"
+        '');
+
+    extractZip = { src, flatten ? false, ... }@args:
+      runCommand
+        "source"
+        ({
+          nativeBuildInputs = [ unzip ];
+          outputs = [ "out" ];
+        } // args)
+        (''
+          mkdir -p $out
+          unzip $src -d $out
         '' + lib.optionalString flatten ''
           DIR="$out/$(ls $out)"
           mv "$DIR"/* $out
