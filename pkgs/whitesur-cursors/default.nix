@@ -1,8 +1,8 @@
 { lib
 , gitHubPkg
 , makeWrapper
-, inkscape
 , xorg
+, librsvg
 , stdenvNoCC
 }:
 let
@@ -18,7 +18,7 @@ stdenvNoCC.mkDerivation (pkg // {
 
   nativeBuildInputs = [
     makeWrapper
-    inkscape
+    librsvg
     xorg.xcursorgen
   ];
 

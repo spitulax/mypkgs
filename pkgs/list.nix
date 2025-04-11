@@ -13,7 +13,7 @@ in
 rec {
   # KEEP THE LIST ALPHABETICALLY SORTED!
   crt = getByName' "crt";
-  gplates = callPackage ./gplates { };
+  gplates = uncache (callPackage ./gplates { });
   gripper = getByName "gripper";
   hunspell-id = callPackage ./hunspell-id { };
   hyprlock = getByName "hyprlock";
