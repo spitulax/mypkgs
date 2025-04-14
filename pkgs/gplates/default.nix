@@ -20,7 +20,7 @@ let
     name = "gplates";
     desktopName = "GPlates";
     comment = "Plate tectonics program";
-    exec = "${gplates}/bin/gplates %U";
+    exec = "${gplates-wrapped}/bin/gplates %U";
     icon = "${iconDrv}/newlogo.svg";
   };
 
