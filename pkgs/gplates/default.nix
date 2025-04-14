@@ -32,10 +32,12 @@ let
       nativeBuildInputs = [ makeBinaryWrapper ];
     }
     ''
+      mkdir -p $out
+      cp -r ${gplates}/share $out/share
       mkdir -p $out/bin
-      ln -s ${gplates}/share $out/share
-      ln -s ${gplates}/bin/.gplates-wrapped $out/bin/.gplates-wrapped
-      makeBinaryWrapper ${gplates}/bin/gplates $out/bin/gplates \
+      cp ${gplates}/bin/.gplates-wrapped $out/bin
+      cp ${gplates}/bin/gplates $out/bin/.gplates-wrapped-1
+      makeBinaryWrapper $out/bin/.gplates-wrapped-1 $out/bin/gplates \
         --set QT_QPA_PLATFORM xcb
     '';
 in
