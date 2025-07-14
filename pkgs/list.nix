@@ -20,10 +20,8 @@ rec {
   hyprpaper = getByName "hyprpaper";
   hyprpicker = getByName "hyprpicker";
   hyprpolkitagent = getByName "hyprpolkitagent";
-  hyprshell = getByName "hyprshell";
   keymapper = unmaintain (uncache (callPackage ./keymapper { }));
   lexurgy = callPackage ./lexurgy { };
-  musializer = unmaintain (uncache (getByName' "musializer"));
   odin = unmaintain (uncache (callPackage ./odin { }));
   odin-doc = unmaintain (uncache (callPackage ./odin-doc { odin = odin-git; }));
   odin-git = unmaintain (uncache (callPackage ./odin-git { }));
