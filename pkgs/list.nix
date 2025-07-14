@@ -6,8 +6,8 @@
 }:
 let
   inherit (myLib.drv)
-    unmaintain
     uncache
+    ignore
     ;
 in
 rec {
@@ -20,15 +20,14 @@ rec {
   hyprpaper = getByName "hyprpaper";
   hyprpicker = getByName "hyprpicker";
   hyprpolkitagent = getByName "hyprpolkitagent";
-  keymapper = unmaintain (uncache (callPackage ./keymapper { }));
   lexurgy = callPackage ./lexurgy { };
-  odin = unmaintain (uncache (callPackage ./odin { }));
-  odin-doc = unmaintain (uncache (callPackage ./odin-doc { odin = odin-git; }));
-  odin-git = unmaintain (uncache (callPackage ./odin-git { }));
-  odin-nightly = unmaintain (uncache (callPackage ./odin-nightly { }));
-  ols = unmaintain (uncache (callPackage ./ols { odin = odin-git; }));
-  osu-lazer = unmaintain (uncache (callPackage ./osu-lazer { }));
+  odin = ignore (callPackage ./odin { });
+  odin-doc = ignore (callPackage ./odin-doc { odin = odin-git; });
+  odin-git = ignore (callPackage ./odin-git { });
+  odin-nightly = ignore (callPackage ./odin-nightly { });
+  ols = ignore (callPackage ./ols { odin = odin-git; });
+  osu-lazer = ignore (callPackage ./osu-lazer { });
   pasteme = getByName "pasteme";
-  waybar = unmaintain (callPackage ./waybar { });
+  waybar = callPackage ./waybar { };
   whitesur-cursors = callPackage ./whitesur-cursors { };
 }

@@ -1,6 +1,13 @@
 { callPackage
+, myLib
 , ...
-}: {
+}:
+let
+  inherit (myLib.drv)
+    unmaintain
+    ;
+in
+{
   # KEEP THE LIST ALPHABETICALLY SORTED!
   crt = callPackage ./crt { };
   gripper = callPackage ./gripper { };
@@ -9,6 +16,6 @@
   hyprpicker = callPackage ./hyprpicker { };
   hyprpolkitagent = callPackage ./hyprpolkitagent { };
   pasteme = callPackage ./pasteme { };
-  waybar = callPackage ./waybar { };
+  waybar = unmaintain (callPackage ./waybar { });
 }
 
