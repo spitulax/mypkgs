@@ -16,10 +16,10 @@
 | **hyprpolkitagent** | 0.1.0+date=2025-01-02_467198d | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
 | **lexurgy** | 1.7.5 | Yes | Yes | [🌐](https://github.com/def-gthill/lexurgy) |
 | **odin** | 0.dev-2025-02 | No | No | [🌐](https://odin-lang.org/) |
-| **odin-doc** | 2025-05-14+ref=master_3afb4dd | No | No | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
-| **odin-git** | 2025-05-23+ref=master_7ad8f21 | No | No | [🌐](https://odin-lang.org/) |
+| **odin-doc** | 2025-06-03+ref=master_e89f5a0 | No | No | [🌐](https://github.com/odin-lang/pkg.odin-lang.org) |
+| **odin-git** | 2025-07-17+ref=master_a19e784 | No | No | [🌐](https://odin-lang.org/) |
 | **odin-nightly** | 2025-01-17 | No | No | [🌐](https://odin-lang.org/) |
-| **ols** | 2025-05-22+ref=master_f9980e3 | No | No | [🌐](https://github.com/DanielGavin/ols) |
+| **ols** | 2025-07-16+ref=master_0ab1503 | No | No | [🌐](https://github.com/DanielGavin/ols) |
 | **osu-lazer** | 2025.118.3 | No | No | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0+date=2025-01-17_de3276e | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
 | **waybar** | 0.12.0+date=2025-04-24_0332d2e | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
