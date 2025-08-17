@@ -10,8 +10,8 @@
 | **gplates** | 2.5 | No | Yes | [🌐](https://www.gplates.org) |
 | **gripper** | 1.2.2+date=2025-01-17_6c4628c | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hunspell-id** | 2024-11-26+ref=dev_a44e8c3 | Yes | Yes | [🌐](https://github.com/shuLhan/hunspell-id) |
-| **hyprlock** | 0.9.1+date=2025-07-31_bdf0ef8 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
-| **hyprpaper** | 0.7.5+date=2025-07-27_86f6217 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
+| **hyprlock** | 0.9.1+date=2025-08-05_347e05a | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprpaper** | 0.7.5+date=2025-08-06_bcb1ffa | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 0.4.5+date=2025-06-19_d6a1363 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 0.1.0+date=2025-01-02_467198d | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
 | **lexurgy** | 1.7.5 | Yes | Yes | [🌐](https://github.com/def-gthill/lexurgy) |
@@ -31,8 +31,8 @@
 | :-: | :-: | :-: | :-: |
 | **crt** | 3d4837a7f8d51f6972cdf3626867544e774f1965 | Yes | [🌐](https://github.com/spitulax/crt) |
 | **gripper** | 6c4628cdbc0bcceb2b7d38110202c2a0be3813d8 | Yes | [🌐](https://github.com/spitulax/gripper) |
-| **hyprlock** | bdf0ef82822a4c434b79c8d315518c9db9a10f34 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
-| **hyprpaper** | 86f6217029c6b9c6dfba306ffeb59a817508387e | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
+| **hyprlock** | 347e05a40ec3bc48b3f21f44dea551d07773e214 | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprpaper** | bcb1ffa322369c4898347ab5a7399a3d18494c8f | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | d6a1363a86cd99460f0020134e455d921e8bacd8 | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 467198d5c9e103d2b281d646741e9f0f04fe0e8c | Yes | [🌐](https://github.com/spitulax/hyprpolkitagent) |
 | **pasteme** | de3276e9c5b2b6aae8173470ea5ff0f736b28c5c | Yes | [🌐](https://github.com/spitulax/pasteme) |
