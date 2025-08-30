@@ -28,6 +28,7 @@ rec {
   ols = ignore (callPackage ./ols { odin = odin-git; });
   osu-lazer = ignore (callPackage ./osu-lazer { });
   pasteme = getByName "pasteme";
+  rose-pine-tmux = callPackage ./rose-pine-tmux { };
   waybar = callPackage ./waybar { };
   whitesur-cursors = callPackage ./whitesur-cursors { };
 }

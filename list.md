@@ -22,6 +22,7 @@
 | **ols** | 2025-07-16+ref=master_0ab1503 | No | No | [🌐](https://github.com/DanielGavin/ols) |
 | **osu-lazer** | 2025.118.3 | No | No | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0+date=2025-01-17_de3276e | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
+| **rose-pine-tmux** | 2025-08-27+ref=main_009800e | Yes | Yes | [🌐](https://github.com/rose-pine/tmux) |
 | **waybar** | 0.12.0+date=2025-04-24_0332d2e | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
 | **whitesur-cursors** | 2025-04-05+ref=master_e190baf | Yes | Yes | [🌐](https://github.com/vinceliuice/WhiteSur-cursors) |
 
