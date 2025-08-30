@@ -250,24 +250,39 @@ func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error 
 	fullName := UpFullName(kind, name)
 	fmt.Printf("\033[1mUpdating %s...\033[0m\n", fullName)
 
-	var oldVer string
-	jsonData, jsonErr := os.ReadFile(jsonPath)
-	if jsonErr != nil {
-		return errors.Join(jsonErr, fmt.Errorf("UpOne(): Failed to read `%s`", jsonPath))
-	}
-	switch kind {
-	case UpFlake:
-		rev, revErr := GetJsonObjectString(jsonData, "rev")
-		if revErr != nil {
-			return revErr
+	oldVer := ""
+	if FileExist(jsonPath) {
+		jsonData, jsonErr := os.ReadFile(jsonPath)
+		if jsonErr != nil {
+			return errors.Join(jsonErr, fmt.Errorf("UpOne(): Failed to read `%s`", jsonPath))
 		}
-		oldVer = rev
-	case UpPkg:
-		origVersion, origVersionErr := GetJsonObjectString(jsonData, "orig_version")
-		if origVersionErr != nil {
-			return origVersionErr
+		switch kind {
+		case UpFlake:
+			rev, revErr := GetJsonObjectString(jsonData, "rev")
+			if revErr != nil {
+				return revErr
+			}
+			oldVer = rev
+		case UpPkg:
+			origVersion, origVersionErr := GetJsonObjectString(jsonData, "orig_version")
+			if origVersionErr != nil {
+				return origVersionErr
+			}
+			oldVer = origVersion
 		}
-		oldVer = origVersion
+	} else {
+		file, fileErr := os.OpenFile(jsonPath, os.O_CREATE, 0644)
+		if fileErr != nil {
+			return errors.Join(fileErr, fmt.Errorf("UpOne(): Failed to create `%s`", jsonPath))
+		}
+		file.Close()
+
+		git := exec.Command("git", "add", jsonPath)
+		_, gitErr := git.Output()
+		if git.ProcessState.ExitCode() != 0 {
+			fmt.Fprint(os.Stderr, string(gitErr.(*exec.ExitError).Stderr))
+			return fmt.Errorf("UpOne(): Failed to stage `%s`", jsonPath)
+		}
 	}
 
 	cmd := exec.Command(filepath.Join(scriptDir, name), oldVer)

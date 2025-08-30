@@ -5,28 +5,34 @@ import (
 	"io"
 )
 
-type SubcommandPartup struct {
+type SubcommandNew struct {
 	flags      *flag.FlagSet
 	useNom     *bool
 	cachixName *string
+	UpscriptOpts
 }
 
-func NewSubcommandPartup() (s SubcommandPartup) {
+func NewSubcommandNew() (s SubcommandNew) {
 	s.flags = NewFlagSet(s.Name())
 	s.useNom = FlagNom(s.flags)
 	s.cachixName = FlagCachixName(s.flags)
+	s.UpscriptOpts = NewUpscriptOpts(s.flags)
 	return s
 }
 
-func (s SubcommandPartup) Name() string {
-	return "partup"
+func (s SubcommandNew) Name() string {
+	return "new"
 }
 
-func (s SubcommandPartup) Usage() string {
-	return "Partial update (useful for modifying packages without updating other packages)"
+func (s SubcommandNew) Usage() string {
+	return "Set up newly added packages/flakes"
 }
 
-func (s SubcommandPartup) Run() error {
+func (s SubcommandNew) Run() error {
+	if err := Upscript(s.UpscriptOpts); err != nil {
+		return err
+	}
+
 	if err := Build(*s.useNom); err != nil {
 		return err
 	}
@@ -42,11 +48,12 @@ func (s SubcommandPartup) Run() error {
 	return nil
 }
 
-func (s SubcommandPartup) PrintDefaults(output io.Writer) {
+func (s SubcommandNew) PrintDefaults(output io.Writer) {
 	s.flags.SetOutput(output)
 	s.flags.PrintDefaults()
 }
 
-func (s SubcommandPartup) Parse(args []string) {
+func (s SubcommandNew) Parse(args []string) {
 	s.flags.Parse(args)
+	*s.skipExist = true
 }

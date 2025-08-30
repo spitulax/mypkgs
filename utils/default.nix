@@ -147,7 +147,7 @@ rec {
     - Should only be called from `/flakes` or `/pkgs` but not enforced.
     - Should accept the previous `orig_version` (for *Pkg) or `rev` (for *Flake) as an
       argument ($1) from the helper "script" and add the check with
-      `exitIfNoNewVer` to the script.
+      `exitIfNoNewVer` to the script. The argument may be an empty string.
     - If it does call to `exitIfNoNewVer`, output `orig_version` just to indicate the version script
       caller to propagate `orig_version`.
     - The argument to pass to `exitIfNoNewVer` is the same as the one outputted to `orig_version`.
@@ -160,7 +160,7 @@ rec {
     Type: String -> String
   */
   exitIfNoNewVer = ver: ''
-    if [ "$FORCE" -ne 1 ]; then
+    if [ "$FORCE" -ne 1 ] && [ -n "$1" ]; then
       [ "${ver}" == "$1" ] && exit 200
     fi
   '';
