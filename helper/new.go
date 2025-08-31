@@ -14,8 +14,6 @@ type SubcommandNew struct {
 
 func NewSubcommandNew() (s SubcommandNew) {
 	s.flags = NewFlagSet(s.Name())
-	s.useNom = FlagNom(s.flags)
-	s.cachixName = FlagCachixName(s.flags)
 	s.UpscriptOpts = NewUpscriptOpts(s.flags)
 	return s
 }
@@ -30,18 +28,6 @@ func (s SubcommandNew) Usage() string {
 
 func (s SubcommandNew) Run() error {
 	if err := Upscript(s.UpscriptOpts); err != nil {
-		return err
-	}
-
-	if err := Build(*s.useNom); err != nil {
-		return err
-	}
-
-	if err := PushPkgs(*s.cachixName); err != nil {
-		return err
-	}
-
-	if err := Uplist(); err != nil {
 		return err
 	}
 

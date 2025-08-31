@@ -88,29 +88,18 @@ func Upscript(opts UpscriptOpts) error {
 	}
 
 	// NOTE: flakes operations should be first
-	var flakesScripts, pkgsScripts string
 
 	if buildFlakes {
+		var flakesScripts string
+		var flakes []string
+
 		fmt.Println("Building `flakes-update-scripts`...")
 		var drvErr error
 		flakesScripts, drvErr = NixBuild(".#flakes-update-scripts")
 		if drvErr != nil {
 			return drvErr
 		}
-	}
 
-	if buildPkgs {
-		fmt.Println("Building `pkgs-update-scripts`...")
-		var drvErr error
-		pkgsScripts, drvErr = NixBuild(".#pkgs-update-scripts")
-		if drvErr != nil {
-			return drvErr
-		}
-	}
-
-	var flakes, pkgs []string
-
-	if buildFlakes {
 		if *opts.flakes != "" {
 			flakes = SplitAndTrim(*opts.flakes, ",")
 		} else if !relyOnOpts {
@@ -120,9 +109,24 @@ func Upscript(opts UpscriptOpts) error {
 				return err
 			}
 		}
+
+		fmt.Printf("\033[1;32mRunning %d flake update scripts...\033[0m\n", len(flakes))
+		if err := UpMany(opts, UpFlake, flakesScripts, flakes); err != nil {
+			return err
+		}
 	}
 
 	if buildPkgs {
+		var pkgsScripts string
+		var pkgs []string
+
+		fmt.Println("Building `pkgs-update-scripts`...")
+		var drvErr error
+		pkgsScripts, drvErr = NixBuild(".#pkgs-update-scripts")
+		if drvErr != nil {
+			return drvErr
+		}
+
 		if *opts.pkgs != "" {
 			pkgs = SplitAndTrim(*opts.pkgs, ",")
 		} else if !relyOnOpts {
@@ -132,16 +136,11 @@ func Upscript(opts UpscriptOpts) error {
 				return err
 			}
 		}
-	}
 
-	fmt.Printf("\033[1;32mRunning %d flake update scripts...\033[0m\n", len(flakes))
-	if err := UpMany(opts, UpFlake, flakesScripts, flakes); err != nil {
-		return err
-	}
-
-	fmt.Printf("\033[1;32mRunning %d package update scripts...\033[0m\n", len(pkgs))
-	if err := UpMany(opts, UpPkg, pkgsScripts, pkgs); err != nil {
-		return err
+		fmt.Printf("\033[1;32mRunning %d package update scripts...\033[0m\n", len(pkgs))
+		if err := UpMany(opts, UpPkg, pkgsScripts, pkgs); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -243,11 +242,13 @@ func UpOne(opts UpscriptOpts, kind UpKind, name string, scriptDir string) error 
 		jsonPath = filepath.Join(dir, "pkg.json")
 	}
 
+	fullName := UpFullName(kind, name)
+
 	if *opts.skipExist && FileExist(jsonPath) {
+		fmt.Printf("\033[30mSkipped %s\033[0m\n", fullName)
 		return nil
 	}
 
-	fullName := UpFullName(kind, name)
 	fmt.Printf("\033[1mUpdating %s...\033[0m\n", fullName)
 
 	oldVer := ""
