@@ -22,6 +22,7 @@
 | **ols** | 2025-07-16+ref=master_0ab1503 | No | No | [🌐](https://github.com/DanielGavin/ols) |
 | **osu-lazer** | 2025.118.3 | No | No | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0+date=2025-01-17_de3276e | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
+| **quickshell** | 0.2.0 | Yes | Yes | [🌐](https://quickshell.org) |
 | **rose-pine-tmux** | 2025-08-27+ref=main_009800e | Yes | Yes | [🌐](https://github.com/rose-pine/tmux) |
 | **waybar** | 0.12.0+date=2025-04-24_0332d2e | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
 | **whitesur-cursors** | 2025-04-05+ref=master_e190baf | Yes | Yes | [🌐](https://github.com/vinceliuice/WhiteSur-cursors) |
@@ -37,4 +38,5 @@
 | **hyprpicker** | d6a1363a86cd99460f0020134e455d921e8bacd8 | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 467198d5c9e103d2b281d646741e9f0f04fe0e8c | Yes | [🌐](https://github.com/spitulax/hyprpolkitagent) |
 | **pasteme** | de3276e9c5b2b6aae8173470ea5ff0f736b28c5c | Yes | [🌐](https://github.com/spitulax/pasteme) |
+| **quickshell** | f7597cdae2d537c5b12843599955856090dc49d5 | Yes | [🌐](https://github.com/quickshell-mirror/quickshell) |
 | **waybar** | 0332d2ebf84392c82c86d615079f762f27de94ba | No | [🌐](https://github.com/alexays/waybar) |

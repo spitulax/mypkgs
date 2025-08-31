@@ -16,6 +16,7 @@ in
   hyprpicker = callPackage ./hyprpicker { };
   hyprpolkitagent = callPackage ./hyprpolkitagent { };
   pasteme = callPackage ./pasteme { };
+  quickshell = callPackage ./quickshell { };
   waybar = unmaintain (callPackage ./waybar { });
 }
 
