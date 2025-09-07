@@ -10,7 +10,7 @@
 | **gplates** | 2.5 | No | Yes | [🌐](https://www.gplates.org) |
 | **gripper** | 1.2.2+date=2025-01-17_6c4628c | Yes | Yes | [🌐](https://github.com/spitulax/gripper) |
 | **hunspell-id** | 2024-11-26+ref=dev_a44e8c3 | Yes | Yes | [🌐](https://github.com/shuLhan/hunspell-id) |
-| **hyprlock** | 0.9.1+date=2025-08-27_8d0e569 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprlock** | 0.9.1+date=2025-09-04_04cfdc4 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | 0.7.5+date=2025-08-06_bcb1ffa | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | 0.4.5+date=2025-06-19_d6a1363 | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 0.1.0+date=2025-01-02_467198d | Yes | Yes | [🌐](https://github.com/hyprwm/hyprpolkitagent) |
@@ -22,9 +22,9 @@
 | **ols** | 2025-07-16+ref=master_0ab1503 | No | No | [🌐](https://github.com/DanielGavin/ols) |
 | **osu-lazer** | 2025.118.3 | No | No | [🌐](https://osu.ppy.sh) |
 | **pasteme** | 0.0.0+date=2025-01-17_de3276e | Yes | Yes | [🌐](https://github.com/spitulax/pasteme) |
-| **quickshell** | 0.2.0 | Yes | Yes | [🌐](https://quickshell.org) |
+| **quickshell** | 0.2.0+date=2025-09-04_6eb1255 | Yes | Yes | [🌐](https://quickshell.org) |
 | **rose-pine-tmux** | 2025-08-27+ref=main_009800e | Yes | Yes | [🌐](https://github.com/rose-pine/tmux) |
-| **waybar** | 0.12.0+date=2025-04-24_0332d2e | Yes | Yes | [🌐](https://github.com/alexays/waybar) |
+| **waybar** | 0.12.0+date=2025-04-24_0332d2e | No | No | [🌐](https://github.com/alexays/waybar) |
 | **whitesur-cursors** | 2025-04-05+ref=master_e190baf | Yes | Yes | [🌐](https://github.com/vinceliuice/WhiteSur-cursors) |
 
 ## Flakes
@@ -33,10 +33,10 @@
 | :-: | :-: | :-: | :-: |
 | **crt** | 3d4837a7f8d51f6972cdf3626867544e774f1965 | Yes | [🌐](https://github.com/spitulax/crt) |
 | **gripper** | 6c4628cdbc0bcceb2b7d38110202c2a0be3813d8 | Yes | [🌐](https://github.com/spitulax/gripper) |
-| **hyprlock** | 8d0e56998e299ae42f3fd8ede5bb5c396193cdbc | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
+| **hyprlock** | 04cfdc4e5bb0e53036e70cc20922ab346ce165cd | Yes | [🌐](https://github.com/hyprwm/hyprlock) |
 | **hyprpaper** | bcb1ffa322369c4898347ab5a7399a3d18494c8f | Yes | [🌐](https://github.com/hyprwm/hyprpaper) |
 | **hyprpicker** | d6a1363a86cd99460f0020134e455d921e8bacd8 | Yes | [🌐](https://github.com/hyprwm/hyprpicker) |
 | **hyprpolkitagent** | 467198d5c9e103d2b281d646741e9f0f04fe0e8c | Yes | [🌐](https://github.com/spitulax/hyprpolkitagent) |
 | **pasteme** | de3276e9c5b2b6aae8173470ea5ff0f736b28c5c | Yes | [🌐](https://github.com/spitulax/pasteme) |
-| **quickshell** | f7597cdae2d537c5b12843599955856090dc49d5 | Yes | [🌐](https://github.com/quickshell-mirror/quickshell) |
+| **quickshell** | 6eb12551baf924f8fdecdd04113863a754259c34 | Yes | [🌐](https://github.com/quickshell-mirror/quickshell) |
 | **waybar** | 0332d2ebf84392c82c86d615079f762f27de94ba | No | [🌐](https://github.com/alexays/waybar) |

@@ -50,6 +50,7 @@ let
         else packages.default;
     in
     pkg.overrideAttrs (_: prevAttrs: {
+      __intentionallyOverridingVersion = true;
       version = mkLongVersion flake prevAttrs.version;
     });
 

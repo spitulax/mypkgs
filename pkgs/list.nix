@@ -28,8 +28,8 @@ rec {
   ols = ignore (callPackage ./ols { odin = odin-git; });
   osu-lazer = ignore (callPackage ./osu-lazer { });
   pasteme = getByName "pasteme";
-  quickshell = getByName "quickshell";
+  quickshell = getByName' "quickshell";
   rose-pine-tmux = callPackage ./rose-pine-tmux { };
-  waybar = callPackage ./waybar { };
+  waybar = ignore (callPackage ./waybar { });
   whitesur-cursors = callPackage ./whitesur-cursors { };
 }
