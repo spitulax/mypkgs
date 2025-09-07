@@ -11,6 +11,7 @@
   };
 
   inputs = {
+    # FIXME: PLEASE DO ANYTHING TO OVERRIDE FLAKES
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
